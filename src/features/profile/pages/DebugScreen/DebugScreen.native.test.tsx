@@ -9,8 +9,6 @@ import { act, fireEvent, render, screen, userEvent, waitFor } from 'tests/utils'
 
 import { DebugScreen } from './DebugScreen'
 
-const openUrl = jest.spyOn(NavigationHelpers, 'openUrl')
-
 jest.mock('libs/firebase/analytics/analytics')
 jest.mock('features/auth/context/AuthContext')
 
@@ -33,6 +31,7 @@ jest.mock('libs/environment/env', () => ({
   env: { COMMIT_HASH: 'abcdef', SUPPORT_EMAIL_ADDRESS: 'support@example.com' },
 }))
 
+const mockOpenUrl = jest.spyOn(NavigationHelpers, 'openUrl')
 const mockCopyToClipboard = jest.spyOn(copyToClipboardModule, 'copyToClipboard')
 
 jest.useFakeTimers()
@@ -46,6 +45,19 @@ describe('DebugScreen', () => {
     expect(screen).toMatchSnapshot()
   })
 
+  it('should open Zendesk url when clicking on "Envoyer mon bug au support" button', async () => {
+    render(<DebugScreen />)
+    await enterDescription()
+    const copyButton = screen.getByText('Envoyer mon bug au support')
+    await userEvent.press(copyButton)
+
+    expect(mockOpenUrl).toHaveBeenCalledWith(
+      expect.stringContaining('https://aide.passculture.app/hc/fr/requests/new'),
+      undefined,
+      true
+    )
+  })
+
   it('should call copyToClipboard when press "Copier dans le presse-papier" button', async () => {
     render(<DebugScreen />)
     await enterDescription()
@@ -53,31 +65,6 @@ describe('DebugScreen', () => {
     await userEvent.press(copyButton)
 
     expect(mockCopyToClipboard).toHaveBeenCalledTimes(1)
-  })
-
-  it('should contain the correct informations when press "Envoyer mon bug au support" button', async () => {
-    render(<DebugScreen />)
-    await enterDescription()
-
-    const supportButton = screen.getByText('Envoyer mon bug au support')
-    await userEvent.press(supportButton)
-
-    const decodedUrl = decodeURI(openUrl.mock.calls[0]?.[0] as string)
-
-    expect(decodedUrl).toContain('mailto:support@example.com?subject=Informations de débuggage')
-    expect(decodedUrl).toContain('Bonjour, voici les informations de débuggage')
-    expect(decodedUrl).toContain('App version : 1.2.3')
-    expect(decodedUrl).toContain('Device ID : device-id')
-    expect(decodedUrl).toContain('Device model : iPhone 13')
-    expect(decodedUrl).toContain('Device OS : iOS')
-    expect(decodedUrl).toContain('Device resolution : 1080x1920')
-    expect(decodedUrl).toContain('User ID : 1234')
-    expect(decodedUrl).toContain('User CreditType : CREDIT_V3_18')
-    expect(decodedUrl).toContain('User StatusType : BENEFICIARY')
-    expect(decodedUrl).toContain('User EligibilityType : ELIGIBLE_CREDIT_V3_18')
-    expect(decodedUrl).toContain('Device font scale : 1.5')
-    expect(decodedUrl).toContain('Device zoom : Non renseigné')
-    expect(decodedUrl).toContain("J'ai un problème avec la carte")
   })
 
   it('should log ClickCopyDebugInfo event when press "Copier dans le press-papier" button', async () => {

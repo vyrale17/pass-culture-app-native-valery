@@ -27,7 +27,7 @@ import { useNetInfoContext } from 'libs/network/NetInfoWrapper'
 import { OfflinePage } from 'libs/network/OfflinePage'
 import { ScreenPerformance } from 'performance/ScreenPerformance'
 import { useMeasureScreenPerformanceWhenVisible } from 'performance/useMeasureScreenPerformanceWhenVisible'
-import { getComputedAccessibilityLabel } from 'shared/accessibility/getComputedAccessibilityLabel'
+import { getComputedAccessibilityLabel } from 'shared/accessibility/helpers/getComputedAccessibilityLabel'
 import { AccessibilityFooter } from 'shared/AccessibilityFooter/AccessibilityFooter'
 import { getAge } from 'shared/user/getAge'
 import { InputError } from 'ui/components/inputs/InputError'
@@ -48,17 +48,19 @@ import { useVersion } from 'ui/hooks/useVersion'
 import { Page } from 'ui/pages/Page'
 import { Bell } from 'ui/svg/icons/Bell'
 import { Bulb } from 'ui/svg/icons/Bulb'
+import { ChatbotAI } from 'ui/svg/icons/ChatbotAI'
 import { Confidentiality } from 'ui/svg/icons/Confidentiality'
 import { ExternalSite } from 'ui/svg/icons/ExternalSite'
 import { HandicapMental } from 'ui/svg/icons/HandicapMental'
 import { LegalNotices } from 'ui/svg/icons/LegalNotices'
 import { LifeBuoy } from 'ui/svg/icons/LifeBuoy'
 import { LocationPointer } from 'ui/svg/icons/LocationPointer'
+import { NoPhone } from 'ui/svg/icons/NoPhone'
 import { Profile as ProfileIcon } from 'ui/svg/icons/Profile'
 import { SignOut } from 'ui/svg/icons/SignOut'
 import { Trophy } from 'ui/svg/icons/Trophy'
 import { ArtMaterial } from 'ui/svg/icons/venueAndCategories/ArtMaterial'
-import { Spacer, Typo } from 'ui/theme'
+import { Typo } from 'ui/theme'
 import { SECTION_ROW_ICON_SIZE } from 'ui/theme/constants'
 
 const isWeb = Platform.OS === 'web'
@@ -209,7 +211,6 @@ const OnlineProfile: React.FC = () => {
               user={user}
             />
             <ProfileContainer>
-              <Spacer.Column numberOfSpaces={4} />
               {isLoggedIn ? (
                 <Section title="Profil">
                   <VerticalUl>
@@ -293,7 +294,7 @@ const OnlineProfile: React.FC = () => {
                         title="Poser une question"
                         type="navigable"
                         navigateTo={getProfilePropConfig('Chatbot')}
-                        icon={LifeBuoy}
+                        icon={ChatbotAI}
                       />
                     </Li>
                   ) : null}
@@ -316,6 +317,14 @@ const OnlineProfile: React.FC = () => {
                       type="clickable"
                       externalNav={{ url: env.FAQ_LINK }}
                       icon={ExternalSite}
+                    />
+                  </Li>
+                  <Li>
+                    <Row
+                      title="Signaler un bug"
+                      type="clickable"
+                      navigateTo={getProfilePropConfig('DebugScreen')}
+                      icon={NoPhone}
                     />
                   </Li>
                 </VerticalUl>
@@ -360,21 +369,21 @@ const OnlineProfile: React.FC = () => {
               </Section>
               {isWeb ? null : (
                 <Section title="Partager le pass Culture">
-                  <Spacer.Column numberOfSpaces={4} />
-                  <BannerWithBackground
-                    backgroundSource={SHARE_APP_BANNER_IMAGE_SOURCE}
-                    onPress={onShareBannerPress}
-                    accessibilityRole={AccessibilityRole.BUTTON}
-                    accessibilityLabel={getComputedAccessibilityLabel(
-                      shareBannerTitle,
-                      shareBannerDescription
-                    )}>
-                    <ShareAppContainer gap={1}>
-                      <StyledButtonText>{shareBannerTitle}</StyledButtonText>
-                      <StyledBody>{shareBannerDescription}</StyledBody>
-                    </ShareAppContainer>
-                  </BannerWithBackground>
-                  <Spacer.Column numberOfSpaces={4} />
+                  <BannerContainer>
+                    <BannerWithBackground
+                      backgroundSource={SHARE_APP_BANNER_IMAGE_SOURCE}
+                      onPress={onShareBannerPress}
+                      accessibilityRole={AccessibilityRole.BUTTON}
+                      accessibilityLabel={getComputedAccessibilityLabel(
+                        shareBannerTitle,
+                        shareBannerDescription
+                      )}>
+                      <ShareAppContainer gap={1}>
+                        <StyledButtonText>{shareBannerTitle}</StyledButtonText>
+                        <StyledBody>{shareBannerDescription}</StyledBody>
+                      </ShareAppContainer>
+                    </BannerWithBackground>
+                  </BannerContainer>
                 </Section>
               )}
               <Section title="Suivre le pass Culture">
@@ -382,14 +391,15 @@ const OnlineProfile: React.FC = () => {
               </Section>
               {isLoggedIn ? (
                 <Section>
-                  <Spacer.Column numberOfSpaces={4} />
-                  <SectionRow
-                    title="Déconnexion"
-                    onPress={signOut}
-                    type="clickable"
-                    icon={SignOut}
-                    iconSize={SECTION_ROW_ICON_SIZE}
-                  />
+                  <SectionRowContainer>
+                    <SectionRow
+                      title="Déconnexion"
+                      onPress={signOut}
+                      type="clickable"
+                      icon={SignOut}
+                      iconSize={SECTION_ROW_ICON_SIZE}
+                    />
+                  </SectionRowContainer>
                 </Section>
               ) : null}
               <Section>
@@ -430,10 +440,19 @@ export function ProfileV1() {
   return <OfflinePage />
 }
 
+const SectionRowContainer = styled.View(({ theme }) => ({
+  marginTop: theme.designSystem.size.spacing.l,
+}))
+
+const BannerContainer = styled.View(({ theme }) => ({
+  marginVertical: theme.designSystem.size.spacing.l,
+}))
+
 const ProfileContainer = styled.View(({ theme }) => ({
   backgroundColor: theme.designSystem.color.background.default,
   flexDirection: 'column',
   paddingHorizontal: theme.contentPage.marginHorizontal,
+  marginTop: theme.designSystem.size.spacing.l,
 }))
 
 const ScrollViewContentContainer = styled.View({

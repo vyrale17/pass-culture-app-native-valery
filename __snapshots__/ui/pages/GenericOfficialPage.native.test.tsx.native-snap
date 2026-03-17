@@ -117,41 +117,31 @@ exports[`<GenericOfficialPage /> should render correctly 1`] = `
       <View
         style={
           {
-            "flexBasis": 0,
-            "flexGrow": 1,
-            "flexShrink": 1,
+            "marginBottom": 40,
           }
         }
       />
       <View
-        numberOfSpaces={10}
         style={
           {
-            "height": 40,
-          }
-        }
-      />
-      <Text
-        accessibilityRole="header"
-        style={
-          {
-            "color": "#161617",
-            "fontFamily": "Montserrat-Bold",
-            "fontSize": 21,
-            "lineHeight": 33.6,
+            "marginBottom": 24,
           }
         }
       >
-        Title
-      </Text>
-      <View
-        numberOfSpaces={5}
-        style={
-          {
-            "height": 20,
+        <Text
+          accessibilityRole="header"
+          style={
+            {
+              "color": "#161617",
+              "fontFamily": "Montserrat-Bold",
+              "fontSize": 21,
+              "lineHeight": 33.6,
+            }
           }
-        }
-      />
+        >
+          Title
+        </Text>
+      </View>
       <Text
         style={
           {
@@ -165,20 +155,10 @@ exports[`<GenericOfficialPage /> should render correctly 1`] = `
         Children...
       </Text>
       <View
-        numberOfSpaces={10}
+        marginTop={12}
         style={
           {
-            "height": 40,
-          }
-        }
-      />
-      <View
-        flex={0.5}
-        style={
-          {
-            "flexBasis": 0,
-            "flexGrow": 0.5,
-            "flexShrink": 1,
+            "marginTop": 12,
           }
         }
       />
