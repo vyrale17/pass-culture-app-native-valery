@@ -69,6 +69,7 @@ export const fetchSearchResults = async ({
     /* Is needed to get a queryID, in order to send analytics events
      https://www.algolia.com/doc/api-reference/api-parameters/clickAnalytics/ */
     clickAnalytics: true,
+    analytics: true,
   }
 
   const queries = [
@@ -101,6 +102,7 @@ export const fetchSearchResults = async ({
         parameters.venue
       ),
       clickAnalytics: true,
+      analytics: true,
     },
     // Offers without duplication limit
     {
@@ -128,6 +130,15 @@ export const fetchSearchResults = async ({
     },
   ]
 
+  const defaultResponse = {
+    offersResponse: getDefaultReponse<Offer>(),
+    venueNotOpenToPublic: getDefaultReponse<AlgoliaVenue>(),
+    venuesResponse: getDefaultReponse<AlgoliaVenue>(),
+    duplicatedOffersResponse: getDefaultReponse<Offer>(),
+    offerArtistsResponse: getDefaultReponse<Offer>(),
+    redirectUrl: undefined,
+  }
+
   try {
     const [
       offersResponse,
@@ -143,6 +154,8 @@ export const fetchSearchResults = async ({
       SearchResponse<Offer>,
     ]
 
+    if (!offersResponse) return defaultResponse
+
     if (storeQueryID) storeQueryID(offersResponse.queryID)
     const { renderingContent } = offersResponse
     const redirectUrl = (renderingContent as RenderingContent)?.redirect?.url
@@ -157,13 +170,6 @@ export const fetchSearchResults = async ({
     }
   } catch (error) {
     captureAlgoliaError(error)
-    return {
-      offersResponse: getDefaultReponse<Offer>(),
-      venueNotOpenToPublic: getDefaultReponse<AlgoliaVenue>(),
-      venuesResponse: getDefaultReponse<AlgoliaVenue>(),
-      offerArtistsResponse: getDefaultReponse<Offer>(),
-      duplicatedOffersResponse: getDefaultReponse<Offer>(),
-      redirectUrl: undefined,
-    }
+    return defaultResponse
   }
 }

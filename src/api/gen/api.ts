@@ -5095,10 +5095,10 @@ export interface VenueContact {
  */
 export interface VenueProAdvice {
   /**
-   * @type {string}
+   * @type {string | null}
    * @memberof VenueProAdvice
    */
-  author: string
+  author?: string | null
   /**
    * @type {string}
    * @memberof VenueProAdvice
@@ -5277,6 +5277,11 @@ export interface VenueResponse {
    * @memberof VenueResponse
    */
   timezone: string
+  /**
+   * @type {string | null}
+   * @memberof VenueResponse
+   */
+  volunteeringUrl?: string | null
   /**
    * @type {string | null}
    * @memberof VenueResponse

@@ -6,6 +6,7 @@ import { ListCategoryButtonProps } from 'features/search/helpers/useSortedSearch
 import { VenueMapBlock } from 'features/venueMap/components/VenueMapBlock/VenueMapBlock'
 import { useFontScaleValue } from 'shared/accessibility/helpers/useFontScaleValue'
 import { CategoryButton } from 'shared/categoryButton/CategoryButton'
+import { AIFakeDoorBanner } from 'ui/components/ModuleBanner/AIFakeDoorBanner'
 import { getSpacing, Spacer, Typo } from 'ui/theme'
 // eslint-disable-next-line no-restricted-imports
 import { getHeadingAttrs } from 'ui/theme/typographyAttrs/getHeadingAttrs'
@@ -17,6 +18,8 @@ type Props = {
   showVenueMapLocationModal: () => void
   venueMapLocationModalVisible: boolean
   hideVenueMapLocationModal: () => void
+  onPressAIFakeDoorBanner: () => void
+  enableAIFakeDoor?: boolean
   children?: never
 }
 
@@ -34,6 +37,8 @@ export const CategoriesListDumb: FunctionComponent<Props> = ({
   showVenueMapLocationModal,
   venueMapLocationModalVisible,
   hideVenueMapLocationModal,
+  enableAIFakeDoor,
+  onPressAIFakeDoorBanner,
 }) => {
   const { designSystem } = useTheme()
 
@@ -44,9 +49,14 @@ export const CategoriesListDumb: FunctionComponent<Props> = ({
 
   return (
     <StyledScrollView showsHorizontalScrollIndicator={false} testID="categoriesButtons">
+      {enableAIFakeDoor ? (
+        <BannerContainer>
+          <AIFakeDoorBanner onPress={onPressAIFakeDoorBanner} />
+        </BannerContainer>
+      ) : null}
       {isMapWithoutPositionAndNotLocated || shouldDisplayVenueMap ? (
         <Container>
-          <ContainerVenueMapBlock>
+          <ContainerVenueMapBlock enableAIFakeDoor={enableAIFakeDoor}>
             <VenueMapBlock
               onPress={isMapWithoutPositionAndNotLocated ? showVenueMapLocationModal : undefined}
               from="searchLanding"
@@ -81,7 +91,7 @@ export const CategoriesListDumb: FunctionComponent<Props> = ({
 
 const StyledScrollView = styled.ScrollView(({ theme }) => ({
   paddingHorizontal: theme.contentPage.marginHorizontal,
-  marginTop: theme.isMobileViewport ? 0 : theme.designSystem.size.spacing.xxl,
+  marginTop: theme.isMobileViewport ? 0 : theme.designSystem.size.spacing.s,
 }))
 
 const StyledCategoryButton = styled(CategoryButton)<{ mobileMinWidth: string }>(
@@ -125,7 +135,15 @@ const Container = styled.View(({ theme }) => ({
   marginBottom: theme.designSystem.size.spacing.s,
 }))
 
-const ContainerVenueMapBlock = styled.View(({ theme }) => ({
-  marginTop: theme.designSystem.size.spacing.l,
-  marginBottom: theme.designSystem.size.spacing.s,
+const ContainerVenueMapBlock = styled.View<{ enableAIFakeDoor?: boolean }>(
+  ({ theme, enableAIFakeDoor }) => ({
+    marginTop: enableAIFakeDoor
+      ? theme.designSystem.size.spacing.s
+      : theme.designSystem.size.spacing.l,
+    marginBottom: theme.designSystem.size.spacing.s,
+  })
+)
+
+const BannerContainer = styled.View(({ theme }) => ({
+  marginTop: theme.designSystem.size.spacing.s,
 }))

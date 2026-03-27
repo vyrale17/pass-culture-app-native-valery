@@ -1,24 +1,30 @@
 import React from 'react'
 
 import { UserCreditType } from 'features/auth/helpers/getCreditType'
+import { UserStatusType } from 'features/auth/helpers/getStatusType'
 import { BonificationBanner } from 'features/bonification/components/BonificationBanner'
 import { getShouldShowBonificationBanner } from 'features/bonification/getShouldShowBonificationBanner'
-import { useBonificationBannerVisibility } from 'features/bonification/hooks/useBonificationBannerVisibility'
 import { BeneficiaryEmptyHeader } from 'features/profile/containers/ProfileLoggedIn/LoggedInHeader/LoggedInBeneficiaryHeader/BeneficiaryEmptyHeader'
 import { BeneficiaryFreeHeader } from 'features/profile/containers/ProfileLoggedIn/LoggedInHeader/LoggedInBeneficiaryHeader/BeneficiaryFreeHeader'
 import { BeneficiaryHeader } from 'features/profile/containers/ProfileLoggedIn/LoggedInHeader/LoggedInBeneficiaryHeader/BeneficiaryHeader'
+import { logHeaderFallback } from 'features/profile/helpers/logHeaderFallback'
 import { ProfileFeatureFlagsProps } from 'features/profile/types'
 import { UserProfileResponseWithoutSurvey } from 'features/share/types'
-import { useFeatureFlag } from 'libs/firebase/firestore/featureFlags/useFeatureFlag'
-import { RemoteStoreFeatureFlags } from 'libs/firebase/firestore/types'
 import { ViewGap } from 'ui/components/ViewGap/ViewGap'
 
-type Props = { user: UserProfileResponseWithoutSurvey } & ProfileFeatureFlagsProps
+type Props = {
+  user: UserProfileResponseWithoutSurvey
+  bonificationInfos: {
+    enableBonification: boolean
+    onCloseBanner: () => void
+    hasClosedBonificationBanner: boolean
+  }
+} & ProfileFeatureFlagsProps
 
-export const LoggedInBeneficiaryHeader = ({ user, featureFlags }: Props) => {
+export const LoggedInBeneficiaryHeader = ({ user, featureFlags, bonificationInfos }: Props) => {
   const { creditType, qfBonificationStatus } = user
-  const enableBonification = useFeatureFlag(RemoteStoreFeatureFlags.ENABLE_BONIFICATION)
-  const { hasClosedBonificationBanner, onCloseBanner } = useBonificationBannerVisibility()
+  const { enableBonification, hasClosedBonificationBanner, onCloseBanner } = bonificationInfos
+
   const showBonificationBanner = getShouldShowBonificationBanner({
     enableBonification,
     hasClosedBonificationBanner,
@@ -44,7 +50,11 @@ export const LoggedInBeneficiaryHeader = ({ user, featureFlags }: Props) => {
     case UserCreditType.CREDIT_V2_18:
     case UserCreditType.CREDIT_V3_17:
     case UserCreditType.CREDIT_V3_18:
+      header = <BeneficiaryHeader featureFlags={featureFlags} user={user} />
+      break
+
     default:
+      logHeaderFallback({ headerType: UserStatusType.BENEFICIARY, user })
       header = <BeneficiaryHeader featureFlags={featureFlags} user={user} />
   }
 

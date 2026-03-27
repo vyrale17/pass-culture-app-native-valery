@@ -1,5 +1,4 @@
 appId: ${MAESTRO_APP_ID}
-jsengine: graaljs
 tags:
   - local
   - nightlyIOS
@@ -13,7 +12,7 @@ onFlowStart:
       env:
         id_provider: 'UBBLE'
         step: 'BENEFICIARY'
-        age: '18'
+        age: 18
 ---
 - runFlow: subFolder/commons/LaunchApp.yml
 

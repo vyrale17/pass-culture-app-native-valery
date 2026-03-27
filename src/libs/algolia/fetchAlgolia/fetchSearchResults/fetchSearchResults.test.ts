@@ -69,6 +69,7 @@ const defaultOfferQuery = {
   attributesToHighlight: [],
   attributesToRetrieve: offerAttributesToRetrieve,
   clickAnalytics: true,
+  analytics: true,
   facetFilters: [['offer.isEducational:false']],
   numericFilters: [['offer.prices: 0 TO 300']],
   page: 0,
@@ -89,6 +90,7 @@ const defaultVenuesQuery = {
   facetFilters: [['is_open_to_public:true']],
   aroundRadius: 'all',
   clickAnalytics: true,
+  analytics: true,
   hitsPerPage: 35,
   page: 0,
   query,
@@ -99,6 +101,7 @@ const defaultOfferWithoutDuplicationLimitQuery = {
   attributesToHighlight: [],
   attributesToRetrieve: offerAttributesToRetrieve,
   clickAnalytics: true,
+  analytics: true,
   distinct: false,
   facetFilters: [['offer.isEducational:false']],
   hitsPerPage: 100,
@@ -454,6 +457,23 @@ describe('fetchSearchResults', () => {
     ]
 
     expect(mockSearch).toHaveBeenCalledWith({ requests: expectedResult })
+  })
+
+  it('should not crash when multipleQueries returns empty results and storeQueryID is provided', async () => {
+    mockSearch.mockRejectedValueOnce(new Error('Algolia error'))
+
+    const storeQueryID = jest.fn()
+    const result = await fetchSearchResults({
+      parameters: { query } as SearchQueryParameters,
+      buildLocationParameterParams: everywhereParams,
+      isUserUnderage: false,
+      disabilitiesProperties: defaultDisabilitiesProperties,
+      storeQueryID,
+    })
+
+    expect(result.offersResponse.hits).toEqual([])
+    expect(result.offersResponse.nbHits).toBe(0)
+    expect(storeQueryID).not.toHaveBeenCalled()
   })
 
   it('should execute multi query without aroundPrecision param if aroundPrecision is 0 (eq: O or not provided)', async () => {

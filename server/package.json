@@ -1,7 +1,7 @@
 {
   "name": "@pass-culture/web-proxy",
   "description": "Express proxy for pass-culture-app-native Web Application",
-  "version": "1.383.1",
+  "version": "1.384.0",
   "private": true,
   "main": "build/src/index.js",
   "author": {
@@ -43,7 +43,7 @@
     "http-proxy-middleware": "^2.0.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.9",
+    "@babel/core": "^7.28.6",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.27.1",
     "@happy-dom/jest-environment": "^20.0.10",
