@@ -133,29 +133,10 @@ exports[`SelectIDStatus should render SelectIDStatus page correctly 1`] = `
             }
           >
             <View
-              collapsable={false}
-              jestAnimatedProps={
-                {
-                  "value": {},
-                }
-              }
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
+              style={
                 {
                   "flexShrink": 0,
                 }
-              }
-              nativeID="0"
-              style={
-                [
-                  {
-                    "flexShrink": 0,
-                  },
-                ]
               }
             >
               <View
@@ -245,6 +226,7 @@ exports[`SelectIDStatus should render SelectIDStatus page correctly 1`] = `
       }
     >
       <View
+        shouldLimitWidth={true}
         style={
           {
             "flexBasis": 0,
@@ -588,6 +570,7 @@ exports[`SelectIDStatus should render SelectIDStatus page correctly 1`] = `
                   style={
                     {
                       "flexDirection": "column",
+                      "gap": 0,
                       "paddingBottom": 4,
                       "paddingLeft": 4,
                       "paddingRight": 4,

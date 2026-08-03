@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import React from 'react'
 import { Share } from 'react-native'
 
@@ -6,12 +7,19 @@ import { SubcategoryIdEnum } from 'api/gen'
 import { ArtistBody } from 'features/artist/components/ArtistBody/ArtistBody'
 import { mockArtist } from 'features/artist/fixtures/mockArtist'
 import { mockOffer } from 'features/bookOffer/fixtures/offer'
+import { useGetOffersDataQuery } from 'features/home/queries/useGetOffersDataQuery'
+import { HomepageModuleType } from 'features/home/types'
 import * as useGoBack from 'features/navigation/useGoBack'
-import { mockedAlgoliaOffersWithSameArtistResponse } from 'libs/algolia/fixtures/algoliaFixtures'
+import {
+  mockedAlgoliaOffersWithSameArtistResponse,
+  mockedAlgoliaResponse,
+} from 'libs/algolia/fixtures/algoliaFixtures'
 import { AlgoliaOfferWithArtistAndEan } from 'libs/algolia/types'
 import { analytics } from 'libs/analytics/provider'
 import { setFeatureFlags } from 'libs/firebase/firestore/featureFlags/tests/setFeatureFlags'
 import { RemoteStoreFeatureFlags } from 'libs/firebase/firestore/types'
+import { subcategoriesDataTest } from 'libs/subcategories/fixtures/subcategoriesResponse'
+import { mockServer } from 'tests/mswServer'
 import { reactQueryProviderHOC } from 'tests/reactQueryProviderHOC'
 import { render, screen, userEvent, waitFor } from 'tests/utils'
 
@@ -41,13 +49,20 @@ useRoute.mockReturnValue({ params: { fromOfferId: 1 } })
 
 const mockShare = jest.spyOn(Share, 'share').mockImplementation(jest.fn())
 
+const mockUseGetOffersDataQuery = useGetOffersDataQuery as jest.Mock
+jest.mock('features/home/queries/useGetOffersDataQuery', () => ({
+  useGetOffersDataQuery: jest.fn(),
+}))
+
 const user = userEvent.setup()
 
 jest.useFakeTimers()
 
 describe('<ArtistBody />', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     setFeatureFlags()
+    await AsyncStorage.clear()
+    mockServer.getApi('/v1/subcategories/v2', subcategoriesDataTest)
   })
 
   it('should display only the main artist when there are several artists on header title', async () => {
@@ -321,6 +336,189 @@ describe('<ArtistBody />', () => {
     expect(screen.queryByLabelText('Prochains festivals et salons du livre')).not.toBeOnTheScreen()
   })
 
+  it('should display follow button when wipArtistFakeDoor FF activated', async () => {
+    setFeatureFlags([RemoteStoreFeatureFlags.WIP_ARTIST_FAKE_DOOR])
+    render(
+      reactQueryProviderHOC(
+        <ArtistBody
+          artist={mockArtist}
+          artistPlaylist={[]}
+          artistTopOffers={[]}
+          onViewableItemsChanged={jest.fn()}
+          onExpandBioPress={jest.fn()}
+        />
+      )
+    )
+
+    expect(await screen.findByLabelText('Suivre cet artiste')).toBeOnTheScreen()
+  })
+
+  it('should not display follow button when wipArtistFakeDoor FF deactivated', async () => {
+    render(
+      reactQueryProviderHOC(
+        <ArtistBody
+          artist={mockArtist}
+          artistPlaylist={[]}
+          artistTopOffers={[]}
+          onViewableItemsChanged={jest.fn()}
+          onExpandBioPress={jest.fn()}
+        />
+      )
+    )
+
+    await screen.findAllByText('Avril Lavigne')
+
+    expect(screen.queryByLabelText('Suivre cet artiste')).not.toBeOnTheScreen()
+  })
+
+  it('should open fake door modal without offer type when the artist has no offer', async () => {
+    setFeatureFlags([RemoteStoreFeatureFlags.WIP_ARTIST_FAKE_DOOR])
+    render(
+      reactQueryProviderHOC(
+        <ArtistBody
+          artist={mockArtist}
+          artistPlaylist={[]}
+          artistTopOffers={[]}
+          onViewableItemsChanged={jest.fn()}
+          onExpandBioPress={jest.fn()}
+        />
+      )
+    )
+
+    await user.press(await screen.findByLabelText('Suivre cet artiste'))
+
+    expect(navigate).toHaveBeenCalledWith('FakeDoorModal', {
+      surveyKey: 'has_seen_follow_artist_fake_door_survey',
+      surveyUrl: `https://passculture.qualtrics.com/jfe/form/SV_0wafZvbQ06UrZnU?artist_id=${mockArtist.id}`,
+      analyticsParams: {
+        featureName: 'follow_artist',
+        from: 'artist',
+        artistId: mockArtist.id,
+      },
+    })
+  })
+
+  it('should open fake door modal with the first displayed playlist category as offer type', async () => {
+    setFeatureFlags([
+      RemoteStoreFeatureFlags.WIP_ARTIST_FAKE_DOOR,
+      RemoteStoreFeatureFlags.WIP_ARTIST_CATEGORY_PLAYLISTS,
+    ])
+    render(
+      reactQueryProviderHOC(
+        <ArtistBody
+          artist={mockArtist}
+          artistPlaylist={[
+            buildArtistOffer({
+              objectID: '1',
+              name: 'Vinyle',
+              subcategoryId: SubcategoryIdEnum.SUPPORT_PHYSIQUE_MUSIQUE_VINYLE,
+            }),
+            buildArtistOffer({
+              objectID: '2',
+              name: 'Livre papier',
+              subcategoryId: SubcategoryIdEnum.LIVRE_PAPIER,
+            }),
+          ]}
+          artistTopOffers={[]}
+          onViewableItemsChanged={jest.fn()}
+          onExpandBioPress={jest.fn()}
+        />
+      )
+    )
+
+    await user.press(await screen.findByLabelText('Suivre cet artiste'))
+
+    expect(navigate).toHaveBeenCalledWith('FakeDoorModal', {
+      surveyKey: 'has_seen_follow_artist_fake_door_survey',
+      surveyUrl: `https://passculture.qualtrics.com/jfe/form/SV_0wafZvbQ06UrZnU?artist_id=${mockArtist.id}&offer_type=LIVRES`,
+      analyticsParams: {
+        featureName: 'follow_artist',
+        from: 'artist',
+        artistId: mockArtist.id,
+      },
+    })
+  })
+
+  it('should log HasClickedFakeDoorCTA when pressing the header follow button', async () => {
+    setFeatureFlags([RemoteStoreFeatureFlags.WIP_ARTIST_FAKE_DOOR])
+    render(
+      reactQueryProviderHOC(
+        <ArtistBody
+          artist={mockArtist}
+          artistPlaylist={[]}
+          artistTopOffers={[]}
+          onViewableItemsChanged={jest.fn()}
+          onExpandBioPress={jest.fn()}
+        />
+      )
+    )
+
+    await user.press(await screen.findByLabelText('Suivre cet artiste'))
+
+    expect(analytics.logHasClickedFakeDoorCTA).toHaveBeenCalledWith({
+      featureName: 'follow_artist',
+      from: 'artist',
+      artistId: mockArtist.id,
+      hasSeenSurvey: false,
+      originDetails: 'artistHeader',
+    })
+  })
+
+  it('should log HasClickedFakeDoorCTA with hasSeenSurvey when the survey has already been accessed', async () => {
+    setFeatureFlags([RemoteStoreFeatureFlags.WIP_ARTIST_FAKE_DOOR])
+    await AsyncStorage.setItem('has_seen_follow_artist_fake_door_survey', 'true')
+    render(
+      reactQueryProviderHOC(
+        <ArtistBody
+          artist={mockArtist}
+          artistPlaylist={[]}
+          artistTopOffers={[]}
+          onViewableItemsChanged={jest.fn()}
+          onExpandBioPress={jest.fn()}
+        />
+      )
+    )
+
+    await user.press(await screen.findByLabelText('Suivre cet artiste'))
+
+    expect(analytics.logHasClickedFakeDoorCTA).toHaveBeenCalledWith(
+      expect.objectContaining({ hasSeenSurvey: true })
+    )
+  })
+
+  it('should open fake door modal without offer type when wipArtistCategoryPlaylists FF deactivated', async () => {
+    setFeatureFlags([RemoteStoreFeatureFlags.WIP_ARTIST_FAKE_DOOR])
+    render(
+      reactQueryProviderHOC(
+        <ArtistBody
+          artist={mockArtist}
+          artistPlaylist={[
+            buildArtistOffer({
+              objectID: '1',
+              name: 'Livre papier',
+              subcategoryId: SubcategoryIdEnum.LIVRE_PAPIER,
+            }),
+          ]}
+          artistTopOffers={[]}
+          onViewableItemsChanged={jest.fn()}
+          onExpandBioPress={jest.fn()}
+        />
+      )
+    )
+
+    await user.press(await screen.findByLabelText('Suivre cet artiste'))
+
+    expect(navigate).toHaveBeenCalledWith('FakeDoorModal', {
+      surveyKey: 'has_seen_follow_artist_fake_door_survey',
+      surveyUrl: `https://passculture.qualtrics.com/jfe/form/SV_0wafZvbQ06UrZnU?artist_id=${mockArtist.id}`,
+      analyticsParams: {
+        featureName: 'follow_artist',
+        from: 'artist',
+        artistId: mockArtist.id,
+      },
+    })
+  })
+
   it('should expose only the text to screen readers (emoji ignored)', async () => {
     render(
       reactQueryProviderHOC(
@@ -339,6 +537,63 @@ describe('<ArtistBody />', () => {
     expect(screen.getByLabelText('© Contenu généré par IA')).toBeTruthy()
     expect(screen.queryByLabelText('© Contenu généré par IA ✨')).toBeNull()
     expect(screen.queryByText('© Contenu généré par IA ✨')).toBeNull()
+  })
+
+  it('should display artist playlist module when defined', async () => {
+    mockServer.getApi(`/v1/artists/${mockArtist.id}`, mockArtist)
+    mockUseGetOffersDataQuery.mockReturnValueOnce([
+      {
+        playlistItems: [mockedAlgoliaResponse.hits[0], mockedAlgoliaResponse.hits[1]],
+      },
+    ])
+    render(
+      reactQueryProviderHOC(
+        <ArtistBody
+          artist={mockArtist}
+          artistPlaylist={[]}
+          artistTopOffers={[]}
+          artistPlaylistModule={{
+            type: HomepageModuleType.ArtistPlaylistModule,
+            id: '2DYuR6KoSLElDuiMMjxx8g',
+            title: 'Mes recommandations',
+            artistId: mockArtist.id,
+            displayParameters: {
+              title: 'Mes recommandations',
+              layout: 'two-items',
+              minOffers: 1,
+            },
+            offersModuleParameters: [
+              {
+                title: 'Mes recommandations',
+                hitsPerPage: 10,
+              },
+            ],
+          }}
+          onViewableItemsChanged={jest.fn()}
+          onExpandBioPress={jest.fn()}
+        />
+      )
+    )
+
+    expect(await screen.findByText('te partage ses pépites')).toBeOnTheScreen()
+  })
+
+  it('should not display artist playlist module when not defined', async () => {
+    render(
+      reactQueryProviderHOC(
+        <ArtistBody
+          artist={mockArtist}
+          artistPlaylist={[]}
+          artistTopOffers={[]}
+          onViewableItemsChanged={jest.fn()}
+          onExpandBioPress={jest.fn()}
+        />
+      )
+    )
+
+    await screen.findAllByText('Avril Lavigne')
+
+    expect(screen.queryByText('te partage ses pépites')).not.toBeOnTheScreen()
   })
 })
 

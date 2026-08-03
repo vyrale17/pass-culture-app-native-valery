@@ -51,7 +51,7 @@ import { isCloseToBottom } from 'libs/analytics'
 import { analytics } from 'libs/analytics/provider'
 import { useFunctionOnce } from 'libs/hooks'
 import { getDistance } from 'libs/location/getDistance'
-import { useLocation } from 'libs/location/location'
+import { useUserLocation, usePlace, useLocationMode } from 'libs/locationV2/location.store'
 import { QueryKeys } from 'libs/queryKeys'
 import { useAddFavoriteMutation } from 'queries/favorites/useAddFavoriteMutation'
 import { useRemoveFavoriteMutation } from 'queries/favorites/useRemoveFavoriteMutation'
@@ -104,9 +104,7 @@ export const OfferContentBase: FunctionComponent<OfferContentBaseProps> = ({
   hasVideoCookiesConsent,
   onVideoConsentPress,
   HeaderComponent,
-  CTAsComponent,
   proAdvicesCount,
-  proAdvicesSegment,
   children,
 }) => {
   const HeaderToRender = HeaderComponent || OfferHeader
@@ -155,7 +153,9 @@ export const OfferContentBase: FunctionComponent<OfferContentBaseProps> = ({
   const { shouldTriggerBatchSurveyEvent, trackBatchEvent, trackEventHasSeenOfferOnce } =
     useOfferBatchTracking(subcategory.id)
 
-  const { userLocation, selectedPlace, selectedLocationMode } = useLocation()
+  const userLocation = useUserLocation()
+  const selectedPlace = usePlace()
+  const selectedLocationMode = useLocationMode()
   const venue = getVenue(offer.venue)
   const distance = venue.coordinates
     ? getDistance(
@@ -342,16 +342,7 @@ export const OfferContentBase: FunctionComponent<OfferContentBaseProps> = ({
     [offer.id, pageTracking]
   )
 
-  const OfferCTAsComponent = CTAsComponent ? (
-    <CTAsComponent
-      offer={offer}
-      subcategory={subcategory}
-      trackEventHasSeenOfferOnce={trackEventHasSeenOfferOnce}
-      favoriteCTAProps={favoriteButtonProps}
-      onLayout={onLayout}
-      displayStickyGradient={!isBottomReached}
-    />
-  ) : (
+  const OfferCTAsComponent = (
     <OfferContentCTAs
       offer={offer}
       onLayout={onLayout}
@@ -438,8 +429,7 @@ export const OfferContentBase: FunctionComponent<OfferContentBaseProps> = ({
               hasVideoCookiesConsent={hasVideoCookiesConsent}
               onVideoConsentPress={onVideoConsentPress}
               proAdvicesCount={proAdvicesCount}
-              proAdvices={proAdvices}
-              proAdvicesSegment={proAdvicesSegment}>
+              proAdvices={proAdvices}>
               {theme.isDesktopViewport ? OfferCTAsComponent : null}
             </OfferBody>
           </BodyWrapper>
@@ -514,7 +504,6 @@ export const OfferContentBase: FunctionComponent<OfferContentBaseProps> = ({
               onBeforeNavigate,
               hideSearchSeeAll: true,
             }}
-            proAdvicesSegment={proAdvicesSegment}
           />
           {children}
         </IntersectionObserverScrollView>

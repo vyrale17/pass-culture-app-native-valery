@@ -12,13 +12,11 @@ import { analytics } from 'libs/analytics/provider'
 import { ContentfulLabelCategories } from 'libs/contentful/types'
 import { useHandleFocus } from 'libs/hooks/useHandleFocus'
 import { getDistance } from 'libs/location/getDistance'
-import { useLocation } from 'libs/location/location'
+import { useUserLocation, usePlace, useLocationMode } from 'libs/locationV2/location.store'
 import { mapActivityToIcon } from 'libs/parsers/activity'
 import { QueryKeys } from 'libs/queryKeys'
 import { queryClient } from 'libs/react-query/queryClient'
 import { tileAccessibilityLabel, TileContentType } from 'libs/tileAccessibilityLabel'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
 import { ImageTile } from 'ui/components/ImageTile'
 import { InternalTouchableLink } from 'ui/components/touchableLink/InternalTouchableLink'
 import { Tag } from 'ui/designSystem/Tag/Tag'
@@ -48,12 +46,13 @@ const UnmemoizedSearchVenueItem = ({
   searchId,
   searchGroupLabel,
 }: SearchVenueItemProps) => {
-  const { userLocation, selectedPlace, selectedLocationMode } = useLocation()
+  const userLocation = useUserLocation()
+  const selectedPlace = usePlace()
+  const selectedLocationMode = useLocationMode()
   const { onFocus, onBlur, isFocus } = useHandleFocus()
   const { designSystem } = useTheme()
   const { lat, lng } = venue._geoloc
   const distance = getDistance({ lat, lng }, { userLocation, selectedPlace, selectedLocationMode })
-  const proAdvicesOnVenueSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_VENUE)
 
   const accessibilityLabel = tileAccessibilityLabel(TileContentType.VENUE, {
     ...venue,
@@ -68,7 +67,6 @@ const UnmemoizedSearchVenueItem = ({
       venueId: venue.objectID,
       searchId,
       from: 'searchVenuePlaylist',
-      displayAdvice: proAdvicesOnVenueSegment === 'A',
     })
 
     const currentQueryID = algoliaAnalyticsSelectors.selectCurrentQueryID()

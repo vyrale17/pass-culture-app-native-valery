@@ -110,10 +110,9 @@ export function ChangePassword() {
 
   return (
     <PageWithHeader
+      shouldLimitWidth
       title="Modifier mon mot de passe"
-      scrollViewProps={{
-        keyboardShouldPersistTaps: 'handled',
-      }}
+      scrollViewProps={{ keyboardShouldPersistTaps: 'handled' }}
       scrollChildren={
         <Container paddingBottom={Platform.OS === 'ios' ? keyboardHeight : 0}>
           <Form.MaxWidth flex={1}>
@@ -131,7 +130,7 @@ export function ChangePassword() {
               name="newPassword"
               label="Nouveau mot de passe"
               autocomplete="new-password"
-              withSecurityRules
+              displayValidation
               requiredIndicator="explicit"
             />
             <RepeatPasswordContainer keyboardHeight={keyboardHeight}>

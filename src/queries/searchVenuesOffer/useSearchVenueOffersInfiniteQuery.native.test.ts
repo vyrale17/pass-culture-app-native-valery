@@ -3,6 +3,11 @@ import * as fetchAlgoliaOffer from 'libs/algolia/fetchAlgolia/fetchOffers'
 import { mockedAlgoliaResponse } from 'libs/algolia/fixtures/algoliaFixtures'
 import { Position, LocationMode } from 'libs/location/types'
 import {
+  defaultLocationState,
+  locationActions,
+  useLocationV2,
+} from 'libs/locationV2/location.store'
+import {
   getVenueList,
   filterVenueOfferHit,
   useSearchVenueOffersInfiniteQuery,
@@ -13,18 +18,17 @@ import { renderHook, waitFor } from 'tests/utils'
 
 jest.mock('libs/firebase/analytics/analytics')
 
-const mockLocationMode = LocationMode.AROUND_ME
 const mockUserLocation: Position = { latitude: 48.90374, longitude: 2.48171 }
-jest.mock('libs/location/useLocation', () => ({
-  useLocation: () => ({
-    userLocation: mockUserLocation,
-    selectedLocationMode: mockLocationMode,
-  }),
-}))
 
 jest.useFakeTimers()
 
 describe('useSearchVenueOffersInfiniteQuery', () => {
+  beforeEach(() => {
+    useLocationV2.setState(defaultLocationState)
+    locationActions.setLocationMode(LocationMode.AROUND_ME)
+    locationActions.setGeolocPosition(mockUserLocation)
+  })
+
   describe('getVenueList', () => {
     it('should return an offer venues list', () => {
       const offerVenues = getVenueList(mockedAlgoliaResponse.hits, mockUserLocation)
@@ -33,24 +37,28 @@ describe('useSearchVenueOffersInfiniteQuery', () => {
         {
           address: '75000 Paris, 1 rue de la paix',
           offerId: 102280,
+          venueId: 1,
           title: 'Lieu 1',
           distance: '4,5 km',
         },
         {
           address: '75000 Paris, 2 rue de la paix',
           offerId: 102272,
+          venueId: 2,
           title: 'Lieu 2',
           distance: '2,4 km',
         },
         {
           address: '75000 Paris, 3 rue de la paix',
           offerId: 102249,
+          venueId: 3,
           title: 'Lieu 3',
           distance: '900+ km',
         },
         {
           address: '75000 Paris, 4 rue de la paix',
           offerId: 102310,
+          venueId: 4,
           title: 'Lieu 4',
           distance: '900+ km',
         },
@@ -110,6 +118,7 @@ describe('useSearchVenueOffersInfiniteQuery', () => {
         {
           address: '75000 Paris, 1 rue de la paix',
           offerId: 102281,
+          venueId: 1,
           title: 'Lieu 1',
           distance: '4,5 km',
         },

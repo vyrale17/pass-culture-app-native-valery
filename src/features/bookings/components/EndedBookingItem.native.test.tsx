@@ -115,9 +115,9 @@ describe('EndedBookingItem', () => {
 
     expect(analytics.logConsultOffer).toHaveBeenNthCalledWith(1, {
       offerId: '147874',
+      venueId: 2185,
       from: 'endedbookings',
       isHeadline: false,
-      displayAdvice: false,
     })
   })
 

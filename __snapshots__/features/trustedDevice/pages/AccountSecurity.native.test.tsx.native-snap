@@ -109,9 +109,7 @@ exports[`<AccountSecurity/> with route params when user is connected and has a p
         flexValue={1}
         style={
           {
-            "flexBasis": 0,
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "space-between",
           }
         }
@@ -121,9 +119,7 @@ exports[`<AccountSecurity/> with route params when user is connected and has a p
           marginVertical={0}
           style={
             {
-              "flexBasis": 0,
               "flexGrow": 1,
-              "flexShrink": 1,
               "justifyContent": "center",
               "marginTop": 8,
               "marginVertical": 0,
@@ -619,29 +615,10 @@ exports[`<AccountSecurity/> with route params when user is connected and has a p
                 }
               >
                 <View
-                  collapsable={false}
-                  jestAnimatedProps={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
+                  style={
                     {
                       "flexShrink": 0,
                     }
-                  }
-                  nativeID="0"
-                  style={
-                    [
-                      {
-                        "flexShrink": 0,
-                      },
-                    ]
                   }
                 >
                   <View
@@ -804,9 +781,7 @@ exports[`<AccountSecurity/> with route params when user is connected and has no 
         flexValue={1}
         style={
           {
-            "flexBasis": 0,
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "space-between",
           }
         }
@@ -816,9 +791,7 @@ exports[`<AccountSecurity/> with route params when user is connected and has no 
           marginVertical={0}
           style={
             {
-              "flexBasis": 0,
               "flexGrow": 1,
-              "flexShrink": 1,
               "justifyContent": "center",
               "marginTop": 8,
               "marginVertical": 0,
@@ -1212,29 +1185,10 @@ exports[`<AccountSecurity/> with route params when user is connected and has no 
                 }
               >
                 <View
-                  collapsable={false}
-                  jestAnimatedProps={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
+                  style={
                     {
                       "flexShrink": 0,
                     }
-                  }
-                  nativeID="5"
-                  style={
-                    [
-                      {
-                        "flexShrink": 0,
-                      },
-                    ]
                   }
                 >
                   <View
@@ -1397,9 +1351,7 @@ exports[`<AccountSecurity/> without route params should match snapshot when no t
         flexValue={1}
         style={
           {
-            "flexBasis": 0,
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "space-between",
           }
         }
@@ -1409,9 +1361,7 @@ exports[`<AccountSecurity/> without route params should match snapshot when no t
           marginVertical={0}
           style={
             {
-              "flexBasis": 0,
               "flexGrow": 1,
-              "flexShrink": 1,
               "justifyContent": "center",
               "marginTop": 8,
               "marginVertical": 0,
@@ -1907,29 +1857,10 @@ exports[`<AccountSecurity/> without route params should match snapshot when no t
                 }
               >
                 <View
-                  collapsable={false}
-                  jestAnimatedProps={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
+                  style={
                     {
                       "flexShrink": 0,
                     }
-                  }
-                  nativeID="8"
-                  style={
-                    [
-                      {
-                        "flexShrink": 0,
-                      },
-                    ]
                   }
                 >
                   <View

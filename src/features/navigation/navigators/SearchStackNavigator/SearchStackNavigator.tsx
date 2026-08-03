@@ -12,6 +12,7 @@ import { SEARCH_STACK_NAVIGATOR_SCREEN_OPTIONS } from 'features/navigation/navig
 import { SearchLanding } from 'features/search/pages/SearchLanding/SearchLanding'
 import { SearchResultsContainer } from 'features/search/pages/SearchResults/SearchResultsContainer'
 import { ThematicSearch } from 'features/search/pages/ThematicSearch/ThematicSearch'
+import { ThematicSearchSubcategories } from 'features/search/pages/ThematicSearch/ThematicSearchSubcategories'
 import { SearchView } from 'features/search/types'
 
 const searchStackNavigatorConfig = {
@@ -20,6 +21,7 @@ const searchStackNavigatorConfig = {
   screens: {
     SearchLanding: {
       screen: SearchLanding,
+      options: { title: 'Recherche - Accueil' },
       linking: {
         path: 'recherche/accueil',
         parse: screenParamsParser[SearchView.Landing],
@@ -28,6 +30,7 @@ const searchStackNavigatorConfig = {
     },
     SearchResults: {
       screen: SearchResultsContainer,
+      options: { title: 'Recherche - Résultats' },
       linking: {
         path: 'recherche/resultats',
         parse: screenParamsParser[SearchView.Results],
@@ -36,10 +39,20 @@ const searchStackNavigatorConfig = {
     },
     ThematicSearch: {
       screen: ThematicSearch,
+      options: { title: 'Recherche - Recherche thématique' },
       linking: {
         path: 'recherche/thematique',
         parse: screenParamsParser[SearchView.Thematic],
         stringify: screenParamsStringifier[SearchView.Thematic],
+      },
+    },
+    ThematicSearchSubcategories: {
+      screen: ThematicSearchSubcategories,
+      options: { title: 'Recherche - Toutes les catégories' },
+      linking: {
+        path: 'recherche/thematique/toutes-les-categories',
+        parse: screenParamsParser.ThematicSearchSubcategories,
+        stringify: screenParamsStringifier.ThematicSearchSubcategories,
       },
     },
   },

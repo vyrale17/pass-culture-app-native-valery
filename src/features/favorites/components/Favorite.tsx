@@ -14,7 +14,7 @@ import { UserProfile } from 'features/share/types'
 import { triggerConsultOfferLog } from 'libs/analytics/helpers/triggerLogConsultOffer/triggerConsultOfferLog'
 import { analytics } from 'libs/analytics/provider'
 import { getDistance } from 'libs/location/getDistance'
-import { useLocation } from 'libs/location/location'
+import { useUserLocation, usePlace, useLocationMode } from 'libs/locationV2/location.store'
 import { useSubcategory } from 'libs/subcategories'
 import { tileAccessibilityLabel, TileContentType } from 'libs/tileAccessibilityLabel'
 import { useRemoveFavoriteMutation } from 'queries/favorites/useRemoveFavoriteMutation'
@@ -22,8 +22,6 @@ import { usePacificFrancToEuroRate } from 'queries/settings/useSettings'
 import { useGetCurrencyToDisplay } from 'shared/currency/useGetCurrencyToDisplay'
 import { useBookOfferModal } from 'shared/offer/helpers/useBookOfferModal'
 import { usePrePopulateOffer } from 'shared/offer/usePrePopulateOffer'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
 import { ANIMATION_USE_NATIVE_DRIVER } from 'ui/components/animationUseNativeDriver'
 import { LineSeparator } from 'ui/components/LineSeparator'
 import { useModal } from 'ui/components/modals/useModal'
@@ -53,7 +51,9 @@ export const Favorite: React.FC<Props> = (props) => {
   const animatedOpacity = useRef(new Animated.Value(1)).current
   const animatedCollapse = useRef(new Animated.Value(1)).current
   const prePopulateOffer = usePrePopulateOffer()
-  const { userLocation, selectedPlace, selectedLocationMode } = useLocation()
+  const userLocation = useUserLocation()
+  const selectedPlace = usePlace()
+  const selectedLocationMode = useLocationMode()
   const distanceToOffer = getDistance(
     {
       lat: offer.coordinates?.latitude,
@@ -64,7 +64,6 @@ export const Favorite: React.FC<Props> = (props) => {
   )
   const currency = useGetCurrencyToDisplay()
   const { data: euroToPacificFrancRate } = usePacificFrancToEuroRate()
-  const proAdvicesOnOfferSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_OFFER)
 
   const displayPrice = getFavoriteDisplayPrice({
     currency,
@@ -115,7 +114,6 @@ export const Favorite: React.FC<Props> = (props) => {
     triggerConsultOfferLog({
       offerId: offer.id,
       from: 'favorites',
-      displayAdvice: proAdvicesOnOfferSegment === 'A',
     })
   }
 

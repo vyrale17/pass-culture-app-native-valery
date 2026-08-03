@@ -47,7 +47,6 @@ export type OfferPlaylistListProps = {
     hidePlaylistSeeAll?: boolean
     hideSearchSeeAll?: boolean
   }
-  proAdvicesSegment?: string
 }
 
 function isArrayNotEmpty<T>(data: T[] | undefined): data is T[] {
@@ -66,7 +65,6 @@ export function OfferPlaylistList({
   apiRecoParamsBooksSameCategory,
   onViewableItemsChanged,
   seeAllButton,
-  proAdvicesSegment,
 }: Readonly<OfferPlaylistListProps>) {
   const theme = useTheme()
   const isLandscape = useIsLandscape()
@@ -80,6 +78,7 @@ export function OfferPlaylistList({
   const currency = useGetCurrencyToDisplay()
   const { data: euroToPacificFrancRate } = usePacificFrancToEuroRate()
   const enableProAdvicesTag = useFeatureFlag(RemoteStoreFeatureFlags.WIP_PRO_REVIEWS_PLAYLIST)
+  const enableSceneClubTag = useFeatureFlag(RemoteStoreFeatureFlags.WIP_SCENE_CLUB)
   const {
     logSameCategoryPlaylistVerticalScroll,
     logBooksSameCategoryPlaylistVerticalScroll,
@@ -189,8 +188,8 @@ export function OfferPlaylistList({
                   priceDisplay: (item: Offer) =>
                     getDisplayedPrice(item.offer.prices, currency, euroToPacificFrancRate),
                   theme,
-                  proAdvicesSegment,
                   enableProAdvicesTag,
+                  enableSceneClubTag,
                 })}
                 title={playlist.title}
                 playlistType={playlist.type}

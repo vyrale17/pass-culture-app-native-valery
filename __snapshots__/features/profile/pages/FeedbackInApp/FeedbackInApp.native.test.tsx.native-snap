@@ -133,29 +133,10 @@ exports[`<FeedbackInApp/> should match snapshot 1`] = `
             }
           >
             <View
-              collapsable={false}
-              jestAnimatedProps={
-                {
-                  "value": {},
-                }
-              }
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
+              style={
                 {
                   "flexShrink": 0,
                 }
-              }
-              nativeID="0"
-              style={
-                [
-                  {
-                    "flexShrink": 0,
-                  },
-                ]
               }
             >
               <View
@@ -245,12 +226,12 @@ exports[`<FeedbackInApp/> should match snapshot 1`] = `
       }
     >
       <View
+        shouldLimitWidth={false}
         style={
           {
             "flexBasis": 0,
             "flexGrow": 1,
             "flexShrink": 1,
-            "maxWidth": 500,
             "width": "100%",
           }
         }
@@ -475,6 +456,7 @@ exports[`<FeedbackInApp/> should match snapshot 1`] = `
                   <View>
                     <View
                       accessibilityElementsHidden={true}
+                      accessible={false}
                       importantForAccessibility="no"
                       style={
                         {
@@ -536,7 +518,7 @@ exports[`<FeedbackInApp/> should match snapshot 1`] = `
                     testID="styled-input-container"
                   >
                     <TextInput
-                      accessibilityLabel="Champs de texte - Suggérer une amélioration"
+                      accessibilityLabel="Champs de texte - Suggérer une amélioration - 0/800"
                       accessibilityRequired={false}
                       editable={true}
                       isEmpty={true}

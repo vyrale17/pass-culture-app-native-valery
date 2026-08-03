@@ -141,8 +141,8 @@ describe('getEndedBookingItemProperties', () => {
       )
       expect(triggerConsultOfferLog).toHaveBeenCalledWith({
         offerId: initialBooking.stock.offer.id,
+        venueId: initialBooking.stock.offer.venue.id,
         from: 'endedbookings',
-        displayAdvice: false,
       })
     })
 

@@ -1,3 +1,4 @@
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import React, { FunctionComponent } from 'react'
 import { Platform, ViewToken } from 'react-native'
 import { IOScrollView as IntersectionObserverScrollView } from 'react-native-intersection-observer'
@@ -10,7 +11,17 @@ import { ArtistPlaylist } from 'features/artist/components/ArtistPlaylist/Artist
 import { ArtistSimilarArtists } from 'features/artist/components/ArtistSimilarArtists/ArtistSimilarArtists'
 import { ArtistTopOffers } from 'features/artist/components/ArtistTopOffers/ArtistTopOffers'
 import { ArtistWebMetaHeader } from 'features/artist/components/ArtistWebMetaHeader'
+import {
+  buildFollowArtistSurveyUrl,
+  FOLLOW_ARTIST_FEATURE_NAME,
+  FOLLOW_ARTIST_SURVEY_KEY,
+} from 'features/artist/helpers/buildFollowArtistSurveyUrl'
+import { getDisplayableArtistPlaylists } from 'features/artist/helpers/getDisplayableArtistPlaylists'
+import { ArtistPlaylistModule } from 'features/home/components/modules/ArtistPlaylistModule'
 import { separateTitleAndEmojis } from 'features/home/helpers/separateTitleAndEmojis'
+import { useGetOffersDataQuery } from 'features/home/queries/useGetOffersDataQuery'
+import { ArtistPlaylistModule as ArtistPlaylistModuleType } from 'features/home/types'
+import { UseNavigationType } from 'features/navigation/navigators/RootNavigator/types'
 import { getSearchHookConfig } from 'features/navigation/navigators/SearchStackNavigator/getSearchHookConfig'
 import { useGoBack } from 'features/navigation/useGoBack'
 import { getShareArtist } from 'features/share/helpers/getShareArtist'
@@ -21,8 +32,7 @@ import { useFeatureFlag } from 'libs/firebase/firestore/featureFlags/useFeatureF
 import { RemoteStoreFeatureFlags } from 'libs/firebase/firestore/types'
 import { capitalize } from 'libs/formatter/capitalize'
 import { ensureEndingDot } from 'libs/parsers/ensureEndingDot'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
+import { getHasSeenFakeDoorSurvey } from 'shared/FakeDoorModal/helpers/getHasSeenFakeDoorSurvey'
 import { useOpacityTransition } from 'ui/animations/helpers/useOpacityTransition'
 import { ButtonQuaternaryBlack } from 'ui/components/buttons/ButtonQuaternaryBlack'
 import { CollapsibleText } from 'ui/components/CollapsibleText/CollapsibleText'
@@ -33,6 +43,7 @@ import { InternalTouchableLink } from 'ui/components/touchableLink/InternalTouch
 import { ViewGap } from 'ui/components/ViewGap/ViewGap'
 import { Button } from 'ui/designSystem/Button/Button'
 import { Page } from 'ui/pages/Page'
+import { Bell } from 'ui/svg/icons/Bell'
 import { ExternalSiteFilled } from 'ui/svg/icons/ExternalSiteFilled'
 import { Share } from 'ui/svg/icons/Share'
 import { Typo } from 'ui/theme'
@@ -51,6 +62,7 @@ type Props = {
     playlistIndex?: number
   ) => void
   onExpandBioPress: () => void
+  artistPlaylistModule?: ArtistPlaylistModuleType
 }
 
 const ShareButton = ({ onPress }: { onPress: () => void }) => {
@@ -70,20 +82,25 @@ export const ArtistBody: FunctionComponent<Props> = ({
   artist,
   artistPlaylist,
   artistTopOffers,
+  artistPlaylistModule,
   onViewableItemsChanged,
   onExpandBioPress,
 }) => {
   const { goBack } = useGoBack(...getSearchHookConfig('SearchLanding'))
   const { appBarHeight, designSystem } = useTheme()
   const { headerTransition, onScroll } = useOpacityTransition()
-  const proAdvicesSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_OFFER)
   const enableProAdvicesTag = useFeatureFlag(RemoteStoreFeatureFlags.WIP_PRO_REVIEWS_PLAYLIST)
   const enablePlaylistByCategory = useFeatureFlag(
     RemoteStoreFeatureFlags.WIP_ARTIST_CATEGORY_PLAYLISTS
   )
+  const enableArtistFakeDoor = useFeatureFlag(RemoteStoreFeatureFlags.WIP_ARTIST_FAKE_DOOR)
 
   const { top, bottom } = useSafeAreaInsets()
   const headerHeight = appBarHeight + top
+
+  const offersArtistPlaylistModulesData = useGetOffersDataQuery(
+    artistPlaylistModule ? [artistPlaylistModule] : []
+  )
 
   const { name, description, image } = artist
   const descriptionWithDot = ensureEndingDot(description ?? '')
@@ -100,6 +117,40 @@ export const ArtistBody: FunctionComponent<Props> = ({
     utmMedium: 'header',
   })
 
+  const { navigate } = useNavigation<UseNavigationType>()
+  const isFocused = useIsFocused()
+
+  const handlePressFollow = async () => {
+    const [firstArtistPlaylist] = enablePlaylistByCategory
+      ? getDisplayableArtistPlaylists(artistPlaylist)
+      : []
+
+    const hasSeenSurveyPromise = getHasSeenFakeDoorSurvey(FOLLOW_ARTIST_SURVEY_KEY)
+
+    navigate('FakeDoorModal', {
+      surveyKey: FOLLOW_ARTIST_SURVEY_KEY,
+      surveyUrl: buildFollowArtistSurveyUrl({
+        artistId: artist.id,
+        offerType: firstArtistPlaylist?.searchGroupName,
+      }),
+      analyticsParams: {
+        featureName: FOLLOW_ARTIST_FEATURE_NAME,
+        from: 'artist',
+        artistId: artist.id,
+      },
+    })
+
+    const hasSeenSurvey = await hasSeenSurveyPromise
+
+    void analytics.logHasClickedFakeDoorCTA({
+      featureName: FOLLOW_ARTIST_FEATURE_NAME,
+      from: 'artist',
+      artistId: artist.id,
+      hasSeenSurvey,
+      originDetails: 'artistHeader',
+    })
+  }
+
   const pressShareArtist = () => {
     void analytics.logShare({
       type: 'Artist',
@@ -109,6 +160,13 @@ export const ArtistBody: FunctionComponent<Props> = ({
     })
     void shareArtist()
     showShareArtistModal()
+  }
+
+  const handleArtistPlaylistModuleOffersViewableItemsChanged = (
+    items: Pick<ViewToken, 'key' | 'index'>[]
+  ) => {
+    if (!isFocused || !artistPlaylistModule) return
+    onViewableItemsChanged(items, `artistPage${artistPlaylistModule.id}`, 'offer', artist.id)
   }
 
   return (
@@ -134,7 +192,18 @@ export const ArtistBody: FunctionComponent<Props> = ({
         }}>
         <ViewGap gap={6}>
           <ViewGap gap={6}>
-            <ArtistHeader name={name} avatarImage={image} />
+            <ArtistHeader name={name} avatarImage={image}>
+              {enableArtistFakeDoor ? (
+                <Button
+                  wording="Suivre"
+                  icon={Bell}
+                  variant="secondary"
+                  color="neutral"
+                  accessibilityLabel="Suivre cet artiste"
+                  onPress={handlePressFollow}
+                />
+              ) : null}
+            </ArtistHeader>
             {capitalizedDescriptionWithDot ? (
               <Description gap={1}>
                 <Typo.BodyAccent>À propos</Typo.BodyAccent>
@@ -174,7 +243,6 @@ export const ArtistBody: FunctionComponent<Props> = ({
           <ArtistTopOffers
             artistName={name}
             items={artistTopOffers}
-            proAdvicesSegment={proAdvicesSegment}
             enableProAdvicesTag={enableProAdvicesTag}
           />
           {enablePlaylistByCategory ? (
@@ -182,8 +250,20 @@ export const ArtistBody: FunctionComponent<Props> = ({
               artist={artist}
               items={artistPlaylist}
               onViewableItemsChanged={onViewableItemsChanged}
-              proAdvicesSegment={proAdvicesSegment}
               enableProAdvicesTag={enableProAdvicesTag}
+            />
+          ) : null}
+          {artistPlaylistModule ? (
+            <ArtistPlaylistModule
+              displayParameters={artistPlaylistModule.displayParameters}
+              offersModuleParameters={artistPlaylistModule.offersModuleParameters}
+              artistId={artist.id}
+              index={0}
+              moduleId={artistPlaylistModule.id}
+              data={offersArtistPlaylistModulesData[0]}
+              onViewableItemsChanged={handleArtistPlaylistModuleOffersViewableItemsChanged}
+              homeEntryId={undefined}
+              disableArtistNavigation
             />
           ) : null}
           <ArtistSimilarArtists artistId={artist.id} />

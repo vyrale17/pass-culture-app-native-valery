@@ -126,29 +126,10 @@ exports[`DebugScreen should render correctly 1`] = `
             }
           >
             <View
-              collapsable={false}
-              jestAnimatedProps={
-                {
-                  "value": {},
-                }
-              }
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
+              style={
                 {
                   "flexShrink": 0,
                 }
-              }
-              nativeID="0"
-              style={
-                [
-                  {
-                    "flexShrink": 0,
-                  },
-                ]
               }
             >
               <View
@@ -238,12 +219,12 @@ exports[`DebugScreen should render correctly 1`] = `
       }
     >
       <View
+        shouldLimitWidth={false}
         style={
           {
             "flexBasis": 0,
             "flexGrow": 1,
             "flexShrink": 1,
-            "maxWidth": 500,
             "width": "100%",
           }
         }
@@ -644,29 +625,10 @@ exports[`DebugScreen should render correctly 1`] = `
                       }
                     >
                       <View
-                        collapsable={false}
-                        jestAnimatedProps={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
+                        style={
                           {
                             "flexShrink": 0,
                           }
-                        }
-                        nativeID="1"
-                        style={
-                          [
-                            {
-                              "flexShrink": 0,
-                            },
-                          ]
                         }
                       >
                         <View

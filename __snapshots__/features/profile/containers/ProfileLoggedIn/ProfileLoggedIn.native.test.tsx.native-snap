@@ -340,29 +340,10 @@ exports[`<ProfileLoggedIn /> should match snapshot 1`] = `
               }
             >
               <View
-                collapsable={false}
-                jestAnimatedProps={
-                  {
-                    "value": {},
-                  }
-                }
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
+                style={
                   {
                     "flexShrink": 0,
                   }
-                }
-                nativeID="0"
-                style={
-                  [
-                    {
-                      "flexShrink": 0,
-                    },
-                  ]
                 }
               >
                 <View
@@ -444,6 +425,7 @@ exports[`<ProfileLoggedIn /> should match snapshot 1`] = `
         style={
           {
             "flexDirection": "column",
+            "gap": 0,
             "paddingBottom": 0,
             "paddingLeft": 0,
             "paddingRight": 0,
@@ -723,6 +705,7 @@ exports[`<ProfileLoggedIn /> should match snapshot 1`] = `
         style={
           {
             "flexDirection": "column",
+            "gap": 0,
             "paddingBottom": 0,
             "paddingLeft": 0,
             "paddingRight": 0,
@@ -1003,6 +986,7 @@ exports[`<ProfileLoggedIn /> should match snapshot 1`] = `
         style={
           {
             "flexDirection": "column",
+            "gap": 0,
             "paddingBottom": 0,
             "paddingLeft": 0,
             "paddingRight": 0,
@@ -1269,6 +1253,7 @@ exports[`<ProfileLoggedIn /> should match snapshot 1`] = `
         style={
           {
             "flexDirection": "column",
+            "gap": 0,
             "paddingBottom": 0,
             "paddingLeft": 0,
             "paddingRight": 0,
@@ -1786,6 +1771,7 @@ exports[`<ProfileLoggedIn /> should match snapshot 1`] = `
         style={
           {
             "flexDirection": "column",
+            "gap": 0,
             "paddingBottom": 0,
             "paddingLeft": 0,
             "paddingRight": 0,
@@ -2005,6 +1991,7 @@ exports[`<ProfileLoggedIn /> should match snapshot 1`] = `
         style={
           {
             "flexDirection": "column",
+            "gap": 0,
             "paddingBottom": 0,
             "paddingLeft": 0,
             "paddingRight": 0,

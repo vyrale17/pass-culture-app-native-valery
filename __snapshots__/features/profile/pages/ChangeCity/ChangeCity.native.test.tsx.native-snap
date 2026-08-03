@@ -133,29 +133,10 @@ exports[`ChangeCity from mandatory udpate personal data screen should render cor
             }
           >
             <View
-              collapsable={false}
-              jestAnimatedProps={
-                {
-                  "value": {},
-                }
-              }
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
+              style={
                 {
                   "flexShrink": 0,
                 }
-              }
-              nativeID="25"
-              style={
-                [
-                  {
-                    "flexShrink": 0,
-                  },
-                ]
               }
             >
               <View
@@ -245,6 +226,7 @@ exports[`ChangeCity from mandatory udpate personal data screen should render cor
       }
     >
       <View
+        shouldLimitWidth={true}
         style={
           {
             "flexBasis": 0,
@@ -322,6 +304,7 @@ exports[`ChangeCity from mandatory udpate personal data screen should render cor
                   <View>
                     <View
                       accessibilityElementsHidden={true}
+                      accessible={false}
                       importantForAccessibility="no"
                       style={
                         {
@@ -551,6 +534,7 @@ exports[`ChangeCity from mandatory udpate personal data screen should render cor
                 style={
                   {
                     "flexDirection": "column",
+                    "gap": 0,
                     "paddingLeft": 0,
                   }
                 }
@@ -569,6 +553,7 @@ exports[`ChangeCity from mandatory udpate personal data screen should render cor
         </RCTScrollView>
         <BVLinearGradient
           bottomViewHeight={0}
+          collapsable={false}
           colors={
             [
               16777215,
@@ -595,17 +580,13 @@ exports[`ChangeCity from mandatory udpate personal data screen should render cor
             }
           }
           style={
-            [
-              {
-                "bottom": 0,
-                "height": 120,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-              },
-              {},
-              {},
-            ]
+            {
+              "bottom": 0,
+              "height": 120,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+            }
           }
         />
         <View
@@ -870,29 +851,10 @@ exports[`ChangeCity from profil personal data screen should render correctly 1`]
             }
           >
             <View
-              collapsable={false}
-              jestAnimatedProps={
-                {
-                  "value": {},
-                }
-              }
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
+              style={
                 {
                   "flexShrink": 0,
                 }
-              }
-              nativeID="21"
-              style={
-                [
-                  {
-                    "flexShrink": 0,
-                  },
-                ]
               }
             >
               <View
@@ -982,6 +944,7 @@ exports[`ChangeCity from profil personal data screen should render correctly 1`]
       }
     >
       <View
+        shouldLimitWidth={true}
         style={
           {
             "flexBasis": 0,
@@ -1059,6 +1022,7 @@ exports[`ChangeCity from profil personal data screen should render correctly 1`]
                   <View>
                     <View
                       accessibilityElementsHidden={true}
+                      accessible={false}
                       importantForAccessibility="no"
                       style={
                         {
@@ -1288,6 +1252,7 @@ exports[`ChangeCity from profil personal data screen should render correctly 1`]
                 style={
                   {
                     "flexDirection": "column",
+                    "gap": 0,
                     "paddingLeft": 0,
                   }
                 }
@@ -1306,6 +1271,7 @@ exports[`ChangeCity from profil personal data screen should render correctly 1`]
         </RCTScrollView>
         <BVLinearGradient
           bottomViewHeight={0}
+          collapsable={false}
           colors={
             [
               16777215,
@@ -1332,17 +1298,13 @@ exports[`ChangeCity from profil personal data screen should render correctly 1`]
             }
           }
           style={
-            [
-              {
-                "bottom": 0,
-                "height": 120,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-              },
-              {},
-              {},
-            ]
+            {
+              "bottom": 0,
+              "height": 120,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+            }
           }
         />
         <View
@@ -1607,29 +1569,10 @@ exports[`ChangeCity without previous screen should render correctly 1`] = `
             }
           >
             <View
-              collapsable={false}
-              jestAnimatedProps={
-                {
-                  "value": {},
-                }
-              }
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
+              style={
                 {
                   "flexShrink": 0,
                 }
-              }
-              nativeID="0"
-              style={
-                [
-                  {
-                    "flexShrink": 0,
-                  },
-                ]
               }
             >
               <View
@@ -1719,6 +1662,7 @@ exports[`ChangeCity without previous screen should render correctly 1`] = `
       }
     >
       <View
+        shouldLimitWidth={true}
         style={
           {
             "flexBasis": 0,
@@ -1796,6 +1740,7 @@ exports[`ChangeCity without previous screen should render correctly 1`] = `
                   <View>
                     <View
                       accessibilityElementsHidden={true}
+                      accessible={false}
                       importantForAccessibility="no"
                       style={
                         {
@@ -2025,6 +1970,7 @@ exports[`ChangeCity without previous screen should render correctly 1`] = `
                 style={
                   {
                     "flexDirection": "column",
+                    "gap": 0,
                     "paddingLeft": 0,
                   }
                 }
@@ -2043,6 +1989,7 @@ exports[`ChangeCity without previous screen should render correctly 1`] = `
         </RCTScrollView>
         <BVLinearGradient
           bottomViewHeight={0}
+          collapsable={false}
           colors={
             [
               16777215,
@@ -2069,17 +2016,13 @@ exports[`ChangeCity without previous screen should render correctly 1`] = `
             }
           }
           style={
-            [
-              {
-                "bottom": 0,
-                "height": 120,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-              },
-              {},
-              {},
-            ]
+            {
+              "bottom": 0,
+              "height": 120,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+            }
           }
         />
         <View

@@ -108,13 +108,13 @@ export const SetAddress = () => {
 
   const isValidAddress = selectedAddress !== null || isAddressValid(query)
 
-  const enabled = query.trim().length > 0
+  const hasError = !isValidAddress && query.length > 0
+
+  const enabled = query.trim().length > 0 && !hasError
 
   const label = idCheckAddressAutocompletion
     ? 'Recherche et sélectionne ton adresse'
     : 'Entre ton adresse'
-
-  const hasError = !isValidAddress && query.length > 0
 
   const getStatusNavigationParams = () => {
     if (origin) {
@@ -144,6 +144,7 @@ export const SetAddress = () => {
 
   return (
     <PageWithHeader
+      shouldLimitWidth
       title={pageConfigByType[type].headerTitle}
       scrollChildren={
         <React.Fragment>

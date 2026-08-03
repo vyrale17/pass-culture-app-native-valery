@@ -6,7 +6,9 @@
 import React from 'react'
 import webStyled, { CSSObject, DefaultTheme, useTheme } from 'styled-components'
 
+import { AccessibilityRole } from 'libs/accessibilityRole/accessibilityRole'
 import { ExternalSiteFilled } from 'ui/svg/icons/ExternalSiteFilled'
+import { customFocusOutline } from 'ui/theme/customFocusOutline/customFocusOutline'
 
 import { getIconSize } from './getIconSize'
 import { getLinkGap } from './getLinkGap'
@@ -49,7 +51,7 @@ export const Link = ({
         accessibilityLabel={
           accessibilityLabel ??
           getInsideTextAccessibilityLabel({
-            accessibilityRole: anchorProps.accessibilityRole,
+            accessibilityRole: anchorProps.accessibilityRole ?? AccessibilityRole.LINK,
             isExternal,
             label: computedLabel,
           })
@@ -70,6 +72,7 @@ export const Link = ({
   return (
     <Container
       {...anchorProps}
+      accessibilityRole={anchorProps.accessibilityRole ?? AccessibilityRole.LINK}
       accessibilityLabel={
         accessibilityLabel ?? getAccessibilityLabel({ isExternal, label: computedLabel })
       }
@@ -91,7 +94,6 @@ function getAccessibilityLabel({ isExternal, label }: { isExternal: boolean; lab
 }
 
 function getInsideTextAccessibilityLabel({
-  accessibilityRole,
   isExternal,
   label,
 }: {
@@ -99,7 +101,7 @@ function getInsideTextAccessibilityLabel({
   isExternal: boolean
   label: string
 }) {
-  return isExternal || accessibilityRole === 'link' ? `${label}, lien externe` : label
+  return isExternal ? `${label}, lien externe` : label
 }
 
 const getContainerStyle = ({
@@ -120,18 +122,10 @@ const getContainerStyle = ({
     display: 'inline-flex',
     flexDirection: 'row',
     width: 'fit-content',
-    ['&:hover span']: {
-      color: hoverColor,
-    },
-    ['&:hover svg path']: {
-      fill: hoverIconColor,
-    },
-    ['&:visited span']: {
-      color: visitedColor,
-    },
-    ['&:visited svg path']: {
-      fill: visitedIconColor,
-    },
+    ['&:hover span']: { color: hoverColor },
+    ['&:hover svg path']: { fill: hoverIconColor },
+    ['&:visited span']: { color: visitedColor },
+    ['&:visited svg path']: { fill: visitedIconColor },
   }
 }
 
@@ -174,28 +168,20 @@ const InlineTextContainer = webStyled(LinkAnchor)<{
     cursor: 'pointer',
     display: 'inline',
     margin: 0,
-    outline: 'none',
     padding: 0,
     textDecoration: 'underline',
     whiteSpace: 'nowrap',
     ...theme.designSystem.typography[getLinkTypography($size)],
+    ...customFocusOutline({ theme, noOffset: true }),
     ['& svg']: {
       marginRight: theme.designSystem.size.spacing.xs,
       transform: 'translateY(-0.05em)',
       verticalAlign: 'middle',
     },
-    ['&:hover']: {
-      color: hoverColor,
-    },
-    ['&:hover svg path']: {
-      fill: hoverIconColor,
-    },
-    ['&:visited']: {
-      color: visitedColor,
-    },
-    ['&:visited svg path']: {
-      fill: visitedIconColor,
-    },
+    ['&:hover']: { color: hoverColor },
+    ['&:hover svg path']: { fill: hoverIconColor },
+    ['&:visited']: { color: visitedColor },
+    ['&:visited svg path']: { fill: visitedIconColor },
   }
 })
 

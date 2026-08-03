@@ -67,8 +67,8 @@ describe('MarketingBlockExclusivity', () => {
       homeEntryId: 'fakeEntryId',
       moduleName: 'La nuit des temps',
       offerId: '102280',
+      venueId: 1,
       isHeadline: false,
-      displayAdvice: false,
     })
   })
 

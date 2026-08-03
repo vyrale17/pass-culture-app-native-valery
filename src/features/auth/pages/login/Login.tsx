@@ -183,6 +183,7 @@ export const Login: FunctionComponent<Props> = memo(function Login(props) {
         />
       ) : null}
       <PageWithHeader
+        shouldLimitWidth
         shouldDisplayBackButton
         title="Connexion"
         scrollChildren={
@@ -195,6 +196,7 @@ export const Login: FunctionComponent<Props> = memo(function Login(props) {
                 visible={!!errorMessage}
                 errorMessage={errorMessage}
                 numberOfSpacesTop={5}
+                accessibilityElementsHidden={false}
                 centered
               />
               <EmailInputController
@@ -216,6 +218,7 @@ export const Login: FunctionComponent<Props> = memo(function Login(props) {
                 />
               </ButtonContainer>
               <PasswordInputController
+                label="Mot de passe"
                 name="password"
                 control={control}
                 autocomplete="current-password"

@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { FunctionComponent, useEffect } from 'react'
 import { View, ViewToken } from 'react-native'
 import Animated, { Layout } from 'react-native-reanimated'
@@ -9,7 +9,7 @@ import { AdvicesWritersModal } from 'features/advices/pages/AdvicesWritersModal/
 import { useVenueProAdvicesQuery } from 'features/advices/queries/useVenueProAdvicesQuery'
 import { useGTLPlaylistsQuery } from 'features/gtlPlaylist/queries/useGTLPlaylistsQuery'
 import { offerToHeadlineOfferData } from 'features/headlineOffer/adapters/offerToHeadlineOfferData'
-import { UseRouteType } from 'features/navigation/navigators/RootNavigator/types'
+import { UseNavigationType, UseRouteType } from 'features/navigation/navigators/RootNavigator/types'
 import { OfferCTAProvider } from 'features/offer/components/OfferContent/OfferCTAProvider'
 import { venueProAdvicesToAdviceCardData } from 'features/proAdvices/adapters/venueProAdvicesToAdviceCardData/venueProAdvicesToAdviceCardData'
 import { useIsUserUnderage } from 'features/profile/helpers/useIsUserUnderage'
@@ -21,6 +21,11 @@ import { VenueContent } from 'features/venue/components/VenueContent/VenueConten
 import { VenueMessagingApps } from 'features/venue/components/VenueMessagingApps/VenueMessagingApps'
 import { VenueThematicSection } from 'features/venue/components/VenueThematicSection/VenueThematicSection'
 import { VenueTopComponent } from 'features/venue/components/VenueTopComponent/VenueTopComponent'
+import {
+  buildFollowVenueSurveyUrl,
+  FOLLOW_VENUE_FEATURE_NAME,
+  FOLLOW_VENUE_SURVEY_KEY,
+} from 'features/venue/helpers/buildFollowVenueSurveyUrl'
 import { getVenueOffersArtists } from 'features/venue/helpers/getVenueOffersArtists'
 import { useVenueSearchParameters } from 'features/venue/helpers/useVenueSearchParameters'
 import { getAdvicesWithoutHeadline, getHeadlineAdvice } from 'features/venue/helpers/venueAdvices'
@@ -32,7 +37,7 @@ import { analytics } from 'libs/analytics/provider'
 import { useFeatureFlag } from 'libs/firebase/firestore/featureFlags/useFeatureFlag'
 import { RemoteStoreFeatureFlags } from 'libs/firebase/firestore/types'
 import { useRemoteConfigQuery } from 'libs/firebase/remoteConfig/queries/useRemoteConfigQuery'
-import { useLocation } from 'libs/location/location'
+import { useUserLocation, useLocationMode } from 'libs/locationV2/location.store'
 import { QueryKeys } from 'libs/queryKeys'
 import {
   useCategoryHomeLabelMapping,
@@ -42,17 +47,19 @@ import {
 import { usePacificFrancToEuroRate } from 'queries/settings/useSettings'
 import { useVenueOffersQuery } from 'queries/venue/useVenueOffersQuery'
 import { useGetCurrencyToDisplay } from 'shared/currency/useGetCurrencyToDisplay'
+import { getHasSeenFakeDoorSurvey } from 'shared/FakeDoorModal/helpers/getHasSeenFakeDoorSurvey'
 import { usePageTracking } from 'shared/tracking/usePageTracking'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
 import { useModal } from 'ui/components/modals/useModal'
 import { SectionWithDivider } from 'ui/components/SectionWithDivider'
 import { ViewGap } from 'ui/components/ViewGap/ViewGap'
 
 const VENUE_CTA_HEIGHT_IN_SPACES = 6 + 10 + 6
 
+type FollowVenueButtonOrigin = 'venueBanner' | 'venueHeader'
+
 export const Venue: FunctionComponent = () => {
   const { params } = useRoute<UseRouteType<'Venue'>>()
+  const { navigate } = useNavigation<UseNavigationType>()
   const { data: venue } = useVenueQuery(params.id)
 
   const pageTracking = usePageTracking({
@@ -86,6 +93,7 @@ export const Venue: FunctionComponent = () => {
   const enableVolunteerFeedback = useFeatureFlag(
     RemoteStoreFeatureFlags.WIP_ENABLE_VOLUNTEER_FEEDBACK
   )
+  const enableVenueFakeDoor = useFeatureFlag(RemoteStoreFeatureFlags.WIP_VENUE_FAKE_DOOR)
   const {
     visible: searchInVenueModalVisible,
     hideModal: hideSearchInVenueModal,
@@ -96,11 +104,11 @@ export const Venue: FunctionComponent = () => {
     hideModal: hideAdvicesWritersModal,
     showModal: showAdvicesWritersModal,
   } = useModal(false)
-  const { userLocation, selectedLocationMode } = useLocation()
+  const userLocation = useUserLocation()
+  const selectedLocationMode = useLocationMode()
   const isUserUnderage = useIsUserUnderage()
   const adaptPlaylistParameters = useAdaptOffersPlaylistParameters()
   const transformHits = useTransformOfferHits()
-  const proAdvicesSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_VENUE)
 
   const { data: gtlPlaylists, isLoading: arePlaylistsLoading } = useGTLPlaylistsQuery({
     venue,
@@ -130,7 +138,7 @@ export const Venue: FunctionComponent = () => {
 
   const { data: advices } = useVenueProAdvicesQuery({
     venueId: params.id,
-    enableProAdvices: enableProAdvices && proAdvicesSegment === 'A',
+    enableProAdvices,
   })
   const nbAdvices = advices?.nbResults ?? 0
 
@@ -160,7 +168,6 @@ export const Venue: FunctionComponent = () => {
       userLocation,
     },
     advice: getHeadlineAdvice(advices?.proAdvices, venueOffers?.headlineOffer?.objectID),
-    segment: proAdvicesSegment,
   })
 
   useEffect(() => {
@@ -168,10 +175,31 @@ export const Venue: FunctionComponent = () => {
       void analytics.logConsultVenue({
         venueId: venue.id.toString(),
         from: params.from,
-        displayAdvice: proAdvicesSegment === 'A',
       })
     }
-  }, [params.from, proAdvicesSegment, venue?.id])
+  }, [params.from, venue?.id])
+
+  const handleOnPressFollowButton = async (originDetails: FollowVenueButtonOrigin) => {
+    if (!venue) return
+
+    const analyticsParams = {
+      featureName: FOLLOW_VENUE_FEATURE_NAME,
+      from: 'venue' as const,
+      venueId: venue.id.toString(),
+    }
+
+    const hasSeenSurveyPromise = getHasSeenFakeDoorSurvey(FOLLOW_VENUE_SURVEY_KEY)
+
+    navigate('FakeDoorModal', {
+      surveyKey: FOLLOW_VENUE_SURVEY_KEY,
+      surveyUrl: buildFollowVenueSurveyUrl(venue.activity),
+      analyticsParams,
+    })
+
+    const hasSeenSurvey = await hasSeenSurveyPromise
+
+    void analytics.logHasClickedFakeDoorCTA({ ...analyticsParams, originDetails, hasSeenSurvey })
+  }
 
   const isCTADisplayed =
     venue?.activity !== Activity.CINEMA &&
@@ -183,6 +211,8 @@ export const Venue: FunctionComponent = () => {
         venue={venue}
         enableVolunteer={enableVolunteer}
         enableVolunteerFeedback={enableVolunteerFeedback}
+        enableVenueFakeDoor={enableVenueFakeDoor}
+        onPressFollowButton={() => handleOnPressFollowButton('venueBanner')}
       />
       <ViewGap gap={isDesktopViewport ? 10 : 6}>
         <Animated.View layout={Layout.duration(200)}>
@@ -195,17 +225,10 @@ export const Venue: FunctionComponent = () => {
             arePlaylistsLoading={arePlaylistsLoading}
             shouldDisplayVenueCalendar={shouldDisplayVenueCalendar}
             onViewableItemsChanged={handleViewableItemsChanged}
-            advicesCardData={
-              proAdvicesSegment === 'A'
-                ? venueProAdvicesToAdviceCardData(
-                    getAdvicesWithoutHeadline(
-                      advices?.proAdvices.slice(0, 5),
-                      headlineOfferData?.id
-                    ),
-                    venue.id
-                  )
-                : undefined
-            }
+            advicesCardData={venueProAdvicesToAdviceCardData(
+              getAdvicesWithoutHeadline(advices?.proAdvices.slice(0, 5), headlineOfferData?.id),
+              venue.id
+            )}
             nbAdvices={advices?.nbResults ?? 0}
             onShowWritersModal={showAdvicesWritersModal}
           />
@@ -237,7 +260,9 @@ export const Venue: FunctionComponent = () => {
           <VenueContent
             venue={venue}
             isCTADisplayed={isCTADisplayed}
-            showSearchInVenueModal={showSearchInVenueModal}>
+            showSearchInVenueModal={showSearchInVenueModal}
+            enableVenueFakeDoor={enableVenueFakeDoor}
+            onPressFollowButton={() => handleOnPressFollowButton('venueHeader')}>
             {VenueContentChildren}
           </VenueContent>
           <SearchInVenueModal
@@ -248,7 +273,11 @@ export const Venue: FunctionComponent = () => {
           />
         </React.Fragment>
       ) : (
-        <OldVenueContent venue={venue} isCTADisplayed={isCTADisplayed}>
+        <OldVenueContent
+          venue={venue}
+          isCTADisplayed={isCTADisplayed}
+          enableVenueFakeDoor={enableVenueFakeDoor}
+          onPressFollowButton={() => handleOnPressFollowButton('venueHeader')}>
           {VenueContentChildren}
         </OldVenueContent>
       )}

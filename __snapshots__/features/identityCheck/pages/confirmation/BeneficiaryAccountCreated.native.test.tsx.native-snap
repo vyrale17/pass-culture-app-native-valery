@@ -109,9 +109,7 @@ exports[`BeneficiaryAccountCreated should render correctly for 18 year-old benef
         flexValue={1}
         style={
           {
-            "flexBasis": 0,
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "space-between",
           }
         }
@@ -121,9 +119,7 @@ exports[`BeneficiaryAccountCreated should render correctly for 18 year-old benef
           marginVertical={0}
           style={
             {
-              "flexBasis": 0,
               "flexGrow": 1,
-              "flexShrink": 1,
               "justifyContent": "center",
               "marginTop": 8,
               "marginVertical": 0,
@@ -262,23 +258,20 @@ exports[`BeneficiaryAccountCreated should render correctly for 18 year-old benef
                   <View
                     backgroundColor="#6123df"
                     barWidth={0}
+                    collapsable={false}
                     isAnimated={true}
                     onLayout={[Function]}
                     progress={1}
                     style={
-                      [
-                        {
-                          "backgroundColor": "#6123df",
-                          "flexBasis": 0,
-                          "flexGrow": 1,
-                          "flexShrink": 1,
-                          "left": 0,
-                          "opacity": 0,
-                          "position": "relative",
-                        },
-                        {},
-                        {},
-                      ]
+                      {
+                        "backgroundColor": "#6123df",
+                        "flexBasis": 0,
+                        "flexGrow": 1,
+                        "flexShrink": 1,
+                        "left": 0,
+                        "opacity": 0,
+                        "position": "relative",
+                      }
                     }
                     testID="animated-progress-bar"
                   />
@@ -555,9 +548,7 @@ exports[`BeneficiaryAccountCreated should render correctly for underage benefici
         flexValue={1}
         style={
           {
-            "flexBasis": 0,
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "space-between",
           }
         }
@@ -567,9 +558,7 @@ exports[`BeneficiaryAccountCreated should render correctly for underage benefici
           marginVertical={0}
           style={
             {
-              "flexBasis": 0,
               "flexGrow": 1,
-              "flexShrink": 1,
               "justifyContent": "center",
               "marginTop": 8,
               "marginVertical": 0,
@@ -708,23 +697,20 @@ exports[`BeneficiaryAccountCreated should render correctly for underage benefici
                   <View
                     backgroundColor="#6123df"
                     barWidth={0}
+                    collapsable={false}
                     isAnimated={true}
                     onLayout={[Function]}
                     progress={1}
                     style={
-                      [
-                        {
-                          "backgroundColor": "#6123df",
-                          "flexBasis": 0,
-                          "flexGrow": 1,
-                          "flexShrink": 1,
-                          "left": 0,
-                          "opacity": 0,
-                          "position": "relative",
-                        },
-                        {},
-                        {},
-                      ]
+                      {
+                        "backgroundColor": "#6123df",
+                        "flexBasis": 0,
+                        "flexGrow": 1,
+                        "flexShrink": 1,
+                        "left": 0,
+                        "opacity": 0,
+                        "position": "relative",
+                      }
                     }
                     testID="animated-progress-bar"
                   />

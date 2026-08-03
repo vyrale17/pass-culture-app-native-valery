@@ -1,7 +1,5 @@
-// eslint-disable-next-line no-restricted-imports
-import { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
-
 import { CustomRemoteConfig } from 'libs/firebase/remoteConfig/remoteConfig.types'
+import { FirebaseRemoteConfigTypes } from 'libs/firebase/shims/remote-config'
 
 import { getConfigValue } from './getConfigValue'
 
@@ -16,7 +14,6 @@ export const getRemoteConfigFromConfigValues = (
   homeEntryIdBeneficiary: getConfigValue(parameters.homeEntryIdBeneficiary).asString(),
   homeEntryIdFreeBeneficiary: getConfigValue(parameters.homeEntryIdFreeBeneficiary).asString(),
   homeEntryIdFreeOffers: getConfigValue(parameters.homeEntryIdFreeOffers).asString(),
-  homeEntryIdGeneral: getConfigValue(parameters.homeEntryIdGeneral).asString(),
   homeEntryIdWithoutBooking: getConfigValue(parameters.homeEntryIdWithoutBooking).asString(),
   reactionFakeDoorCategories: JSON.parse(
     getConfigValue(parameters.reactionFakeDoorCategories).asString()

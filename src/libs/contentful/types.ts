@@ -229,11 +229,12 @@ export interface AlgoliaFields {
   recommendationParameters?: RecommendationParameters
 }
 
-interface ArtistPlaylistFields {
+export interface ArtistPlaylistFields {
   title: string
   artistId: string
   algoliaParameters: AlgoliaParameters
   displayParameters: DisplayParameters
+  additionalAlgoliaParameters?: AlgoliaParameters[]
 }
 
 // Taken from https://app.contentful.com/spaces/2bg01iqy0isv/environments/testing/content_types/venuesPlaylist/fields
@@ -362,7 +363,7 @@ type BookTypesFields = {
 
 type ThematicCategoryInfoFields = {
   title: string
-  displayedTitle: string
+  displayedTitle?: string
   titleParts?: string[]
   displayedSubtitle?: string
   image?: Image

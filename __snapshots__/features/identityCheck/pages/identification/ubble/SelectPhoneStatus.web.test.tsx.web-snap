@@ -55,9 +55,7 @@ exports[`SelectPhoneStatus should render correctly 1`] = `
               class="css-view-175oi2r r-alignItems-1awozwy r-columnGap-1wjczhr r-flexDirection-18u37iz"
             >
               <div
-                class="css-view-175oi2r"
-                id="0"
-                style="flex-shrink: 0;"
+                class="css-view-175oi2r r-flexShrink-1q142lx"
               >
                 <div
                   class="css-view-175oi2r"
@@ -139,7 +137,7 @@ exports[`SelectPhoneStatus should render correctly 1`] = `
                   </div>
                 </div>
                 <ul
-                  class="css-view-175oi2r r-flexDirection-eqz5dr r-overflow-1dqxon3 r-paddingBottom-iphfwy r-paddingLeft-m2pi6t r-paddingRight-1hvjb8t r-paddingTop-1h8ys4a r-width-13qz1uu"
+                  class="css-view-175oi2r r-flexDirection-eqz5dr r-gap-1jnkns4 r-overflow-1dqxon3 r-paddingBottom-iphfwy r-paddingLeft-m2pi6t r-paddingRight-1hvjb8t r-paddingTop-1h8ys4a r-width-13qz1uu"
                   role="list"
                 >
                   <li

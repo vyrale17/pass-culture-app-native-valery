@@ -32,8 +32,6 @@ import { usePacificFrancToEuroRate } from 'queries/settings/useSettings'
 import { formatFullAddress } from 'shared/address/addressFormatter'
 import { useGetCurrencyToDisplay } from 'shared/currency/useGetCurrencyToDisplay'
 import { isNullOrUndefined } from 'shared/isNullOrUndefined/isNullOrUndefined'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
 import { isCurrentBeneficiary } from 'shared/user/checkStatusType'
 import { Separator } from 'ui/components/Separator'
 import { ViewGap } from 'ui/components/ViewGap/ViewGap'
@@ -55,7 +53,6 @@ type Props = {
   clubAdvices?: AdviceCardData[]
   proAdvices?: AdviceCardData[]
   hasVideoCookiesConsent?: boolean
-  proAdvicesSegment?: string
 }
 
 export const OfferBody: FunctionComponent<Props> = ({
@@ -71,7 +68,6 @@ export const OfferBody: FunctionComponent<Props> = ({
   clubAdvices,
   proAdvices,
   hasVideoCookiesConsent,
-  proAdvicesSegment,
   onVideoConsentPress,
 }) => {
   const { navigate } = useNavigation<UseNavigationType>()
@@ -79,9 +75,9 @@ export const OfferBody: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (params.from === 'deeplink') {
-      triggerConsultOfferLog({ offerId: params.id, from: 'deeplink' })
+      triggerConsultOfferLog({ offerId: params.id, venueId: offer.venue.id, from: 'deeplink' })
     }
-  }, [params])
+  }, [offer.venue.id, params.from, params.id])
 
   const enableOfferArtistSectionRefacto = useFeatureFlag(
     RemoteStoreFeatureFlags.WIP_ARTIST_SECTION_REFACTO
@@ -90,7 +86,6 @@ export const OfferBody: FunctionComponent<Props> = ({
   const { user } = useAuthContext()
   const currency = useGetCurrencyToDisplay()
   const { data: euroToPacificFrancRate } = usePacificFrancToEuroRate()
-  const proAdvicesOnVenueSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_VENUE)
 
   const extraData = offer.extraData ?? undefined
   const tags = getOfferTags(subcategory.appLabel, extraData)
@@ -176,10 +171,7 @@ export const OfferBody: FunctionComponent<Props> = ({
           showTopComponent={hasVenuePage}
           TopComponent={
             isCinemaOffer || !isOfferAtSameAddressAsVenue ? null : (
-              <OfferVenueButton
-                venue={offer.venue}
-                proAdvicesOnVenueSegment={proAdvicesOnVenueSegment}
-              />
+              <OfferVenueButton venue={offer.venue} />
             )
           }
           showBottomComponent={summaryInfoItems.length > 0}
@@ -200,6 +192,7 @@ export const OfferBody: FunctionComponent<Props> = ({
             artists={artists}
             offerCategoryId={subcategory.categoryId}
             offerSubcategoryId={offer.subcategoryId}
+            offerSearchGroupName={subcategory.searchGroupName}
             offerId={offer.id}
             onPlaylistItemPress={handleOnArtistPlaylistItemPress}
           />
@@ -242,8 +235,6 @@ export const OfferBody: FunctionComponent<Props> = ({
         subcategory={subcategory}
         distance={distance}
         isOfferAtSameAddressAsVenue={isOfferAtSameAddressAsVenue}
-        proAdvicesOnOfferSegment={proAdvicesSegment}
-        proAdvicesOnVenueSegment={proAdvicesOnVenueSegment}
       />
     </Container>
   )

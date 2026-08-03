@@ -18,7 +18,6 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
     contentContainerStyle={
       {
         "alignSelf": "center",
-        "maxWidth": 500,
         "paddingHorizontal": 24,
         "width": "100%",
       }
@@ -582,6 +581,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
                     style={
                       {
                         "flexDirection": "column",
+                        "gap": 0,
                         "paddingBottom": 4,
                         "paddingLeft": 4,
                         "paddingRight": 4,
@@ -1142,29 +1142,10 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
           }
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
+            style={
               {
                 "flexShrink": 0,
               }
-            }
-            nativeID="0"
-            style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
             }
           >
             <View
@@ -1240,7 +1221,6 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
     contentContainerStyle={
       {
         "alignSelf": "center",
-        "maxWidth": 500,
         "paddingHorizontal": 24,
         "width": "100%",
       }
@@ -1804,6 +1784,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                     style={
                       {
                         "flexDirection": "column",
+                        "gap": 0,
                         "paddingBottom": 4,
                         "paddingLeft": 4,
                         "paddingRight": 4,
@@ -2454,6 +2435,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                         style={
                           {
                             "flexDirection": "column",
+                            "gap": 0,
                             "paddingBottom": 4,
                             "paddingLeft": 4,
                             "paddingRight": 4,
@@ -2676,6 +2658,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                         style={
                           {
                             "flexDirection": "column",
+                            "gap": 0,
                             "paddingBottom": 4,
                             "paddingLeft": 4,
                             "paddingRight": 4,
@@ -3308,29 +3291,10 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
           }
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
+            style={
               {
                 "flexShrink": 0,
               }
-            }
-            nativeID="1"
-            style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
             }
           >
             <View

@@ -19,7 +19,7 @@ create_sourcemaps() {
     HERMES_OS_BIN="osx-bin"
   fi
 
-  HERMES_BIN="node_modules/react-native/sdks/hermesc/${HERMES_OS_BIN}/hermesc"
+  HERMES_BIN="node_modules/hermes-compiler/hermesc/${HERMES_OS_BIN}/hermesc"
 
   if [[ "${APP_OS}" = "android" ]]; then
     npx react-native bundle \
@@ -86,8 +86,8 @@ upload_sourcemaps() {
   echo "RELEASE: ${RELEASE}"
   echo "DIST: ${DIST}"
 
-  node_modules/@sentry/cli/bin/sentry-cli releases files "${RELEASE}" \
-    upload-sourcemaps \
+  node_modules/@sentry/cli/bin/sentry-cli sourcemaps upload \
+    --release "${RELEASE}" \
     --dist "${DIST}" \
     --strip-prefix "${PWD}" \
     "${SOURCEMAPS_DIR}/${SOURCEMAPS_NAME}" "${SOURCEMAPS_DIR}/${SOURCEMAPS_NAME}.map"

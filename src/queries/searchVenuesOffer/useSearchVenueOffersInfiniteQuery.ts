@@ -10,8 +10,9 @@ import { fetchOffers, FetchOffersResponse } from 'libs/algolia/fetchAlgolia/fetc
 import { useTransformOfferHits } from 'libs/algolia/fetchAlgolia/transformOfferHit'
 import { algoliaAnalyticsActions } from 'libs/algolia/store/algoliaAnalyticsStore'
 import { AlgoliaOffer, Geoloc } from 'libs/algolia/types'
-import { Position, useLocation } from 'libs/location/location'
+import { Position } from 'libs/location/location'
 import { LocationMode } from 'libs/location/types'
+import { useUserLocation } from 'libs/locationV2/location.store'
 import { formatDistance } from 'libs/parsers/formatDistance'
 import { QueryKeys } from 'libs/queryKeys'
 import { formatFullAddressStartsWithPostalCode } from 'shared/address/addressFormatter'
@@ -77,6 +78,7 @@ export function getVenueList(hits: Offer[], userLocation: Position) {
   const venueList: VenueListItem[] = offerVenues.map((offerVenue) => {
     return {
       offerId: offerVenue.offerId,
+      venueId: offerVenue.venueId,
       title: offerVenue.title,
       address: offerVenue.address,
       distance: formatDistance(offerVenue.coordinates, userLocation),
@@ -105,7 +107,7 @@ export const useSearchVenueOffersInfiniteQuery = ({
   const { setCurrentQueryID } = algoliaAnalyticsActions
 
   const previousPageObjectIds = useRef<string[]>([])
-  const { userLocation } = useLocation()
+  const userLocation = useUserLocation()
 
   const { data, ...infiniteQuery } = useInfiniteQuery<FetchOffersResponse>({
     queryKey: [QueryKeys.SEARCH_RESULTS, { ...initialSearchState, query }],

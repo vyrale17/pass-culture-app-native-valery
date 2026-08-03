@@ -19,9 +19,13 @@ import { TabParamList } from 'features/navigation/navigators/TabNavigator/types'
 import { PlaylistType } from 'features/offer/enums'
 import { SearchState } from 'features/search/types'
 import { Venue } from 'features/venue/types'
-import { ConsultArtistOriginDetails } from 'libs/analytics/logEventAnalytics'
+import {
+  ConsultArtistOriginDetails,
+  FakeDoorAnalyticsParams,
+} from 'libs/analytics/logEventAnalytics'
 import { ContentfulLabelCategories } from 'libs/contentful/types'
 import { SuggestedPlace } from 'libs/place/types'
+import { StorageKey } from 'libs/storage'
 import { VerticalPlaylistOffersSource } from 'shared/verticalPlaylist/types'
 
 export type Referrals =
@@ -80,7 +84,6 @@ export type AccessibilityRootStackParamList = {
   AccessibilityDeclarationMobileIOS?: undefined
   AccessibilityDeclarationWeb?: undefined
   SiteMapScreen?: undefined
-  RecommendedPaths?: undefined
 }
 
 export type CulturalSurveyRootStackParamList = {
@@ -239,6 +242,12 @@ type LoginParams = {
   from?: StepperOrigin
 }
 
+type FakeDoorModalParams = {
+  surveyKey: StorageKey
+  surveyUrl: string
+  analyticsParams?: FakeDoorAnalyticsParams
+}
+
 /**
  * WARNING !
  * Deeplink: When updating the screen parameters, pay attention to the deeplink handlers.
@@ -257,6 +266,7 @@ export type RootStackParamList = {
   ArtistWebview: ArtistParams
   _DeeplinkOnlyArtist1: ArtistParams
   BannedCountryError: undefined
+  IncorrectLink: undefined
   BonificationGranted: undefined
   BookingConfirmation: BookingConfirmationParams
   _DeeplinkOnlyBookingConfirmation1: BookingConfirmationParams
@@ -271,6 +281,7 @@ export type RootStackParamList = {
   DeeplinksGenerator: undefined
   EighteenBirthday: undefined
   _DeeplinkOnlyEighteenBirthday1: undefined
+  FakeDoorModal: FakeDoorModalParams
   FavoritesSorts: undefined
   ForgottenPassword: undefined
   FraudulentSuspendedAccount: undefined

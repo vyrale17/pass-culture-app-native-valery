@@ -37,12 +37,10 @@ import { analytics } from 'libs/analytics/provider'
 import { useFeatureFlag } from 'libs/firebase/firestore/featureFlags/useFeatureFlag'
 import { RemoteStoreFeatureFlags } from 'libs/firebase/firestore/types'
 import { camelCase } from 'libs/formatter/camelCase'
-import { useLocation } from 'libs/location/location'
+import { useUserLocation, useLocationMode } from 'libs/locationV2/location.store'
 import { Map, MarkerPressEvent, Region } from 'libs/maps/maps'
 import { useVenueOffersQuery } from 'queries/venue/useVenueOffersQuery'
 import { usePageTracking } from 'shared/tracking/usePageTracking'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
 import { LENGTH_L } from 'ui/theme'
 
 import { VenueMapView } from './VenueMapView'
@@ -91,7 +89,8 @@ export const VenueMapViewContainer: FunctionComponent = () => {
 
   const venue = transformGeoLocatedVenueToVenueResponse(selectedVenue)
 
-  const { userLocation, selectedLocationMode } = useLocation()
+  const userLocation = useUserLocation()
+  const selectedLocationMode = useLocationMode()
   const transformHits = useTransformOfferHits()
   const venueSearchParams = useVenueSearchParameters(venue)
   const { searchState } = useSearch()
@@ -105,7 +104,6 @@ export const VenueMapViewContainer: FunctionComponent = () => {
     transformHits,
     venue,
   })
-  const proAdvicesOnVenueSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_VENUE)
 
   const hasOffers = !!selectedVenueOffers && selectedVenueOffers.hits?.length
   const contentViewHeight = useMemo(() => {
@@ -195,7 +193,6 @@ export const VenueMapViewContainer: FunctionComponent = () => {
     analytics.logConsultVenue({
       venueId: venueId.toString(),
       from: camelCase(routeName) as Referrals,
-      displayAdvice: proAdvicesOnVenueSegment === 'A',
     })
   }
 

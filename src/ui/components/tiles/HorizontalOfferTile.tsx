@@ -12,8 +12,13 @@ import { algoliaAnalyticsSelectors } from 'libs/algolia/store/algoliaAnalyticsSt
 import { triggerConsultOfferLog } from 'libs/analytics/helpers/triggerLogConsultOffer/triggerConsultOfferLog'
 import { OfferAnalyticsParams } from 'libs/analytics/types'
 import { getDistance } from 'libs/location/getDistance'
-import { useLocation } from 'libs/location/location'
 import { LocationMode } from 'libs/location/types'
+import {
+  useLocationConfiguration,
+  useUserLocation,
+  usePlace,
+  useLocationMode,
+} from 'libs/locationV2/location.store'
 import { formatPrice, getDisplayedPrice } from 'libs/parsers/getDisplayedPrice'
 import { useSubcategory } from 'libs/subcategories'
 import { tileAccessibilityLabel, TileContentType } from 'libs/tileAccessibilityLabel'
@@ -23,8 +28,6 @@ import { useGetCurrencyToDisplay } from 'shared/currency/useGetCurrencyToDisplay
 import { getOfferDates } from 'shared/date/getOfferDates'
 import { Offer } from 'shared/offer/types'
 import { usePrePopulateOffer } from 'shared/offer/usePrePopulateOffer'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
 import { isCurrentBeneficiary } from 'shared/user/checkStatusType'
 import { OfferName } from 'ui/components/tiles/OfferName'
 import { InternalTouchableLink } from 'ui/components/touchableLink/InternalTouchableLink'
@@ -56,7 +59,10 @@ export const HorizontalOfferTile = ({
   ...horizontalTileProps
 }: Props) => {
   const theme = useTheme()
-  const { geolocPosition, userLocation, selectedPlace, selectedLocationMode } = useLocation()
+  const userLocation = useUserLocation()
+  const selectedPlace = usePlace()
+  const selectedLocationMode = useLocationMode()
+  const { geolocation: geolocPosition } = useLocationConfiguration(LocationMode.AROUND_ME)
   const { offer: offerDetails, objectID, _geoloc } = offer
   const {
     subcategoryId,
@@ -75,7 +81,6 @@ export const HorizontalOfferTile = ({
   const currency = useGetCurrencyToDisplay()
   const { data: euroToPacificFrancRate } = usePacificFrancToEuroRate()
   const prePopulateOffer = usePrePopulateOffer()
-  const proAdvicesOnOfferSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_OFFER)
 
   const userPosition =
     currentRoute === 'SearchResults' &&
@@ -131,7 +136,7 @@ export const HorizontalOfferTile = ({
 
     triggerConsultOfferLog({
       offerId,
-      displayAdvice: proAdvicesOnOfferSegment === 'A',
+      venueId: offer.venue.id,
       ...analyticsParams,
     })
 

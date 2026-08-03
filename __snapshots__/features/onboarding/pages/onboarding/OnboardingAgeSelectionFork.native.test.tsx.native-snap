@@ -114,29 +114,10 @@ exports[`OnboardingAgeSelectionFork should render correctly 1`] = `
           }
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
+            style={
               {
                 "flexShrink": 0,
               }
-            }
-            nativeID="0"
-            style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
             }
           >
             <View
@@ -205,6 +186,7 @@ exports[`OnboardingAgeSelectionFork should render correctly 1`] = `
             style={
               {
                 "flexDirection": "column",
+                "gap": 0,
                 "paddingBottom": 4,
                 "paddingLeft": 4,
                 "paddingRight": 4,

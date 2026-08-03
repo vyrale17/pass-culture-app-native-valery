@@ -109,9 +109,7 @@ exports[`<DisableActivation/> should render correctly 1`] = `
         flexValue={1}
         style={
           {
-            "flexBasis": 0,
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "space-between",
           }
         }
@@ -121,9 +119,7 @@ exports[`<DisableActivation/> should render correctly 1`] = `
           marginVertical={0}
           style={
             {
-              "flexBasis": 0,
               "flexGrow": 1,
-              "flexShrink": 1,
               "justifyContent": "center",
               "marginTop": 8,
               "marginVertical": 0,
@@ -351,29 +347,10 @@ Reviens lundi pour débloquer ton crédit !
                 }
               >
                 <View
-                  collapsable={false}
-                  jestAnimatedProps={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
+                  style={
                     {
                       "flexShrink": 0,
                     }
-                  }
-                  nativeID="0"
-                  style={
-                    [
-                      {
-                        "flexShrink": 0,
-                      },
-                    ]
                   }
                 >
                   <View
@@ -537,9 +514,7 @@ exports[`<DisableActivation/> with RemoteActivationBanner informations should re
         flexValue={1}
         style={
           {
-            "flexBasis": 0,
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "space-between",
           }
         }
@@ -549,9 +524,7 @@ exports[`<DisableActivation/> with RemoteActivationBanner informations should re
           marginVertical={0}
           style={
             {
-              "flexBasis": 0,
               "flexGrow": 1,
-              "flexShrink": 1,
               "justifyContent": "center",
               "marginTop": 8,
               "marginVertical": 0,
@@ -778,29 +751,10 @@ exports[`<DisableActivation/> with RemoteActivationBanner informations should re
                 }
               >
                 <View
-                  collapsable={false}
-                  jestAnimatedProps={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
+                  style={
                     {
                       "flexShrink": 0,
                     }
-                  }
-                  nativeID="4"
-                  style={
-                    [
-                      {
-                        "flexShrink": 0,
-                      },
-                    ]
                   }
                 >
                   <View

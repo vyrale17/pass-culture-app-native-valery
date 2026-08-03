@@ -6,7 +6,7 @@ import { ReactionTypeEnum } from 'api/gen'
 import { AdvicesWritersModal } from 'features/advices/pages/AdvicesWritersModal/AdvicesWritersModal'
 import { useOfferProAdvicesQuery } from 'features/advices/queries/useOfferProAdvicesQuery'
 import { useAuthContext } from 'features/auth/context/AuthContext'
-import { clubAdviceVariant } from 'features/clubAdvices/helpers/clubAdviceVariant'
+import { useClubAdviceVariant } from 'features/clubAdvices/helpers/useClubAdviceVariant'
 import { ConsentState, CookieNameEnum } from 'features/cookies/enums'
 import { useCookies } from 'features/cookies/helpers/useCookies'
 import { UseNavigationType, UseRouteType } from 'features/navigation/navigators/RootNavigator/types'
@@ -23,7 +23,7 @@ import { formatToSlashedFrenchDate } from 'libs/dates'
 import { useFeatureFlag } from 'libs/firebase/firestore/featureFlags/useFeatureFlag'
 import { RemoteStoreFeatureFlags } from 'libs/firebase/firestore/types'
 import { useIsFalseWithDelay } from 'libs/hooks/useIsFalseWithDelay'
-import { useLocation } from 'libs/location/useLocation'
+import { useUserLocation } from 'libs/locationV2/location.store'
 import { useOffersViewedReviewTrigger } from 'libs/reviewInApp/useOffersViewedReviewTrigger'
 import { useSubcategoriesMapping } from 'libs/subcategories/mappings'
 import { useEndedBookingFromOfferIdQueryV2 } from 'queries/bookings/useEndedBookingFromOfferIdQuery'
@@ -31,8 +31,6 @@ import { useOfferQuery } from 'queries/offer/useOfferQuery'
 import { useSubcategoriesQuery } from 'queries/subcategories/useSubcategoriesQuery'
 import { isMultiVenueCompatibleOffer } from 'shared/multiVenueOffer/isMultiVenueCompatibleOffer'
 import { runAfterInteractionsMobile } from 'shared/runAfterInteractionsMobile/runAfterInteractionsMobile'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
 import { useModal } from 'ui/components/modals/useModal'
 import { Page } from 'ui/pages/Page'
 
@@ -44,11 +42,9 @@ export function Offer() {
   const offerId = route.params?.id
 
   const enableProAdvices = useFeatureFlag(RemoteStoreFeatureFlags.WIP_PRO_REVIEWS_OFFER)
-  const proAdvicesSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_OFFER)
-  const shouldDisplayProAdvices = enableProAdvices && proAdvicesSegment === 'A'
 
   const { user, isLoggedIn } = useAuthContext()
-  const { userLocation } = useLocation()
+  const userLocation = useUserLocation()
   const { data: offer, isLoading } = useOfferQuery({
     offerId,
     select: (data) => ({
@@ -128,7 +124,7 @@ export function Offer() {
 
   const { data: proAdvicesData } = useOfferProAdvicesQuery({
     offerId,
-    enableProAdvices: shouldDisplayProAdvices,
+    enableProAdvices,
     latitude: userLocation?.latitude,
     longitude: userLocation?.longitude,
     select: ({ proAdvices, nbResults }) => ({
@@ -136,12 +132,12 @@ export function Offer() {
       nbResults,
     }),
   })
-  const proAdvices = shouldDisplayProAdvices ? proAdvicesData : undefined
+  const proAdvices = enableProAdvices ? proAdvicesData : undefined
+
+  const adviceVariantInfo = useClubAdviceVariant(offer?.subcategoryId)
 
   if (!offer || !subcategories || !subcategoriesMapping?.[offer?.subcategoryId]) return null
 
-  const subcategory = subcategoriesMapping[offer?.subcategoryId]
-  const adviceVariantInfo = clubAdviceVariant[subcategory.id]
   const hasClubAdviceVariant = !!adviceVariantInfo
 
   const clubAdvices = hasClubAdviceVariant
@@ -198,7 +194,6 @@ export function Offer() {
         hasVideoCookiesConsent={hasVideoCookiesConsent}
         onVideoConsentPress={handleOnVideoConsentPress}
         proAdvicesCount={proAdvices?.nbResults}
-        proAdvicesSegment={proAdvicesSegment}
       />
     </Page>
   )

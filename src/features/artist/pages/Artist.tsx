@@ -4,11 +4,12 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { ViewToken } from 'react-native'
 
 import { ArtistBody } from 'features/artist/components/ArtistBody/ArtistBody'
+import { useGetArtistPlaylistConfigQuery } from 'features/artist/queries/useGetArtistPlaylistConfigQuery'
 import { UseRouteType } from 'features/navigation/navigators/RootNavigator/types'
 import { PageNotFound } from 'features/navigation/pages/PageNotFound'
 import { analytics } from 'libs/analytics/provider'
 import { eventMonitoring } from 'libs/monitoring/services'
-import { useArtistQuery } from 'queries/artist/useArtistQuery'
+import { useArtistSuspenseQuery } from 'queries/artist/useArtistQuery'
 import { useArtistResultsQuery } from 'queries/offer/useArtistResultsQuery'
 import { usePageTracking } from 'shared/tracking/usePageTracking'
 import { LoadingPage } from 'ui/pages/LoadingPage'
@@ -25,7 +26,11 @@ const ArtistContent: FunctionComponent = () => {
   const { artistPlaylist, artistTopOffers } = useArtistResultsQuery({
     artistId: params.id,
   })
-  const { data: artist, isError, error } = useArtistQuery(params.id)
+  const { data: artistPlaylistModule } = useGetArtistPlaylistConfigQuery((modules) =>
+    modules.find((module) => module.artistId === params.id)
+  )
+
+  const { data: artist, isError, error } = useArtistSuspenseQuery(params.id)
 
   useEffect(() => {
     if (isError) eventMonitoring.captureException(error)
@@ -67,6 +72,7 @@ const ArtistContent: FunctionComponent = () => {
       artist={artist}
       artistPlaylist={artistPlaylist}
       artistTopOffers={artistTopOffers}
+      artistPlaylistModule={artistPlaylistModule}
       onViewableItemsChanged={handleViewableItemsChanged}
       onExpandBioPress={handleOnExpandBioPress}
     />

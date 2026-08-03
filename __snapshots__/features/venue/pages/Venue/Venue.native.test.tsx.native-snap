@@ -27,6 +27,7 @@ exports[`<Venue /> should match snapshot 1`] = `
         "overflow": "visible",
       }
     }
+    testID="venue-container"
   >
     <View>
       <View
@@ -317,29 +318,10 @@ exports[`<Venue /> should match snapshot 1`] = `
                       }
                     >
                       <View
-                        collapsable={false}
-                        jestAnimatedProps={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
+                        style={
                           {
                             "flexShrink": 0,
                           }
-                        }
-                        nativeID="0"
-                        style={
-                          [
-                            {
-                              "flexShrink": 0,
-                            },
-                          ]
                         }
                       >
                         <View
@@ -445,29 +427,10 @@ exports[`<Venue /> should match snapshot 1`] = `
                       }
                     >
                       <View
-                        collapsable={false}
-                        jestAnimatedProps={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
+                        style={
                           {
                             "flexShrink": 0,
                           }
-                        }
-                        nativeID="1"
-                        style={
-                          [
-                            {
-                              "flexShrink": 0,
-                            },
-                          ]
                         }
                       >
                         <View
@@ -520,26 +483,7 @@ exports[`<Venue /> should match snapshot 1`] = `
         }
       >
         <View
-          collapsable={false}
-          jestAnimatedProps={
-            {
-              "value": {},
-            }
-          }
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          layout={
-            LinearTransition {
-              "build": [Function],
-              "durationV": 200,
-              "randomizeDelay": false,
-              "reduceMotionV": "system",
-            }
-          }
-          nativeID="2"
+          layout={BaseAnimationMock {}}
         >
           <View
             gap={6}
@@ -1179,6 +1123,7 @@ exports[`<Venue /> should match snapshot 1`] = `
                                 <Text
                                   accessibilityElementsHidden={true}
                                   accessibilityRole="header"
+                                  accessible={false}
                                   importantForAccessibility="no"
                                   style={
                                     {
@@ -1271,29 +1216,10 @@ exports[`<Venue /> should match snapshot 1`] = `
                                   }
                                 >
                                   <View
-                                    collapsable={false}
-                                    jestAnimatedProps={
-                                      {
-                                        "value": {},
-                                      }
-                                    }
-                                    jestAnimatedStyle={
-                                      {
-                                        "value": {},
-                                      }
-                                    }
-                                    jestInlineStyle={
+                                    style={
                                       {
                                         "flexShrink": 0,
                                       }
-                                    }
-                                    nativeID="3"
-                                    style={
-                                      [
-                                        {
-                                          "flexShrink": 0,
-                                        },
-                                      ]
                                     }
                                   >
                                     <View
@@ -2335,31 +2261,6 @@ exports[`<Venue /> should match snapshot 1`] = `
                       }
                     >
                       <View
-                        collapsable={false}
-                        jestAnimatedProps={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestAnimatedStyle={
-                          {
-                            "value": {
-                              "transform": [
-                                {
-                                  "rotate": "0deg",
-                                },
-                              ],
-                            },
-                          }
-                        }
-                        jestInlineStyle={
-                          [
-                            {
-                              "flexShrink": 0,
-                            },
-                          ]
-                        }
-                        nativeID="4"
                         style={
                           [
                             {
@@ -3114,29 +3015,10 @@ d’options
           }
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
+            style={
               {
                 "flexShrink": 0,
               }
-            }
-            nativeID="5"
-            style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
             }
           >
             <View
@@ -3191,104 +3073,95 @@ d’options
         </Text>
       </View>
       <View
-        accessibilityLabel="Partager"
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+        gap={3}
         style={
           {
-            "alignItems": "center",
-            "backgroundColor": "#ffffff",
-            "borderBottomLeftRadius": 8,
-            "borderBottomRightRadius": 8,
-            "borderColor": "#90949d",
-            "borderStyle": "solid",
-            "borderTopLeftRadius": 8,
-            "borderTopRightRadius": 8,
-            "borderWidth": 1,
             "flexDirection": "row",
-            "justifyContent": "center",
-            "opacity": 1,
-            "paddingBottom": 8,
-            "paddingLeft": 8,
-            "paddingRight": 8,
-            "paddingTop": 8,
-            "userSelect": "auto",
-            "width": "auto",
+            "gap": 12,
           }
         }
-        testID="Partager"
       >
         <View
-          gap={0}
-          hasIcon={true}
-          isMultiline={false}
+          accessibilityLabel="Partager"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             {
               "alignItems": "center",
-              "columnGap": 0,
+              "backgroundColor": "#ffffff",
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderColor": "#90949d",
+              "borderStyle": "solid",
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+              "borderWidth": 1,
               "flexDirection": "row",
+              "justifyContent": "center",
+              "opacity": 1,
+              "paddingBottom": 8,
+              "paddingLeft": 8,
+              "paddingRight": 8,
+              "paddingTop": 8,
+              "userSelect": "auto",
+              "width": "auto",
             }
           }
+          testID="Partager"
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "flexShrink": 0,
-              }
-            }
-            nativeID="6"
+            gap={0}
+            hasIcon={true}
+            isMultiline={false}
             style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
+              {
+                "alignItems": "center",
+                "columnGap": 0,
+                "flexDirection": "row",
+              }
             }
           >
             <View
-              height={22}
-              width={22}
+              style={
+                {
+                  "flexShrink": 0,
+                }
+              }
             >
-              <Text>
-                undefined-SVG-Mock
-              </Text>
+              <View
+                height={22}
+                width={22}
+              >
+                <Text>
+                  undefined-SVG-Mock
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -3334,17 +3207,13 @@ d’options
         }
       }
       style={
-        [
-          {
-            "bottom": "100%",
-            "height": 120,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-          },
-          {},
-          {},
-        ]
+        {
+          "bottom": "100%",
+          "height": 120,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+        }
       }
     />
     <View
@@ -3429,29 +3298,10 @@ d’options
           }
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
+            style={
               {
                 "flexShrink": 0,
               }
-            }
-            nativeID="7"
-            style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
             }
           >
             <View
@@ -3530,6 +3380,7 @@ exports[`<Venue /> should match snapshot with headline offer 1`] = `
         "overflow": "visible",
       }
     }
+    testID="venue-container"
   >
     <View>
       <View
@@ -3820,29 +3671,10 @@ exports[`<Venue /> should match snapshot with headline offer 1`] = `
                       }
                     >
                       <View
-                        collapsable={false}
-                        jestAnimatedProps={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
+                        style={
                           {
                             "flexShrink": 0,
                           }
-                        }
-                        nativeID="19"
-                        style={
-                          [
-                            {
-                              "flexShrink": 0,
-                            },
-                          ]
                         }
                       >
                         <View
@@ -3948,29 +3780,10 @@ exports[`<Venue /> should match snapshot with headline offer 1`] = `
                       }
                     >
                       <View
-                        collapsable={false}
-                        jestAnimatedProps={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
+                        style={
                           {
                             "flexShrink": 0,
                           }
-                        }
-                        nativeID="20"
-                        style={
-                          [
-                            {
-                              "flexShrink": 0,
-                            },
-                          ]
                         }
                       >
                         <View
@@ -4023,26 +3836,7 @@ exports[`<Venue /> should match snapshot with headline offer 1`] = `
         }
       >
         <View
-          collapsable={false}
-          jestAnimatedProps={
-            {
-              "value": {},
-            }
-          }
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          layout={
-            LinearTransition {
-              "build": [Function],
-              "durationV": 200,
-              "randomizeDelay": false,
-              "reduceMotionV": "system",
-            }
-          }
-          nativeID="21"
+          layout={BaseAnimationMock {}}
         >
           <View
             gap={6}
@@ -4682,6 +4476,7 @@ exports[`<Venue /> should match snapshot with headline offer 1`] = `
                                 <Text
                                   accessibilityElementsHidden={true}
                                   accessibilityRole="header"
+                                  accessible={false}
                                   importantForAccessibility="no"
                                   style={
                                     {
@@ -4774,29 +4569,10 @@ exports[`<Venue /> should match snapshot with headline offer 1`] = `
                                   }
                                 >
                                   <View
-                                    collapsable={false}
-                                    jestAnimatedProps={
-                                      {
-                                        "value": {},
-                                      }
-                                    }
-                                    jestAnimatedStyle={
-                                      {
-                                        "value": {},
-                                      }
-                                    }
-                                    jestInlineStyle={
+                                    style={
                                       {
                                         "flexShrink": 0,
                                       }
-                                    }
-                                    nativeID="22"
-                                    style={
-                                      [
-                                        {
-                                          "flexShrink": 0,
-                                        },
-                                      ]
                                     }
                                   >
                                     <View
@@ -5838,31 +5614,6 @@ exports[`<Venue /> should match snapshot with headline offer 1`] = `
                       }
                     >
                       <View
-                        collapsable={false}
-                        jestAnimatedProps={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestAnimatedStyle={
-                          {
-                            "value": {
-                              "transform": [
-                                {
-                                  "rotate": "0deg",
-                                },
-                              ],
-                            },
-                          }
-                        }
-                        jestInlineStyle={
-                          [
-                            {
-                              "flexShrink": 0,
-                            },
-                          ]
-                        }
-                        nativeID="23"
                         style={
                           [
                             {
@@ -6617,29 +6368,10 @@ d’options
           }
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
+            style={
               {
                 "flexShrink": 0,
               }
-            }
-            nativeID="24"
-            style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
             }
           >
             <View
@@ -6694,104 +6426,95 @@ d’options
         </Text>
       </View>
       <View
-        accessibilityLabel="Partager"
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+        gap={3}
         style={
           {
-            "alignItems": "center",
-            "backgroundColor": "#ffffff",
-            "borderBottomLeftRadius": 8,
-            "borderBottomRightRadius": 8,
-            "borderColor": "#90949d",
-            "borderStyle": "solid",
-            "borderTopLeftRadius": 8,
-            "borderTopRightRadius": 8,
-            "borderWidth": 1,
             "flexDirection": "row",
-            "justifyContent": "center",
-            "opacity": 1,
-            "paddingBottom": 8,
-            "paddingLeft": 8,
-            "paddingRight": 8,
-            "paddingTop": 8,
-            "userSelect": "auto",
-            "width": "auto",
+            "gap": 12,
           }
         }
-        testID="Partager"
       >
         <View
-          gap={0}
-          hasIcon={true}
-          isMultiline={false}
+          accessibilityLabel="Partager"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             {
               "alignItems": "center",
-              "columnGap": 0,
+              "backgroundColor": "#ffffff",
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderColor": "#90949d",
+              "borderStyle": "solid",
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+              "borderWidth": 1,
               "flexDirection": "row",
+              "justifyContent": "center",
+              "opacity": 1,
+              "paddingBottom": 8,
+              "paddingLeft": 8,
+              "paddingRight": 8,
+              "paddingTop": 8,
+              "userSelect": "auto",
+              "width": "auto",
             }
           }
+          testID="Partager"
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "flexShrink": 0,
-              }
-            }
-            nativeID="25"
+            gap={0}
+            hasIcon={true}
+            isMultiline={false}
             style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
+              {
+                "alignItems": "center",
+                "columnGap": 0,
+                "flexDirection": "row",
+              }
             }
           >
             <View
-              height={22}
-              width={22}
+              style={
+                {
+                  "flexShrink": 0,
+                }
+              }
             >
-              <Text>
-                undefined-SVG-Mock
-              </Text>
+              <View
+                height={22}
+                width={22}
+              >
+                <Text>
+                  undefined-SVG-Mock
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -6837,17 +6560,13 @@ d’options
         }
       }
       style={
-        [
-          {
-            "bottom": "100%",
-            "height": 120,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-          },
-          {},
-          {},
-        ]
+        {
+          "bottom": "100%",
+          "height": 120,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+        }
       }
     />
     <View
@@ -6932,29 +6651,10 @@ d’options
           }
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
+            style={
               {
                 "flexShrink": 0,
               }
-            }
-            nativeID="26"
-            style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
             }
           >
             <View
@@ -7033,6 +6733,7 @@ exports[`<Venue /> should match snapshot with practical information 1`] = `
         "overflow": "visible",
       }
     }
+    testID="venue-container"
   >
     <View>
       <View
@@ -7323,29 +7024,10 @@ exports[`<Venue /> should match snapshot with practical information 1`] = `
                       }
                     >
                       <View
-                        collapsable={false}
-                        jestAnimatedProps={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
+                        style={
                           {
                             "flexShrink": 0,
                           }
-                        }
-                        nativeID="8"
-                        style={
-                          [
-                            {
-                              "flexShrink": 0,
-                            },
-                          ]
                         }
                       >
                         <View
@@ -7451,29 +7133,10 @@ exports[`<Venue /> should match snapshot with practical information 1`] = `
                       }
                     >
                       <View
-                        collapsable={false}
-                        jestAnimatedProps={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
+                        style={
                           {
                             "flexShrink": 0,
                           }
-                        }
-                        nativeID="9"
-                        style={
-                          [
-                            {
-                              "flexShrink": 0,
-                            },
-                          ]
                         }
                       >
                         <View
@@ -7526,26 +7189,7 @@ exports[`<Venue /> should match snapshot with practical information 1`] = `
         }
       >
         <View
-          collapsable={false}
-          jestAnimatedProps={
-            {
-              "value": {},
-            }
-          }
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          layout={
-            LinearTransition {
-              "build": [Function],
-              "durationV": 200,
-              "randomizeDelay": false,
-              "reduceMotionV": "system",
-            }
-          }
-          nativeID="10"
+          layout={BaseAnimationMock {}}
         >
           <View
             gap={6}
@@ -7967,29 +7611,10 @@ exports[`<Venue /> should match snapshot with practical information 1`] = `
                           }
                         >
                           <View
-                            collapsable={false}
-                            jestAnimatedProps={
-                              {
-                                "value": {},
-                              }
-                            }
-                            jestAnimatedStyle={
-                              {
-                                "value": {},
-                              }
-                            }
-                            jestInlineStyle={
+                            style={
                               {
                                 "flexShrink": 0,
                               }
-                            }
-                            nativeID="16"
-                            style={
-                              [
-                                {
-                                  "flexShrink": 0,
-                                },
-                              ]
                             }
                           >
                             <View
@@ -8087,29 +7712,10 @@ exports[`<Venue /> should match snapshot with practical information 1`] = `
                           }
                         >
                           <View
-                            collapsable={false}
-                            jestAnimatedProps={
-                              {
-                                "value": {},
-                              }
-                            }
-                            jestAnimatedStyle={
-                              {
-                                "value": {},
-                              }
-                            }
-                            jestInlineStyle={
+                            style={
                               {
                                 "flexShrink": 0,
                               }
-                            }
-                            nativeID="17"
-                            style={
-                              [
-                                {
-                                  "flexShrink": 0,
-                                },
-                              ]
                             }
                           >
                             <View
@@ -8207,29 +7813,10 @@ exports[`<Venue /> should match snapshot with practical information 1`] = `
                           }
                         >
                           <View
-                            collapsable={false}
-                            jestAnimatedProps={
-                              {
-                                "value": {},
-                              }
-                            }
-                            jestAnimatedStyle={
-                              {
-                                "value": {},
-                              }
-                            }
-                            jestInlineStyle={
+                            style={
                               {
                                 "flexShrink": 0,
                               }
-                            }
-                            nativeID="18"
-                            style={
-                              [
-                                {
-                                  "flexShrink": 0,
-                                },
-                              ]
                             }
                           >
                             <View
@@ -10173,31 +9760,6 @@ exports[`<Venue /> should match snapshot with practical information 1`] = `
                       }
                     >
                       <View
-                        collapsable={false}
-                        jestAnimatedProps={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestAnimatedStyle={
-                          {
-                            "value": {
-                              "transform": [
-                                {
-                                  "rotate": "0deg",
-                                },
-                              ],
-                            },
-                          }
-                        }
-                        jestInlineStyle={
-                          [
-                            {
-                              "flexShrink": 0,
-                            },
-                          ]
-                        }
-                        nativeID="12"
                         style={
                           [
                             {
@@ -10952,29 +10514,10 @@ d’options
           }
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
+            style={
               {
                 "flexShrink": 0,
               }
-            }
-            nativeID="13"
-            style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
             }
           >
             <View
@@ -11029,104 +10572,95 @@ d’options
         </Text>
       </View>
       <View
-        accessibilityLabel="Partager"
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+        gap={3}
         style={
           {
-            "alignItems": "center",
-            "backgroundColor": "#ffffff",
-            "borderBottomLeftRadius": 8,
-            "borderBottomRightRadius": 8,
-            "borderColor": "#90949d",
-            "borderStyle": "solid",
-            "borderTopLeftRadius": 8,
-            "borderTopRightRadius": 8,
-            "borderWidth": 1,
             "flexDirection": "row",
-            "justifyContent": "center",
-            "opacity": 1,
-            "paddingBottom": 8,
-            "paddingLeft": 8,
-            "paddingRight": 8,
-            "paddingTop": 8,
-            "userSelect": "auto",
-            "width": "auto",
+            "gap": 12,
           }
         }
-        testID="Partager"
       >
         <View
-          gap={0}
-          hasIcon={true}
-          isMultiline={false}
+          accessibilityLabel="Partager"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             {
               "alignItems": "center",
-              "columnGap": 0,
+              "backgroundColor": "#ffffff",
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderColor": "#90949d",
+              "borderStyle": "solid",
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+              "borderWidth": 1,
               "flexDirection": "row",
+              "justifyContent": "center",
+              "opacity": 1,
+              "paddingBottom": 8,
+              "paddingLeft": 8,
+              "paddingRight": 8,
+              "paddingTop": 8,
+              "userSelect": "auto",
+              "width": "auto",
             }
           }
+          testID="Partager"
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "flexShrink": 0,
-              }
-            }
-            nativeID="14"
+            gap={0}
+            hasIcon={true}
+            isMultiline={false}
             style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
+              {
+                "alignItems": "center",
+                "columnGap": 0,
+                "flexDirection": "row",
+              }
             }
           >
             <View
-              height={22}
-              width={22}
+              style={
+                {
+                  "flexShrink": 0,
+                }
+              }
             >
-              <Text>
-                undefined-SVG-Mock
-              </Text>
+              <View
+                height={22}
+                width={22}
+              >
+                <Text>
+                  undefined-SVG-Mock
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -11172,17 +10706,13 @@ d’options
         }
       }
       style={
-        [
-          {
-            "bottom": "100%",
-            "height": 120,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-          },
-          {},
-          {},
-        ]
+        {
+          "bottom": "100%",
+          "height": 120,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+        }
       }
     />
     <View
@@ -11267,29 +10797,10 @@ d’options
           }
         >
           <View
-            collapsable={false}
-            jestAnimatedProps={
-              {
-                "value": {},
-              }
-            }
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
+            style={
               {
                 "flexShrink": 0,
               }
-            }
-            nativeID="15"
-            style={
-              [
-                {
-                  "flexShrink": 0,
-                },
-              ]
             }
           >
             <View

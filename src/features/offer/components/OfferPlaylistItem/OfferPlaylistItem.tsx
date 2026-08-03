@@ -31,8 +31,8 @@ type OfferPlaylistItemProps = {
   priceDisplay: (item: Offer) => string
   navigationMethod?: OfferTileProps['navigationMethod']
   hasSmallLayout?: boolean
-  proAdvicesSegment?: string
   enableProAdvicesTag?: boolean
+  enableSceneClubTag?: boolean
 }
 
 type RenderOfferPlaylistItemProps = {
@@ -54,8 +54,8 @@ export const OfferPlaylistItem = ({
   navigationMethod,
   priceDisplay,
   hasSmallLayout,
-  proAdvicesSegment,
   enableProAdvicesTag,
+  enableSceneClubTag,
 }: OfferPlaylistItemProps) => {
   return function RenderItem({ item, width, height, playlistType }: RenderOfferPlaylistItemProps) {
     const timestampsInMillis = item.offer.dates && getTimeStampInMillis(item.offer.dates)
@@ -68,8 +68,8 @@ export const OfferPlaylistItem = ({
       hasSmallLayout,
       isComingSoonOffer: getIsAComingSoonOffer(item.offer.bookingAllowedDatetime),
       subcategoryId: item.offer.subcategoryId,
-      proAdvicesCount:
-        enableProAdvicesTag && proAdvicesSegment === 'A' ? item.offer.proAdvicesCount : undefined,
+      proAdvicesCount: enableProAdvicesTag ? item.offer.proAdvicesCount : undefined,
+      enableSceneClubTag,
     })
     return (
       <OfferTile
@@ -78,6 +78,7 @@ export const OfferPlaylistItem = ({
         categoryId={categoryId}
         subcategoryId={item.offer.subcategoryId}
         offerId={+item.objectID}
+        venueId={item.venue.id}
         name={item.offer.name}
         date={formatPlaylistDates(timestampsInMillis)}
         thumbUrl={item.offer.thumbUrl}

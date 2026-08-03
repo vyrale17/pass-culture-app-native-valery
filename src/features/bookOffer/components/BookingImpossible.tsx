@@ -10,21 +10,22 @@ import { UseNavigationType } from 'features/navigation/navigators/RootNavigator/
 import { triggerConsultOfferLog } from 'libs/analytics/helpers/triggerLogConsultOffer/triggerConsultOfferLog'
 import { analytics } from 'libs/analytics/provider'
 import { useAddFavoriteMutation } from 'queries/favorites/useAddFavoriteMutation'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
 import { ViewGap } from 'ui/components/ViewGap/ViewGap'
 import { Button } from 'ui/designSystem/Button/Button'
 import { PlainArrowPrevious } from 'ui/svg/icons/PlainArrowPrevious'
 import { SadFace } from 'ui/svg/icons/SadFace'
 import { Typo } from 'ui/theme'
 
-export const BookingImpossible: React.FC = () => {
+type Props = {
+  venueId: number
+}
+
+export const BookingImpossible: React.FC<Props> = ({ venueId }) => {
   const { bookingState, dismissModal, dispatch } = useBookingContext()
   const { offerId } = bookingState
   const favorite = useFavorite({ offerId })
   const { navigate } = useNavigation<UseNavigationType>()
   const { mutate: notifyWebappLinkSent } = useNotifyWebappLinkSentMutation()
-  const proAdvicesOnOfferSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_OFFER)
 
   useEffect(() => {
     if (offerId === undefined) return
@@ -57,7 +58,11 @@ export const BookingImpossible: React.FC = () => {
     dismissModal()
 
     const from = 'bookingimpossible'
-    triggerConsultOfferLog({ offerId, from, displayAdvice: proAdvicesOnOfferSegment === 'A' })
+    triggerConsultOfferLog({
+      offerId,
+      venueId,
+      from,
+    })
     navigate('Offer', { id: offerId, from })
   }
 

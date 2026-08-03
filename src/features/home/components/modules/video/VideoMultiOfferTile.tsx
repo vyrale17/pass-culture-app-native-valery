@@ -7,7 +7,7 @@ import { PlaylistCardOffer } from 'features/offer/components/OfferTile/PlaylistC
 import { triggerConsultOfferLog } from 'libs/analytics/helpers/triggerLogConsultOffer/triggerConsultOfferLog'
 import { OfferAnalyticsParams } from 'libs/analytics/types'
 import { getDistance } from 'libs/location/getDistance'
-import { useLocation } from 'libs/location/location'
+import { useUserLocation, usePlace, useLocationMode } from 'libs/locationV2/location.store'
 import { formatPrice, getDisplayedPrice } from 'libs/parsers/getDisplayedPrice'
 import { useCategoryHomeLabelMapping, useCategoryIdMapping } from 'libs/subcategories'
 import { usePacificFrancToEuroRate } from 'queries/settings/useSettings'
@@ -17,8 +17,6 @@ import { useGetCurrencyToDisplay } from 'shared/currency/useGetCurrencyToDisplay
 import { getOfferDates } from 'shared/date/getOfferDates'
 import { Offer } from 'shared/offer/types'
 import { usePrePopulateOffer } from 'shared/offer/usePrePopulateOffer'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
 import { isCurrentBeneficiary } from 'shared/user/checkStatusType'
 import { InternalTouchableLink } from 'ui/components/touchableLink/InternalTouchableLink'
 import { getSpacing } from 'ui/theme'
@@ -29,7 +27,9 @@ type Props = {
 }
 
 export const VideoMultiOfferTile: FunctionComponent<Props> = ({ offer, analyticsParams }) => {
-  const { userLocation, selectedPlace, selectedLocationMode } = useLocation()
+  const userLocation = useUserLocation()
+  const selectedPlace = usePlace()
+  const selectedLocationMode = useLocationMode()
   const { user } = useAuthContext()
   const currency = useGetCurrencyToDisplay()
   const { data: euroToPacificFrancRate } = usePacificFrancToEuroRate()
@@ -37,7 +37,6 @@ export const VideoMultiOfferTile: FunctionComponent<Props> = ({ offer, analytics
   const prePopulateOffer = usePrePopulateOffer()
   const mapping = useCategoryIdMapping()
   const { subcategoryId, dates, releaseDate, isDuo, thumbUrl, name } = offer.offer
-  const proAdvicesOnOfferSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_OFFER)
 
   const displayPrice = getDisplayedPrice(
     offer?.offer?.prices,
@@ -76,7 +75,7 @@ export const VideoMultiOfferTile: FunctionComponent<Props> = ({ offer, analytics
           prePopulateOffer({ ...offer.offer, offerId: +offer.objectID, categoryId })
           triggerConsultOfferLog({
             offerId: +offer.objectID,
-            displayAdvice: proAdvicesOnOfferSegment === 'A',
+            venueId: offer.venue.id,
             ...analyticsParams,
           })
         }}

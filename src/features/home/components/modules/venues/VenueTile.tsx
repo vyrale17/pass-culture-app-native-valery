@@ -11,12 +11,10 @@ import { VenueHit } from 'libs/algolia/types'
 import { analytics } from 'libs/analytics/provider'
 import { useHandleFocus } from 'libs/hooks/useHandleFocus'
 import { getDistance } from 'libs/location/getDistance'
-import { useLocation } from 'libs/location/location'
+import { useUserLocation, usePlace, useLocationMode } from 'libs/locationV2/location.store'
 import { mapActivityToIcon } from 'libs/parsers/activity'
 import { QueryKeys } from 'libs/queryKeys'
 import { tileAccessibilityLabel, TileContentType } from 'libs/tileAccessibilityLabel'
-import { AB_TESTS } from 'shared/useABSegment/abTests'
-import { useABSegment } from 'shared/useABSegment/useABSegment'
 import { ImageTile } from 'ui/components/ImageTile'
 import { InternalTouchableLink } from 'ui/components/touchableLink/InternalTouchableLink'
 import { Tag } from 'ui/designSystem/Tag/Tag'
@@ -46,8 +44,9 @@ const UnmemoizedVenueTile = (props: VenueTileProps) => {
   const { venue, width, height } = props
   const queryClient = useQueryClient()
   const { designSystem } = useTheme()
-  const { userLocation, selectedPlace, selectedLocationMode } = useLocation()
-  const proAdvicesOnVenueSegment = useABSegment(AB_TESTS.PRO_REVIEWS_ON_VENUE)
+  const userLocation = useUserLocation()
+  const selectedPlace = usePlace()
+  const selectedLocationMode = useLocationMode()
 
   const distance = getDistance(
     { lat: venue.latitude, lng: venue.longitude },
@@ -66,7 +65,6 @@ const UnmemoizedVenueTile = (props: VenueTileProps) => {
       from: 'home',
       homeEntryId: props.homeEntryId,
       originDetails: props.originDetails,
-      displayAdvice: proAdvicesOnVenueSegment === 'A',
     })
   }
 

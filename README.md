@@ -106,25 +106,27 @@ yarn jest --coverage
 <details>
   <summary>📝 Update the API schema</summary>
 
-- If you want to base on local backend changes, do this on backend. If not, skip this step.  
+- If you want to base on local backend changes, do this on backend. If not, skip this step.
+
 ```
-# Generate native_openapi.json with back changes 
-- flask generate_native_api_openapi_json  # without docker  
-- pc generate_native_api_openapi_json  # with docker   
-``` 
+# Generate native_openapi.json with back changes
+- flask generate_native_api_openapi_json  # without docker
+- pc generate_native_api_openapi_json  # with docker
+```
+
 - Run a local docker
 - copy `pass-culture-main/api/tests/files/native_openapi.json` to a new file `pass-culture-app-native/native_openapi.json`
 - In this new file replace `"openapi": "3.1.0"` by `"openapi": "3.0.0"`
 - In the file `scripts/generate:api:client:silicon.sh`, replace :  
-`https://backend.testing.passculture.team/native/openapi.json` by `/local/native_openapi.json `
-- In the file `scripts/generate:api:client:silicon.sh`, if 
+  `https://backend.testing.passculture.team/native/openapi.json` by `/local/native_openapi.json `
+- In the file `scripts/generate:api:client:silicon.sh`, if
   - you don't have proxy : remove `--volume "$JAVA_HOME/lib/security/cacerts:/opt/java/openjdk/lib/security/cacerts” \`
-  - you have a proxy and nix (docker does not have access to nix env): 
+  - you have a proxy and nix (docker does not have access to nix env):
     - find your local `cacerts` and copy it to `pass-culture-app-native/cacerts`
-    - replace `$JAVA_HOME/lib/security/cacerts:"` by `$PWD/cacerts:` 
+    - replace `$JAVA_HOME/lib/security/cacerts:"` by `$PWD/cacerts:`
   - you have a proxy but not nix, it might work directly.
-- run `yarn generate:api:client:silicon`  
-- Keep only the correct changes in the generated file. Be careful with the null types, which appear to have been modified recently. 
+- run `yarn generate:api:client:silicon`
+- Keep only the correct changes in the generated file. Be careful with the null types, which appear to have been modified recently.
 
 </details>
 
@@ -163,11 +165,7 @@ For the **staging** app, use these links for [iOS][4] and [Android][5].
 See doc about deployment process [here](./doc/ci-cd/deployment.md) for the mobile application.
 
 [1]: Ask for IT
-[2]: https://appcenter.ms/orgs/pass-Culture/apps/passculture-testing-ios
-[3]: https://appcenter.ms/orgs/pass-Culture/apps/passculture-testing-android
-[4]: https://appcenter.ms/orgs/pass-Culture/apps/passculture-staging-ios
-[5]: https://appcenter.ms/orgs/pass-Culture/apps/passculture-staging-android
-[6]: https://developer.apple.com/account/resources/devices/list
+[2]: https://developer.apple.com/account/resources/devices/list
 
 ## Performances
 
@@ -226,4 +224,5 @@ You can find this measure on firebase performance monitor for the different envi
 
 ### Accessibility
 
-[Application audits](doc/accessibility/audits/auditFollowUp.md)
+- [Audits des applications](doc/accessibility/audits/auditMobileFollowUp.md)
+- [Audits de la déclinaison web](doc/accessibility/audits/auditWebFollowUp.md)
