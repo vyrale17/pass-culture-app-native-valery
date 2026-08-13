@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import React, { memo } from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import { useTheme } from 'styled-components'
 import styled from 'styled-components/native'
 
@@ -19,7 +19,7 @@ import { ImageTile } from 'ui/components/ImageTile'
 import { InternalTouchableLink } from 'ui/components/touchableLink/InternalTouchableLink'
 import { Tag } from 'ui/designSystem/Tag/Tag'
 import { customFocusOutline } from 'ui/theme/customFocusOutline/customFocusOutline'
-import { getHeadingAttrs } from 'ui/theme/typographyAttrs/getHeadingAttrs'
+import { getTextSemanticAttrs } from 'ui/theme/typographyAttrs/getTextSemanticAttrs'
 
 export interface VenueTileProps {
   venue: VenueHit
@@ -54,6 +54,7 @@ const UnmemoizedVenueTile = (props: VenueTileProps) => {
   )
 
   const accessibilityLabel = tileAccessibilityLabel(TileContentType.VENUE, { ...venue, distance })
+  const headingProps = Platform.OS === 'web' ? {} : getTextSemanticAttrs(3)
 
   function handlePressVenue() {
     // We pre-populate the query-cache with the data from the search result for a smooth transition
@@ -69,7 +70,7 @@ const UnmemoizedVenueTile = (props: VenueTileProps) => {
   }
 
   return (
-    <View {...getHeadingAttrs(3)}>
+    <View {...headingProps}>
       <StyledTouchableLink
         width={width}
         navigateTo={{ screen: 'Venue', params: { id: venue.id } }}

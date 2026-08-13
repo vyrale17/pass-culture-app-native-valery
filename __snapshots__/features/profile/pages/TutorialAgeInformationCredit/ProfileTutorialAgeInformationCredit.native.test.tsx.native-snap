@@ -46,6 +46,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
         }
       >
         <Text
+          accessibilityLevel={1}
           accessibilityRole="header"
           style={
             {
@@ -59,6 +60,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
           Comment ça marche ?
         </Text>
         <Text
+          accessibilityLevel={2}
           accessibilityRole="header"
           style={
             {
@@ -203,6 +205,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
                     à 17 ans
                   </Text>
                   <Text
+                    accessibilityLevel={3}
                     accessibilityRole="header"
                     style={
                       {
@@ -215,7 +218,6 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
                   >
                     Tu reçois 
                     <Text
-                      accessibilityRole="header"
                       style={
                         {
                           "color": "#320096",
@@ -474,6 +476,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
                     à 18 ans
                   </Text>
                   <Text
+                    accessibilityLevel={3}
                     accessibilityRole="header"
                     style={
                       {
@@ -486,7 +489,6 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
                   >
                     Tu reçois 
                     <Text
-                      accessibilityRole="header"
                       style={
                         {
                           "color": "#320096",
@@ -911,7 +913,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
                   }
                 >
                   <View
-                    accessibilityLabel="Lien externe - Plus d’infos sur ton crédit"
+                    accessibilityLabel="Lien externe - Plus d’infos sur ton crédit - Lien externe"
                     accessibilityRole="link"
                     accessibilityState={
                       {
@@ -1172,6 +1174,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification disabled shou
       >
         <Text
           accessibilityHidden={true}
+          accessibilityLevel={1}
           accessibilityRole="header"
           collapsable={false}
           numberOfLines={2}
@@ -1249,6 +1252,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
         }
       >
         <Text
+          accessibilityLevel={1}
           accessibilityRole="header"
           style={
             {
@@ -1262,6 +1266,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
           Comment ça marche ?
         </Text>
         <Text
+          accessibilityLevel={2}
           accessibilityRole="header"
           style={
             {
@@ -1406,6 +1411,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                     à 17 ans
                   </Text>
                   <Text
+                    accessibilityLevel={3}
                     accessibilityRole="header"
                     style={
                       {
@@ -1418,7 +1424,6 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                   >
                     Tu reçois 
                     <Text
-                      accessibilityRole="header"
                       style={
                         {
                           "color": "#320096",
@@ -1677,6 +1682,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                     à 18 ans
                   </Text>
                   <Text
+                    accessibilityLevel={3}
                     accessibilityRole="header"
                     style={
                       {
@@ -1689,7 +1695,6 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                   >
                     Tu reçois 
                     <Text
-                      accessibilityRole="header"
                       style={
                         {
                           "color": "#320096",
@@ -2124,6 +2129,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                   }
                 >
                   <Text
+                    accessibilityLevel={3}
                     accessibilityRole="header"
                     style={
                       {
@@ -2137,7 +2143,6 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                     Tu peux recevoir
                      
                     <Text
-                      accessibilityRole="header"
                       style={
                         {
                           "color": "#320096",
@@ -2245,7 +2250,6 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                       }
                     >
                       <Text
-                        accessibilityRole="header"
                         style={
                           {
                             "color": "#320096",
@@ -2990,7 +2994,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                   }
                 >
                   <View
-                    accessibilityLabel="Lien externe - Plus d’infos sur ton crédit"
+                    accessibilityLabel="Lien externe - Plus d’infos sur ton crédit - Lien externe"
                     accessibilityRole="link"
                     accessibilityState={
                       {
@@ -3060,7 +3064,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
                     </Text>
                   </View>
                   <View
-                    accessibilityLabel="Lien externe - Plus d’infos sur les bonus sous conditions"
+                    accessibilityLabel="Lien externe - Plus d’infos sur les bonus sous conditions - Lien externe"
                     accessibilityRole="link"
                     accessibilityState={
                       {
@@ -3321,6 +3325,7 @@ exports[`<ProfileTutorialAgeInformationCredit /> with bonification enabled shoul
       >
         <Text
           accessibilityHidden={true}
+          accessibilityLevel={1}
           accessibilityRole="header"
           collapsable={false}
           numberOfLines={2}

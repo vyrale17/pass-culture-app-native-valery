@@ -1,10 +1,6 @@
-import { Platform } from 'react-native'
+import { HeadingAttrs } from 'ui/theme/typographyAttrs/types'
 
-export const getNoHeadingAttrs = () => ({
-  ...(Platform.OS === 'web'
-    ? {
-        accessibilityRole: undefined,
-        accessibilityLevel: undefined,
-      }
-    : {}),
+export const getNoHeadingAttrs = (): HeadingAttrs => ({
+  accessibilityRole: undefined,
+  accessibilityLevel: undefined,
 })

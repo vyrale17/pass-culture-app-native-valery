@@ -53,6 +53,7 @@ exports[`Stepper navigation should render correctly 1`] = `
           }
         >
           <Text
+            accessibilityLevel={1}
             accessibilityRole="header"
             style={
               {
@@ -304,10 +305,7 @@ exports[`Stepper navigation should render correctly 1`] = `
                     <View
                       style={
                         {
-                          "flexBasis": 0,
                           "flexDirection": "column",
-                          "flexGrow": 1,
-                          "flexShrink": 1,
                           "paddingRight": 16,
                         }
                       }
@@ -804,10 +802,7 @@ exports[`Stepper navigation should render correctly 1`] = `
                     <View
                       style={
                         {
-                          "flexBasis": 0,
                           "flexDirection": "column",
-                          "flexGrow": 1,
-                          "flexShrink": 1,
                           "paddingRight": 16,
                         }
                       }
@@ -1044,10 +1039,7 @@ exports[`Stepper navigation should render correctly 1`] = `
                     <View
                       style={
                         {
-                          "flexBasis": 0,
                           "flexDirection": "column",
-                          "flexGrow": 1,
-                          "flexShrink": 1,
                           "paddingRight": 16,
                         }
                       }

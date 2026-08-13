@@ -481,7 +481,6 @@ export enum Bookability {
   'FINISH_SUBSCRIPTION_REQUIRED' = 'FINISH_SUBSCRIPTION_REQUIRED',
   'USER_APPLICATION_STILL_PROCESSING' = 'USER_APPLICATION_STILL_PROCESSING',
   'USER_HAS_APPLICATION_ERROR' = 'USER_HAS_APPLICATION_ERROR',
-
 }
 /**
  * @export
@@ -2328,6 +2327,27 @@ export interface OAuthSigninRequest {
 }
 /**
  * @export
+ * @interface OAuthSigninRequestV2
+ */
+export interface OAuthSigninRequestV2 {
+  /**
+   * @type {string}
+   * @memberof OAuthSigninRequestV2
+   */
+  authorizationCode: string
+  /**
+   * @type {DeviceInfoV2}
+   * @memberof OAuthSigninRequestV2
+   */
+  deviceInfo: DeviceInfoV2
+  /**
+   * @type {string}
+   * @memberof OAuthSigninRequestV2
+   */
+  oauthStateToken: string
+}
+/**
+ * @export
  * @interface SSOAccountRequest
  */
 export interface SSOAccountRequest {
@@ -2767,6 +2787,17 @@ export interface OauthStateResponse {
   /**
    * @type {string}
    * @memberof OauthStateResponse
+   */
+  oauthStateToken: string
+}
+/**
+ * @export
+ * @interface OauthStateResponseV2
+ */
+export interface OauthStateResponseV2 {
+  /**
+   * @type {string}
+   * @memberof OauthStateResponseV2
    */
   oauthStateToken: string
 }
@@ -5435,6 +5466,17 @@ export interface VenueContact {
 }
 /**
  * @export
+ * @interface VenueMovieCalendarResponse
+ */
+export interface VenueMovieCalendarResponse {
+  /**
+   * @type {Array<DayMovieScreenings>}
+   * @memberof VenueMovieCalendarResponse
+   */
+  calendar: Array<DayMovieScreenings>
+}
+/**
+ * @export
  * @interface VenueProAdvice
  */
 export interface VenueProAdvice {
@@ -5967,6 +6009,49 @@ export const DefaultApiFetchParamCreator = function (configuration?: Configurati
       let secureOptions = Object.assign(options, { credentials: 'omit' })
       // authentication JWTAuth required
       secureOptions = Object.assign(secureOptions, { credentials: 'include' })
+      const localVarRequestOptions = Object.assign({ method: 'GET' }, secureOptions)
+      const localVarHeaderParameter = await getAuthenticationHeaders(secureOptions)
+      localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers)
+      return {
+        url: pathname,
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * @summary get_movie_screenings_by_venue <GET>
+     * @param {number} venue_id 
+     * @param {string} [from] 
+     * @param {string} [to] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getNativeV1VenuevenueIdMovieCalendar(venue_id: number, from?: string, to?: string, options: any = {}): Promise<FetchArgs> {
+      // verify required parameter 'venue_id' is not null or undefined
+      if (venue_id === null || venue_id === undefined) {
+        throw new RequiredError(
+          'venue_id',
+          'Required parameter venue_id was null or undefined when calling getNativeV1VenuevenueIdMovieCalendar.'
+        )
+      }
+      let pathname = `/native/v1/venue/{venue_id}/movie/calendar`.replace(
+        `{${'venue_id'}}`,
+        encodeURIComponent(String(venue_id))
+      )
+      const queryParameters: any = {};
+
+        if (from != null) {
+            queryParameters['from'] = from;
+        }
+
+        if (to != null) {
+            queryParameters['to'] = to;
+        }
+
+      const encodedQueryParams = '?' + Object.keys(queryParameters).map((key) => {
+        return `${encodeURIComponent(key as string)}=${encodeURIComponent(queryParameters[key])}`
+      }).join('&')
+      pathname += encodedQueryParams
+      let secureOptions = Object.assign(options, { credentials: 'omit' })
       const localVarRequestOptions = Object.assign({ method: 'GET' }, secureOptions)
       const localVarHeaderParameter = await getAuthenticationHeaders(secureOptions)
       localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers)
@@ -6671,6 +6756,51 @@ export const DefaultApiFetchParamCreator = function (configuration?: Configurati
       }
     },
     /**
+     * @summary get_movie_screenings_by_venue_for_user <GET>
+     * @param {number} venue_id 
+     * @param {string} [from] 
+     * @param {string} [to] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getNativeV1VenuevenueIdMovieCalendarMe(venue_id: number, from?: string, to?: string, options: any = {}): Promise<FetchArgs> {
+      // verify required parameter 'venue_id' is not null or undefined
+      if (venue_id === null || venue_id === undefined) {
+        throw new RequiredError(
+          'venue_id',
+          'Required parameter venue_id was null or undefined when calling getNativeV1VenuevenueIdMovieCalendarMe.'
+        )
+      }
+      let pathname = `/native/v1/venue/{venue_id}/movie/calendar/me`.replace(
+        `{${'venue_id'}}`,
+        encodeURIComponent(String(venue_id))
+      )
+      const queryParameters: any = {};
+
+        if (from != null) {
+            queryParameters['from'] = from;
+        }
+
+        if (to != null) {
+            queryParameters['to'] = to;
+        }
+
+      const encodedQueryParams = '?' + Object.keys(queryParameters).map((key) => {
+        return `${encodeURIComponent(String(key))}=${encodeURIComponent(queryParameters[key])}`
+      }).join('&')
+      pathname += encodedQueryParams
+      let secureOptions = Object.assign(options, { credentials: 'omit' })
+      // authentication JWTAuth required
+      secureOptions = Object.assign(secureOptions, { credentials: 'include' })
+      const localVarRequestOptions = Object.assign({ method: 'GET' }, secureOptions)
+      const localVarHeaderParameter = await getAuthenticationHeaders(secureOptions)
+      localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers)
+      return {
+        url: pathname,
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * @summary get_bookings <GET>
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6738,6 +6868,22 @@ export const DefaultApiFetchParamCreator = function (configuration?: Configurati
       let secureOptions = Object.assign(options, { credentials: 'omit' })
       // authentication JWTAuth required
       secureOptions = Object.assign(secureOptions, { credentials: 'include' })
+      const localVarRequestOptions = Object.assign({ method: 'GET' }, secureOptions)
+      const localVarHeaderParameter = await getAuthenticationHeaders(secureOptions)
+      localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers)
+      return {
+        url: pathname,
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * @summary sso_oauth_state <GET>
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getNativeV2OauthState(options: any = {}): Promise<FetchArgs> {
+      let pathname = `/native/v2/oauth/state`
+      let secureOptions = Object.assign(options, { credentials: 'omit' })
       const localVarRequestOptions = Object.assign({ method: 'GET' }, secureOptions)
       const localVarHeaderParameter = await getAuthenticationHeaders(secureOptions)
       localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers)
@@ -7946,6 +8092,44 @@ export const DefaultApiFetchParamCreator = function (configuration?: Configurati
       }
     },
     /**
+     * @summary sso_authorize <POST>
+     * @param {OAuthSigninRequestV2} body
+     * @param {string} sso_provider
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postNativeV2OauthssoProviderAuthorize(body: OAuthSigninRequestV2, sso_provider: string, options: any = {}): Promise<FetchArgs> {
+      // verify required parameter 'body' is not null or undefined
+      if (body === null || body === undefined) {
+        throw new RequiredError(
+          'body',
+          'Required parameter body was null or undefined when calling postNativeV2OauthssoProviderAuthorize.'
+        )
+      }
+      // verify required parameter 'sso_provider' is not null or undefined
+      if (sso_provider === null || sso_provider === undefined) {
+        throw new RequiredError(
+          'sso_provider',
+          'Required parameter sso_provider was null or undefined when calling postNativeV2OauthssoProviderAuthorize.'
+        )
+      }
+      let pathname = `/native/v2/oauth/{sso_provider}/authorize`.replace(
+        `{${'sso_provider'}}`,
+        encodeURIComponent(String(sso_provider))
+      )
+      let secureOptions = Object.assign(options, { credentials: 'omit' })
+      const localVarRequestOptions = Object.assign({ method: 'POST' }, secureOptions)
+      const localVarHeaderParameter = await getAuthenticationHeaders(secureOptions)
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+      localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers)
+      const needsSerialization = (<any>"OAuthSigninRequestV2" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json'
+      localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "")
+      return {
+        url: pathname,
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * @summary get_offers_and_stocks <POST>
      * @param {OffersStocksRequest} body
      * @param {*} [options] Override http request option.
@@ -8578,14 +8762,33 @@ export const DefaultApiFp = function(api: DefaultApi, configuration?: Configurat
       return handleGeneratedApiResponse(response, localVarFetchArgs.options)
     },
     /**
-     *
+     * 
      * @summary get_movie_screenings_by_venue <GET>
-     * @param {number} venue_id
-     * @param {string} [from]
-     * @param {string} [to]
+     * @param {number} venue_id 
+     * @param {string} [from] 
+     * @param {string} [to] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    async getNativeV1VenuevenueIdMovieCalendar(venue_id: number, from?: string, to?: string, options?: any): Promise<VenueMovieCalendarResponse> {
+      const localVarFetchArgs = await DefaultApiFetchParamCreator(configuration).getNativeV1VenuevenueIdMovieCalendar(venue_id, from, to, options)
+      const response = await safeFetch(configuration?.basePath + localVarFetchArgs.url, localVarFetchArgs.options, api)
+      return handleGeneratedApiResponse(response, localVarFetchArgs.options)
+    },
+    /**
+     * 
+     * @summary get_movie_screenings_by_venue_for_user <GET>
+     * @param {number} venue_id 
+     * @param {string} [from] 
+     * @param {string} [to] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getNativeV1VenuevenueIdMovieCalendarMe(venue_id: number, from?: string, to?: string, options?: any): Promise<VenueMovieCalendarResponse> {
+      const localVarFetchArgs = await DefaultApiFetchParamCreator(configuration).getNativeV1VenuevenueIdMovieCalendarMe(venue_id, from, to, options)
+      const response = await safeFetch(configuration?.basePath + localVarFetchArgs.url, localVarFetchArgs.options, api)
+      return handleGeneratedApiResponse(response, localVarFetchArgs.options)
+    },
     /**
      *
      * @summary get_bookings <GET>
@@ -8618,6 +8821,17 @@ export const DefaultApiFp = function(api: DefaultApi, configuration?: Configurat
      */
     async getNativeV2Bookingsstatus(status: string, options?: any): Promise<BookingsListResponseV2> {
       const localVarFetchArgs = await DefaultApiFetchParamCreator(configuration).getNativeV2Bookingsstatus(status, options)
+      const response = await safeFetch(configuration?.basePath + localVarFetchArgs.url, localVarFetchArgs.options, api)
+      return handleGeneratedApiResponse(response, localVarFetchArgs.options)
+    },
+    /**
+     *
+     * @summary sso_oauth_state <GET>
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getNativeV2OauthState(options?: any): Promise<OauthStateResponseV2> {
+      const localVarFetchArgs = await DefaultApiFetchParamCreator(configuration).getNativeV2OauthState(options)
       const response = await safeFetch(configuration?.basePath + localVarFetchArgs.url, localVarFetchArgs.options, api)
       return handleGeneratedApiResponse(response, localVarFetchArgs.options)
     },
@@ -9146,6 +9360,19 @@ export const DefaultApiFp = function(api: DefaultApi, configuration?: Configurat
     },
     /**
      *
+     * @summary sso_authorize <POST>
+     * @param {OAuthSigninRequestV2} body
+     * @param {string} sso_provider
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postNativeV2OauthssoProviderAuthorize(body: OAuthSigninRequestV2, sso_provider: string, options?: any): Promise<SigninResponseV2> {
+      const localVarFetchArgs = await DefaultApiFetchParamCreator(configuration).postNativeV2OauthssoProviderAuthorize(body, sso_provider, options)
+      const response = await safeFetch(configuration?.basePath + localVarFetchArgs.url, localVarFetchArgs.options, api)
+      return handleGeneratedApiResponse(response, localVarFetchArgs.options)
+    },
+    /**
+     *
      * @summary get_offers_and_stocks <POST>
      * @param {OffersStocksRequest} body
      * @param {*} [options] Override http request option.
@@ -9648,6 +9875,34 @@ export class DefaultApi extends BaseAPI {
     return DefaultApiFp(this, configuration).getNativeV1VenuevenueIdAdvices(venue_id, maxContentLength, page, resultsPerPage, options)
   }
   /**
+    * 
+    * @summary get_movie_screenings_by_venue <GET>
+    * @param {number} venue_id 
+    * @param {string} [from] 
+    * @param {string} [to] 
+    * @param {*} [options] Override http request option.
+    * @throws {RequiredError}
+    * @memberof DefaultApi
+    */
+  public async getNativeV1VenuevenueIdMovieCalendar(venue_id: number, from?: string, to?: string, options?: any) {
+    const configuration = this.getConfiguration()
+    return DefaultApiFp(this, configuration).getNativeV1VenuevenueIdMovieCalendar(venue_id, from, to, options)
+  }
+  /**
+    * 
+    * @summary get_movie_screenings_by_venue_for_user <GET>
+    * @param {number} venue_id 
+    * @param {string} [from] 
+    * @param {string} [to] 
+    * @param {*} [options] Override http request option.
+    * @throws {RequiredError}
+    * @memberof DefaultApi
+    */
+  public async getNativeV1VenuevenueIdMovieCalendarMe(venue_id: number, from?: string, to?: string, options?: any) {
+    const configuration = this.getConfiguration()
+    return DefaultApiFp(this, configuration).getNativeV1VenuevenueIdMovieCalendarMe(venue_id, from, to, options)
+  }
+  /**
     *
     * @summary get_bookings <GET>
     * @param {*} [options] Override http request option.
@@ -9681,6 +9936,17 @@ export class DefaultApi extends BaseAPI {
   public async getNativeV2Bookingsstatus(status: string, options?: any) {
     const configuration = this.getConfiguration()
     return DefaultApiFp(this, configuration).getNativeV2Bookingsstatus(status, options)
+  }
+  /**
+    *
+    * @summary sso_oauth_state <GET>
+    * @param {*} [options] Override http request option.
+    * @throws {RequiredError}
+    * @memberof DefaultApi
+    */
+  public async getNativeV2OauthState(options?: any) {
+    const configuration = this.getConfiguration()
+    return DefaultApiFp(this, configuration).getNativeV2OauthState(options)
   }
   /**
     *
@@ -10207,6 +10473,19 @@ export class DefaultApi extends BaseAPI {
   }
   /**
     * 
+    * @summary sso_authorize <POST>
+    * @param {OAuthSigninRequestV2} body
+    * @param {string} sso_provider
+    * @param {*} [options] Override http request option.
+    * @throws {RequiredError}
+    * @memberof DefaultApi
+    */
+  public async postNativeV2OauthssoProviderAuthorize(body: OAuthSigninRequestV2, sso_provider: string, options?: any) {
+    const configuration = this.getConfiguration()
+    return DefaultApiFp(this, configuration).postNativeV2OauthssoProviderAuthorize(body, sso_provider, options)
+  }
+  /**
+    *
     * @summary get_offers_and_stocks <POST>
     * @param {OffersStocksRequest} body
     * @param {*} [options] Override http request option.
