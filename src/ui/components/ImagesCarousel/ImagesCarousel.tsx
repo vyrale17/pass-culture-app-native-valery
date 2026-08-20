@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { useWindowDimensions } from 'react-native'
 import { useSharedValue } from 'react-native-reanimated'
 import Carousel from 'react-native-reanimated-carousel'
-import styled from 'styled-components/native'
+import styled, { useTheme } from 'styled-components/native'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PinchableBox } from 'features/offer/components/PinchableBox/PinchableBox'
@@ -19,13 +19,16 @@ type Props = {
   images: string[]
   defaultIndex: number
   goBack: VoidFunction
+  onSnapToItem?: (index: number) => void
 }
 
 export const ImagesCarousel: FunctionComponent<Props> = ({
   images,
   defaultIndex,
   goBack,
+  onSnapToItem,
 }: Props) => {
+  const { designSystem } = useTheme()
   const footerHeight = useGetFooterHeight(FOOTER_HEIGHT)
 
   const progressValue = useSharedValue<number>(defaultIndex)
@@ -51,6 +54,7 @@ export const ImagesCarousel: FunctionComponent<Props> = ({
           progressValue.value = absoluteProgress
           setIndex(Math.round(absoluteProgress))
         }}
+        onSnapToItem={onSnapToItem}
         defaultIndex={defaultIndex}
         data={images}
         renderItem={({ item: image }) => <PinchableBox imageUrl={image} />}
@@ -65,6 +69,7 @@ export const ImagesCarousel: FunctionComponent<Props> = ({
                   <CarouselDot
                     animValue={progressValue}
                     index={index}
+                    activeColor={designSystem.color.icon.default}
                     key={index + carouselDotId}
                   />
                 ))}

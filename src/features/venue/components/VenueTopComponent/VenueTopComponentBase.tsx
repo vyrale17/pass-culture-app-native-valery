@@ -2,11 +2,10 @@ import React from 'react'
 import { View, useWindowDimensions } from 'react-native'
 import styled, { useTheme } from 'styled-components/native'
 
-import { ReactionTypeEnum, VenueResponse } from 'api/gen'
+import { VenueResponse } from 'api/gen'
 import { openUrl } from 'features/navigation/helpers/openUrl'
 import { getVenueBlock } from 'features/offer/components/OfferVenueBlock/getVenueBlock'
 import { VenueBlockVenue } from 'features/offer/components/OfferVenueBlock/type'
-import { FeedBack } from 'features/reactions/components/FeedBack'
 import { OpeningHoursStatus } from 'features/venue/components/OpeningHoursStatus/OpeningHoursStatus'
 import { VenueBanner } from 'features/venue/components/VenueBody/VenueBanner'
 import { VolunteerCard } from 'features/venue/components/VenueTopComponent/VolunteerCard'
@@ -26,8 +25,6 @@ import { getTextSemanticAttrs } from 'ui/theme/typographyAttrs/getTextSemanticAt
 type Props = {
   venue: VenueResponse
   onPressBannerImage?: () => void
-  enableVolunteer?: boolean
-  enableVolunteerFeedback?: boolean
   enableVenueFakeDoor?: boolean
   onPressFollowButton?: () => void
 }
@@ -38,8 +35,6 @@ const VOLUNTEER_LARGE_CARD_HEIGHT = getSpacing(73)
 export const VenueTopComponentBase: React.FunctionComponent<Props> = ({
   venue,
   onPressBannerImage,
-  enableVolunteer,
-  enableVolunteerFeedback,
   enableVenueFakeDoor,
   onPressFollowButton,
 }) => {
@@ -65,7 +60,7 @@ export const VenueTopComponentBase: React.FunctionComponent<Props> = ({
 
   const isDynamicOpeningHoursDisplayed = venue.openingHours && venue.isOpenToPublic
 
-  const hasVolunteer = enableVolunteer && !!venue.volunteeringUrl
+  const hasVolunteer = !!venue.volunteeringUrl
 
   const onPressVolunteeringCard = async () => {
     if (venue.volunteeringUrl) {
@@ -74,16 +69,6 @@ export const VenueTopComponentBase: React.FunctionComponent<Props> = ({
         `${venue.volunteeringUrl}?utm_source=pass-culture&utm_medium=app&utm_campaign=orga_non_inscrite`
       )
     }
-  }
-
-  const handleOnLogFeedback = (type: ReactionTypeEnum) => {
-    const feedbackResponse = type === ReactionTypeEnum.LIKE ? 'Oui' : 'Non'
-    void analytics.logFeatureFeedbackClicked({
-      featureName: 'volunteer',
-      feedbackResponse,
-      from: 'venue',
-      venueId: venue.id.toString(),
-    })
   }
 
   return (
@@ -156,15 +141,6 @@ export const VenueTopComponentBase: React.FunctionComponent<Props> = ({
             onBlur={focusProps.onBlur}
             onPress={onPressVolunteeringCard}
           />
-          {enableVolunteerFeedback ? (
-            <StyledFeedBack
-              storageKey="volunteering_feedback"
-              likeQuiz="https://passculture.qualtrics.com/jfe/form/SV_3sGi4gI6EEOmfsy"
-              dislikeQuiz="https://passculture.qualtrics.com/jfe/form/SV_3sGi4gI6EEOmfsy"
-              title="Le bénévolat sur le pass t’intéresse t-il&nbsp;?"
-              onLogReaction={handleOnLogFeedback}
-            />
-          ) : null}
         </VolunteeringContainer>
       ) : null}
     </React.Fragment>
@@ -204,9 +180,4 @@ const getVenue = (venue: VenueResponse): VenueBlockVenue => {
 
 const VolunteeringContainer = styled(ViewGap)(({ theme }) => ({
   marginBottom: theme.designSystem.size.spacing.xl,
-}))
-
-const StyledFeedBack = styled(FeedBack)(({ theme }) => ({
-  marginHorizontal: theme.designSystem.size.spacing.xl,
-  width: theme.isDesktopViewport ? '50%' : undefined,
 }))

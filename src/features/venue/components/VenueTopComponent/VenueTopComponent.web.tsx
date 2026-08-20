@@ -8,16 +8,12 @@ import { useModal } from 'ui/components/modals/useModal'
 
 type Props = {
   venue: VenueResponse
-  enableVolunteer?: boolean
-  enableVolunteerFeedback?: boolean
   enableVenueFakeDoor?: boolean
   onPressFollowButton?: () => void
 }
 
 export const VenueTopComponent: React.FunctionComponent<Props> = ({
   venue,
-  enableVolunteer,
-  enableVolunteerFeedback,
   enableVenueFakeDoor,
   onPressFollowButton,
 }) => {
@@ -34,8 +30,6 @@ export const VenueTopComponent: React.FunctionComponent<Props> = ({
       <VenueTopComponentBase
         venue={venue}
         onPressBannerImage={isDesktopViewport ? showModal : undefined}
-        enableVolunteer={enableVolunteer}
-        enableVolunteerFeedback={enableVolunteerFeedback}
         enableVenueFakeDoor={enableVenueFakeDoor}
         onPressFollowButton={onPressFollowButton}
       />

@@ -580,7 +580,7 @@ const RootStackNavigator = withWebWrapper(
 export const RootNavigator: React.FC<{ currentRoute?: Route<string> }> = ({ currentRoute }) => {
   const mainId = uuidv4()
   const tabBarId = uuidv4()
-  const { showTabBar } = useTheme()
+  const { showTabBar, isMobileViewport } = useTheme()
   const { isLoggedIn } = useAuthContext()
   const { isSplashScreenHidden } = useSplashScreenContext()
 
@@ -613,13 +613,22 @@ export const RootNavigator: React.FC<{ currentRoute?: Route<string> }> = ({ curr
     currentRoute ?? null
   )
 
+  const shouldReserveTabBarSpace = !!(
+    Platform.OS === 'web' &&
+    isMobileViewport &&
+    currentRoute?.name !== 'TabNavigator'
+  )
+
   return (
     <TabNavigationStateProvider>
       {showTabBar ? headerWithQuickAccess : <Header mainId={mainId} />}
-      <Main nativeID={mainId} accessibilityRole={mainAccessibilityRole}>
+      <Main
+        nativeID={mainId}
+        accessibilityRole={mainAccessibilityRole}
+        shouldReserveTabBarSpace={shouldReserveTabBarSpace}>
         <RootStackNavigator initialRouteName={initialScreen} />
       </Main>
-      {showTabBar ? <AccessibleTabBar id={tabBarId} currentRoute={currentRoute} /> : null}
+      {showTabBar ? <AccessibleTabBar id={tabBarId} /> : null}
       {/* The components below are those for which we do not want their rendering to happen while the splash is displayed. */}
       {isSplashScreenHidden ? <PrivacyPolicy /> : null}
       {/* AppModal relies on navigation hooks on web: this modal must stay inside the NavigationContainer */}
@@ -628,8 +637,11 @@ export const RootNavigator: React.FC<{ currentRoute?: Route<string> }> = ({ curr
   )
 }
 
-const Main = styled.View({
-  display: 'flex',
-  flexDirection: 'column',
-  flexGrow: 1,
-})
+const Main = styled.View<{ shouldReserveTabBarSpace: boolean }>(
+  ({ theme, shouldReserveTabBarSpace }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    paddingBottom: shouldReserveTabBarSpace ? theme.tabBar.height : undefined,
+  })
+)

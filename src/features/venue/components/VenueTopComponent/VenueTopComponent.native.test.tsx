@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import Clipboard from '@react-native-clipboard/clipboard'
 import mockdate from 'mockdate'
 import React, { ComponentProps } from 'react'
@@ -216,155 +215,69 @@ describe('<VenueTopComponent />', () => {
     })
   })
 
-  it('should not display volunteer card when wipEnableVolunteer FF deactivated and venue has volunteering url', () => {
-    renderVenueTopComponent({ venue: { ...venueOpenToPublic, volunteeringUrl: 'url' } })
+  it('should not display volunteer card when venue has not volunteering url', () => {
+    renderVenueTopComponent({ venue: venueOpenToPublic })
 
     expect(
       screen.queryByText(`Deviens bénévole pour\n“${venueOpenToPublic.name}”`)
     ).not.toBeOnTheScreen()
   })
 
-  describe('When wipEnableVolunteer FF activated', () => {
-    it('should not display volunteer card when venue has not volunteering url', () => {
-      renderVenueTopComponent({ venue: venueOpenToPublic, enableVolunteer: true })
-
-      expect(
-        screen.queryByText(`Deviens bénévole pour\n“${venueOpenToPublic.name}”`)
-      ).not.toBeOnTheScreen()
+  it('should display volunteer card when venue has volunteering url', () => {
+    renderVenueTopComponent({
+      venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
     })
 
-    it('should display volunteer card when venue has volunteering url', () => {
-      renderVenueTopComponent({
-        venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
-        enableVolunteer: true,
-      })
+    expect(screen.getByText(`Deviens bénévole pour\n“${venueOpenToPublic.name}”`)).toBeOnTheScreen()
+  })
 
-      expect(
-        screen.getByText(`Deviens bénévole pour\n“${venueOpenToPublic.name}”`)
-      ).toBeOnTheScreen()
+  it('should display volunteer card with GCP volunteer illustration', () => {
+    renderVenueTopComponent({
+      venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
     })
 
-    it('should display volunteer card with GCP volunteer illustration', () => {
-      renderVenueTopComponent({
-        venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
-        enableVolunteer: true,
-      })
+    expect(screen.getByTestId('imageBusinessIllustration').props.source.uri).toContain(
+      'benevolat.png'
+    )
+  })
 
-      expect(screen.getByTestId('imageBusinessIllustration').props.source.uri).toContain(
-        'benevolat.png'
-      )
+  it('should display volunteer card illustration with positive02 background color', () => {
+    renderVenueTopComponent({
+      venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
     })
 
-    it('should display volunteer card illustration with positive02 background color', () => {
-      renderVenueTopComponent({
-        venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
-        enableVolunteer: true,
-      })
+    expect(screen.getByTestId('imageBusiness')).toHaveStyle({
+      backgroundColor: theme.designSystem.color.illustration.positive02,
+    })
+  })
 
-      expect(screen.getByTestId('imageBusiness')).toHaveStyle({
-        backgroundColor: theme.designSystem.color.illustration.positive02,
-      })
+  it('should redirect to voluteer page when venue has volunteering url and pressing volunteer card', async () => {
+    renderVenueTopComponent({
+      venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
     })
 
-    it('should redirect to voluteer page when venue has volunteering url and pressing volunteer card', async () => {
-      renderVenueTopComponent({
-        venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
-        enableVolunteer: true,
-      })
+    await user.press(screen.getByText(`Deviens bénévole pour\n“${venueOpenToPublic.name}”`))
 
-      await user.press(screen.getByText(`Deviens bénévole pour\n“${venueOpenToPublic.name}”`))
+    expect(mockOpenUrl).toHaveBeenCalledWith(
+      'url?utm_source=pass-culture&utm_medium=app&utm_campaign=orga_non_inscrite'
+    )
+  })
 
-      expect(mockOpenUrl).toHaveBeenCalledWith(
-        'url?utm_source=pass-culture&utm_medium=app&utm_campaign=orga_non_inscrite'
-      )
+  it('should trigger ClickVolunteerCTA log when venue has volunteering url and pressing volunteer card', async () => {
+    renderVenueTopComponent({
+      venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
     })
 
-    it('should trigger ClickVolunteerCTA log when venue has volunteering url and pressing volunteer card', async () => {
-      renderVenueTopComponent({
-        venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
-        enableVolunteer: true,
-      })
+    await user.press(screen.getByText(`Deviens bénévole pour\n“${venueOpenToPublic.name}”`))
 
-      await user.press(screen.getByText(`Deviens bénévole pour\n“${venueOpenToPublic.name}”`))
-
-      expect(analytics.logClickVolunteerCTA).toHaveBeenCalledWith({
-        from: 'venue',
-        venueId: venueOpenToPublic.id.toString(),
-      })
-    })
-
-    it('should display feedback component below volunteer card when venue has volunteering url and wipEnableVolunteerFeedback FF activated', () => {
-      renderVenueTopComponent({
-        venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
-        enableVolunteer: true,
-        enableVolunteerFeedback: true,
-      })
-
-      expect(screen.getByText('Le bénévolat sur le pass t’intéresse t-il ?')).toBeOnTheScreen()
-    })
-
-    it('should not display feedback component below volunteer card when venue has volunteering url and wipEnableVolunteerFeedback FF deactivated', () => {
-      renderVenueTopComponent({
-        venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
-        enableVolunteer: true,
-      })
-
-      expect(
-        screen.queryByText('Le bénévolat sur le pass t’intéresse t-il ?')
-      ).not.toBeOnTheScreen()
-    })
-
-    it('should trigger FeatureFeedbackClicked log with yes answer when venue has volunteering url and answering yes to feedback quiz', async () => {
-      await AsyncStorage.removeItem('volunteering_feedback')
-      renderVenueTopComponent({
-        venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
-        enableVolunteer: true,
-        enableVolunteerFeedback: true,
-      })
-
-      await user.press(screen.getByText('Oui'))
-
-      expect(analytics.logFeatureFeedbackClicked).toHaveBeenCalledWith({
-        featureName: 'volunteer',
-        feedbackResponse: 'Oui',
-        from: 'venue',
-        venueId: venueOpenToPublic.id.toString(),
-      })
-    })
-
-    it('should trigger FeatureFeedbackClicked log with no answer when venue has volunteering url and answering no to feedback quiz', async () => {
-      await AsyncStorage.removeItem('volunteering_feedback')
-      renderVenueTopComponent({
-        venue: { ...venueOpenToPublic, volunteeringUrl: 'url' },
-        enableVolunteer: true,
-        enableVolunteerFeedback: true,
-      })
-
-      await user.press(screen.getByText('Non'))
-
-      expect(analytics.logFeatureFeedbackClicked).toHaveBeenCalledWith({
-        featureName: 'volunteer',
-        feedbackResponse: 'Non',
-        from: 'venue',
-        venueId: venueOpenToPublic.id.toString(),
-      })
+    expect(analytics.logClickVolunteerCTA).toHaveBeenCalledWith({
+      from: 'venue',
+      venueId: venueOpenToPublic.id.toString(),
     })
   })
 })
 
 type RenderVenueTopComponent = ComponentProps<typeof VenueTopComponent>
 
-const renderVenueTopComponent = ({
-  venue,
-  enableVolunteer,
-  enableVolunteerFeedback,
-}: RenderVenueTopComponent) =>
-  render(
-    reactQueryProviderHOC(
-      <VenueTopComponent
-        venue={venue}
-        enableVolunteer={enableVolunteer}
-        enableVolunteerFeedback={enableVolunteerFeedback}
-      />
-    )
-  )
+const renderVenueTopComponent = ({ venue }: RenderVenueTopComponent) =>
+  render(reactQueryProviderHOC(<VenueTopComponent venue={venue} />))
