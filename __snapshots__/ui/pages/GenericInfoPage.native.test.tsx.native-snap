@@ -222,6 +222,8 @@ exports[`<GenericInfoPage /> should render correctly 1`] = `
             }
           >
             <Text
+              accessibilityLevel="p"
+              accessibilityRole="text"
               style={
                 [
                   {
@@ -320,7 +322,7 @@ exports[`<GenericInfoPage /> should render correctly 1`] = `
             }
           >
             <Text
-              accessibilityLevel={1}
+              accessibilityLevel="h1"
               accessibilityRole="header"
               style={
                 {
@@ -335,7 +337,7 @@ exports[`<GenericInfoPage /> should render correctly 1`] = `
               Title
             </Text>
             <Text
-              accessibilityLevel={2}
+              accessibilityLevel="h2"
               accessibilityRole="header"
               style={
                 {
@@ -358,6 +360,8 @@ exports[`<GenericInfoPage /> should render correctly 1`] = `
             }
           >
             <Text
+              accessibilityLevel="p"
+              accessibilityRole="text"
               style={
                 {
                   "color": "#161617",
@@ -455,6 +459,8 @@ exports[`<GenericInfoPage /> should render correctly 1`] = `
               }
             >
               <Text
+                accessibilityLevel="p"
+                accessibilityRole="text"
                 style={
                   [
                     {
@@ -550,6 +556,8 @@ exports[`<GenericInfoPage /> should render correctly 1`] = `
               }
             >
               <Text
+                accessibilityLevel="p"
+                accessibilityRole="text"
                 style={
                   [
                     {
@@ -658,6 +666,8 @@ exports[`<GenericInfoPage /> should render correctly 1`] = `
                   </View>
                 </View>
                 <Text
+                  accessibilityLevel="p"
+                  accessibilityRole="text"
                   style={
                     [
                       {

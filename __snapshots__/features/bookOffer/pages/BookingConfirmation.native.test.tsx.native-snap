@@ -155,7 +155,7 @@ exports[`<BookingConfirmation /> should render correctly 1`] = `
             }
           >
             <Text
-              accessibilityLevel={1}
+              accessibilityLevel="h1"
               accessibilityRole="header"
               style={
                 {
@@ -170,7 +170,7 @@ exports[`<BookingConfirmation /> should render correctly 1`] = `
               Réservation confirmée !
             </Text>
             <Text
-              accessibilityLevel={2}
+              accessibilityLevel="h2"
               accessibilityRole="header"
               style={
                 {
@@ -278,6 +278,8 @@ Tu peux retrouver toutes les informations concernant ta réservation sur l’app
               }
             >
               <Text
+                accessibilityLevel="p"
+                accessibilityRole="text"
                 style={
                   [
                     {
@@ -380,6 +382,8 @@ Tu peux retrouver toutes les informations concernant ta réservation sur l’app
               }
             >
               <Text
+                accessibilityLevel="p"
+                accessibilityRole="text"
                 style={
                   [
                     {
@@ -495,6 +499,8 @@ Tu peux retrouver toutes les informations concernant ta réservation sur l’app
                   </View>
                 </View>
                 <Text
+                  accessibilityLevel="p"
+                  accessibilityRole="text"
                   style={
                     [
                       {

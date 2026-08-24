@@ -155,7 +155,7 @@ exports[`<MandatoryUpdatePersonalData /> should render correctly 1`] = `
             }
           >
             <Text
-              accessibilityLevel={1}
+              accessibilityLevel="h1"
               accessibilityRole="header"
               style={
                 {
@@ -170,7 +170,7 @@ exports[`<MandatoryUpdatePersonalData /> should render correctly 1`] = `
               Mets à jour ton profil
             </Text>
             <Text
-              accessibilityLevel={2}
+              accessibilityLevel="h2"
               accessibilityRole="header"
               style={
                 {
@@ -278,6 +278,8 @@ C’est rapide, promis.
                   </View>
                 </View>
                 <Text
+                  accessibilityLevel="p"
+                  accessibilityRole="text"
                   numberOfLines={2}
                   style={
                     [
@@ -396,6 +398,8 @@ C’est rapide, promis.
               }
             >
               <Text
+                accessibilityLevel="p"
+                accessibilityRole="text"
                 style={
                   [
                     {

@@ -162,7 +162,7 @@ exports[`<SetAddress/> from mandatory udpate personal data screen should render 
         }
       >
         <Text
-          accessibilityLevel={1}
+          accessibilityLevel="h1"
           accessibilityRole="header"
           numberOfLines={2}
           style={
@@ -267,7 +267,7 @@ exports[`<SetAddress/> from mandatory udpate personal data screen should render 
               }
             >
               <Text
-                accessibilityLevel={2}
+                accessibilityLevel="h2"
                 accessibilityRole="header"
                 style={
                   {
@@ -312,6 +312,8 @@ exports[`<SetAddress/> from mandatory udpate personal data screen should render 
                     >
                       <View>
                         <Text
+                          accessibilityLevel="p"
+                          accessibilityRole="text"
                           style={
                             {
                               "color": "#161617",
@@ -324,6 +326,8 @@ exports[`<SetAddress/> from mandatory udpate personal data screen should render 
                           Recherche et sélectionne ton adresse
                         </Text>
                         <Text
+                          accessibilityLevel="p"
+                          accessibilityRole="text"
                           style={
                             {
                               "color": "#696a6f",
@@ -623,6 +627,8 @@ exports[`<SetAddress/> from mandatory udpate personal data screen should render 
               }
             >
               <Text
+                accessibilityLevel="p"
+                accessibilityRole="text"
                 style={
                   [
                     {
@@ -825,7 +831,7 @@ exports[`<SetAddress/> without previous screen should render correctly 1`] = `
         }
       >
         <Text
-          accessibilityLevel={1}
+          accessibilityLevel="h1"
           accessibilityRole="header"
           numberOfLines={2}
           style={
@@ -930,7 +936,7 @@ exports[`<SetAddress/> without previous screen should render correctly 1`] = `
               }
             >
               <Text
-                accessibilityLevel={2}
+                accessibilityLevel="h2"
                 accessibilityRole="header"
                 style={
                   {
@@ -975,6 +981,8 @@ exports[`<SetAddress/> without previous screen should render correctly 1`] = `
                     >
                       <View>
                         <Text
+                          accessibilityLevel="p"
+                          accessibilityRole="text"
                           style={
                             {
                               "color": "#161617",
@@ -987,6 +995,8 @@ exports[`<SetAddress/> without previous screen should render correctly 1`] = `
                           Recherche et sélectionne ton adresse
                         </Text>
                         <Text
+                          accessibilityLevel="p"
+                          accessibilityRole="text"
                           style={
                             {
                               "color": "#696a6f",
@@ -1286,6 +1296,8 @@ exports[`<SetAddress/> without previous screen should render correctly 1`] = `
               }
             >
               <Text
+                accessibilityLevel="p"
+                accessibilityRole="text"
                 style={
                   [
                     {

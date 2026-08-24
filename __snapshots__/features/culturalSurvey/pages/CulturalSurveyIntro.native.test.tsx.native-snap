@@ -156,7 +156,7 @@ exports[`CulturalSurveyIntro should render the page with correct layout and cont
             }
           >
             <Text
-              accessibilityLevel={1}
+              accessibilityLevel="h1"
               accessibilityRole="header"
               style={
                 {
@@ -171,7 +171,7 @@ exports[`CulturalSurveyIntro should render the page with correct layout and cont
               Tu y es presque !
             </Text>
             <Text
-              accessibilityLevel={2}
+              accessibilityLevel="h2"
               accessibilityRole="header"
               style={
                 {
@@ -194,6 +194,8 @@ exports[`CulturalSurveyIntro should render the page with correct layout and cont
             }
           >
             <Text
+              accessibilityLevel="p"
+              accessibilityRole="text"
               style={
                 {
                   "color": "#161617",
@@ -299,6 +301,8 @@ exports[`CulturalSurveyIntro should render the page with correct layout and cont
               }
             >
               <Text
+                accessibilityLevel="p"
+                accessibilityRole="text"
                 style={
                   [
                     {
@@ -414,6 +418,8 @@ exports[`CulturalSurveyIntro should render the page with correct layout and cont
                   </View>
                 </View>
                 <Text
+                  accessibilityLevel="p"
+                  accessibilityRole="text"
                   style={
                     [
                       {

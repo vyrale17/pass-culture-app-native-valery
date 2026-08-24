@@ -10,7 +10,7 @@ import { ViewGap } from 'ui/components/ViewGap/ViewGap'
 import { CakeOneCandle } from 'ui/svg/icons/CakeOneCandle'
 import { Lock } from 'ui/svg/icons/Lock'
 import { Typo } from 'ui/theme'
-import { getNoHeadingAttrs } from 'ui/theme/typographyAttrs/getNoHeadingAttrs'
+import { setTextSemantic } from 'ui/theme/typographyAttrs/setTextSemantic'
 
 export const Credit17Step = ({ amount }) => (
   <InternalStep
@@ -38,7 +38,7 @@ const StyledBody = styled(Typo.Body)(({ theme }) => ({
   color: theme.designSystem.color.text.brandSecondary,
 }))
 
-const StyledTitle3 = styled(Typo.Title3).attrs(getNoHeadingAttrs)(({ theme }) => ({
+const StyledTitle3 = styled(Typo.Title3).attrs(setTextSemantic('p'))(({ theme }) => ({
   color: theme.designSystem.color.text.brandSecondary,
 }))
 

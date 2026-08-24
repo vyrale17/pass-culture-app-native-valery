@@ -266,7 +266,7 @@ exports[`<QuitIdentityCheckModal/> should render correctly 1`] = `
                   }
                 >
                   <Text
-                    accessibilityLevel={1}
+                    accessibilityLevel="h1"
                     accessibilityRole="header"
                     style={
                       {
@@ -281,7 +281,7 @@ exports[`<QuitIdentityCheckModal/> should render correctly 1`] = `
                     Veux-tu abandonner la vérification d’identité ?
                   </Text>
                   <Text
-                    accessibilityLevel={2}
+                    accessibilityLevel="h2"
                     accessibilityRole="header"
                     style={
                       {
@@ -388,6 +388,8 @@ exports[`<QuitIdentityCheckModal/> should render correctly 1`] = `
                     }
                   >
                     <Text
+                      accessibilityLevel="p"
+                      accessibilityRole="text"
                       style={
                         [
                           {
@@ -504,6 +506,8 @@ exports[`<QuitIdentityCheckModal/> should render correctly 1`] = `
                         </View>
                       </View>
                       <Text
+                        accessibilityLevel="p"
+                        accessibilityRole="text"
                         style={
                           [
                             {

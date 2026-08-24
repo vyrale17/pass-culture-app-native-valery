@@ -35,6 +35,8 @@ import { useGetHeaderHeight } from 'shared/header/useGetHeaderHeight'
 import { Offer } from 'shared/offer/types'
 import { useOpacityTransition } from 'ui/animations/helpers/useOpacityTransition'
 import { ScrollToTopButton } from 'ui/components/ScrollToTopButton'
+import { Ul } from 'ui/components/Ul'
+import { useCustomSafeInsets } from 'ui/theme/useCustomSafeInsets'
 
 const searchIdGenerated = v4()
 const isWeb = Platform.OS === 'web'
@@ -51,6 +53,7 @@ export const OffersList: FC<PropsWithChildren<Props>> = ({
   hasBeenClicked,
   setHasBeenClicked,
 }) => {
+  const { tabBarHeight } = useCustomSafeInsets()
   const transformHits = useTransformOfferHits()
 
   const {
@@ -174,6 +177,7 @@ export const OffersList: FC<PropsWithChildren<Props>> = ({
           />
 
           <FloatingButtonsWrapper
+            tabBarHeight={tabBarHeight}
             layout={LinearTransition.springify().damping(15).stiffness(20).duration(1000)}>
             {shouldRenderScrollToTopButton ? (
               <ScrollToTopButton
@@ -195,7 +199,7 @@ export const OffersList: FC<PropsWithChildren<Props>> = ({
   )
 }
 
-const Container = styled.View({
+const Container = styled(Ul)({
   flex: 1,
 })
 
@@ -205,13 +209,15 @@ const LineSeparator = styled.View(({ theme }) => ({
   marginVertical: theme.designSystem.size.spacing.l,
 }))
 
-const FloatingButtonsWrapper = styled(Animated.View)(({ theme }) => ({
-  position: 'absolute',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  gap: theme.designSystem.size.spacing.s,
-  right: theme.designSystem.size.spacing.xl,
-  bottom: theme.tabBar.height + theme.designSystem.size.spacing.xl,
-  zIndex: theme.zIndex.floatingButton,
-}))
+const FloatingButtonsWrapper = styled(Animated.View)<{ tabBarHeight: number }>(
+  ({ theme, tabBarHeight }) => ({
+    position: 'absolute',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: theme.designSystem.size.spacing.s,
+    right: theme.designSystem.size.spacing.xl,
+    bottom: tabBarHeight + theme.designSystem.size.spacing.xl,
+    zIndex: theme.zIndex.floatingButton,
+  })
+)

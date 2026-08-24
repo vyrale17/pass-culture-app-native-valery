@@ -175,7 +175,7 @@ exports[`TutorialPage should render correctly 1`] = `
           }
         >
           <Text
-            accessibilityLevel={1}
+            accessibilityLevel="h1"
             accessibilityRole="header"
             numberOfLines={3}
             style={
@@ -198,6 +198,8 @@ exports[`TutorialPage should render correctly 1`] = `
           }
         >
           <Text
+            accessibilityLevel="p"
+            accessibilityRole="text"
             style={
               {
                 "color": "#161617",
@@ -319,6 +321,8 @@ exports[`TutorialPage should render correctly 1`] = `
           }
         >
           <Text
+            accessibilityLevel="p"
+            accessibilityRole="text"
             style={
               [
                 {

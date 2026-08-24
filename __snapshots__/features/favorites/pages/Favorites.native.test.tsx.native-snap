@@ -43,7 +43,7 @@ exports[`<Favorites/> should render correctly 1`] = `
       }
     >
       <Text
-        accessibilityLevel={1}
+        accessibilityLevel="h1"
         accessibilityRole="header"
         numberOfLines={1}
         style={
@@ -161,6 +161,8 @@ exports[`<Favorites/> should render correctly 1`] = `
           </View>
         </View>
         <Text
+          accessibilityLevel="p"
+          accessibilityRole="text"
           style={
             [
               {

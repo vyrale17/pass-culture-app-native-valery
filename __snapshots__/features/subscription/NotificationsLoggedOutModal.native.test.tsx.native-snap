@@ -174,7 +174,7 @@ exports[`<NotificationsLoggedOutModal /> should render correctly 1`] = `
           }
         >
           <Text
-            accessibilityLevel={1}
+            accessibilityLevel="h1"
             accessibilityRole="header"
             nativeID="testUuidV4"
             numberOfLines={2}
@@ -345,6 +345,8 @@ exports[`<NotificationsLoggedOutModal /> should render correctly 1`] = `
                 }
               >
                 <Text
+                  accessibilityLevel="p"
+                  accessibilityRole="text"
                   style={
                     {
                       "color": "#161617",
@@ -445,6 +447,8 @@ exports[`<NotificationsLoggedOutModal /> should render correctly 1`] = `
                       }
                     >
                       <Text
+                        accessibilityLevel="p"
+                        accessibilityRole="text"
                         style={
                           [
                             {
@@ -481,6 +485,8 @@ exports[`<NotificationsLoggedOutModal /> should render correctly 1`] = `
                     }
                   >
                     <Text
+                      accessibilityLevel="p"
+                      accessibilityRole="text"
                       style={
                         {
                           "color": "#161617",

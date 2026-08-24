@@ -174,7 +174,7 @@ exports[`FavoriteAuthModal should match previous snapshot 1`] = `
           }
         >
           <Text
-            accessibilityLevel={1}
+            accessibilityLevel="h1"
             accessibilityRole="header"
             nativeID="testUuidV4"
             numberOfLines={2}
@@ -346,6 +346,8 @@ retrouver tes favoris
                 }
               >
                 <Text
+                  accessibilityLevel="p"
+                  accessibilityRole="text"
                   style={
                     {
                       "color": "#161617",
@@ -441,6 +443,8 @@ retrouver tes favoris
                       }
                     >
                       <Text
+                        accessibilityLevel="p"
+                        accessibilityRole="text"
                         style={
                           [
                             {
@@ -478,6 +482,8 @@ retrouver tes favoris
                   }
                 >
                   <Text
+                    accessibilityLevel="p"
+                    accessibilityRole="text"
                     style={
                       {
                         "color": "#161617",

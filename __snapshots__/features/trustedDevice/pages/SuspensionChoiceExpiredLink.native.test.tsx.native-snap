@@ -155,7 +155,7 @@ exports[`<SuspensionChoiceExpiredLink/> should match snapshot 1`] = `
             }
           >
             <Text
-              accessibilityLevel={1}
+              accessibilityLevel="h1"
               accessibilityRole="header"
               style={
                 {
@@ -170,7 +170,7 @@ exports[`<SuspensionChoiceExpiredLink/> should match snapshot 1`] = `
               Oups !
             </Text>
             <Text
-              accessibilityLevel={2}
+              accessibilityLevel="h2"
               accessibilityRole="header"
               style={
                 {
@@ -296,6 +296,8 @@ Tu peux toujours contacter le service fraude pour sécuriser ton compte.
                 </View>
               </View>
               <Text
+                accessibilityLevel="p"
+                accessibilityRole="text"
                 style={
                   [
                     {
@@ -411,6 +413,8 @@ Tu peux toujours contacter le service fraude pour sécuriser ton compte.
                   </View>
                 </View>
                 <Text
+                  accessibilityLevel="p"
+                  accessibilityRole="text"
                   style={
                     [
                       {

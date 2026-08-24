@@ -66,7 +66,7 @@ exports[`<GenericErrorPage /> should render correctly 1`] = `
         }
       >
         <Text
-          accessibilityLevel={1}
+          accessibilityLevel="h1"
           accessibilityRole="header"
           style={
             {
@@ -81,7 +81,7 @@ exports[`<GenericErrorPage /> should render correctly 1`] = `
           GenericErrorPage
         </Text>
         <Text
-          accessibilityLevel={2}
+          accessibilityLevel="h2"
           accessibilityRole="header"
           style={
             {
@@ -104,6 +104,8 @@ exports[`<GenericErrorPage /> should render correctly 1`] = `
         }
       >
         <Text
+          accessibilityLevel="p"
+          accessibilityRole="text"
           style={
             {
               "color": "#161617",
@@ -196,6 +198,8 @@ exports[`<GenericErrorPage /> should render correctly 1`] = `
             }
           >
             <Text
+              accessibilityLevel="p"
+              accessibilityRole="text"
               style={
                 [
                   {
@@ -285,6 +289,8 @@ exports[`<GenericErrorPage /> should render correctly 1`] = `
             }
           >
             <Text
+              accessibilityLevel="p"
+              accessibilityRole="text"
               style={
                 [
                   {
