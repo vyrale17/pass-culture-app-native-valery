@@ -303,10 +303,6 @@ export const CalendarModal: FunctionComponent<CalendarModalProps> = ({
           textDayFontFamily: designSystem.typography.body.fontFamily,
           textMonthFontFamily: designSystem.typography.body.fontFamily,
           textDayHeaderFontFamily: designSystem.typography.body.fontFamily,
-          textDayFontWeight: 500,
-          textMonthFontWeight: 500,
-          textDayHeaderFontWeight: 500,
-          todayButtonFontWeight: 600,
         }}
       />
     </AppModal>
