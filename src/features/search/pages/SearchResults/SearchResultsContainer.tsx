@@ -1,5 +1,5 @@
 import { useFocusEffect, useRoute } from '@react-navigation/native'
-import React, { FC, useCallback, useEffect, useRef } from 'react'
+import React, { FC, useCallback, useLayoutEffect, useRef } from 'react'
 
 import { UseRouteType } from 'features/navigation/navigators/RootNavigator/types'
 import { useSearch } from 'features/search/context/SearchWrapper'
@@ -14,13 +14,13 @@ export const SearchResultsContainer: FC = () => {
   const { dispatch } = useSearch()
   const paramsRef = useRef(params)
 
-  useEffect(() => {
+  const syncParamsRef = () => {
     paramsRef.current = params
-  }, [params])
+  }
+  useLayoutEffect(syncParamsRef, [params])
 
-  const enableNewSearchResultsPage = useFeatureFlag(
-    RemoteStoreFeatureFlags.WIP_NEW_SEARCH_RESULTS_PAGE
-  )
+  const enableNewSearchResultsPage =
+    useFeatureFlag(RemoteStoreFeatureFlags.WIP_NEW_SEARCH_RESULTS_PAGE) || true
 
   useFocusEffect(
     useCallback(() => {
